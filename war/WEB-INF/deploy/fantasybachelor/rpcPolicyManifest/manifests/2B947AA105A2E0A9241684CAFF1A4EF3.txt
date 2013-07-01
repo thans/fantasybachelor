@@ -1,0 +1,2 @@
+serviceClass: com.fantasybach.client.GreetingService
+path: DF1AA68303A296C864B53671260D8ECE.gwt.rpc
