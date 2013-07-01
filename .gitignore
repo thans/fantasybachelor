@@ -6,3 +6,12 @@
 .settings
 
 gwt-unitCache
+
+target
+
+src/main/webapp
+
+war/fantasybachelor/*
+
+war/WEB-INF/classes/*
+war/WEB-INF/deploy/*
