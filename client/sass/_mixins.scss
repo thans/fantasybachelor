@@ -1,0 +1,23 @@
+@mixin absolute($top, $left) {
+  position: absolute;
+  top: $top;
+  left: $left;
+}
+
+@mixin size($width, $height) {
+  width: $width;
+  height: $height;
+}
+
+@mixin backgroundImage($url, $width, $height) {
+  background-image: url($url);
+  background-repeat: no-repeat;
+  width: $width;
+  height: $height;
+}
+
+@mixin boxShadow($params) {
+  -webkit-box-shadow: $params;
+  -moz-box-shadow: $params;
+  box-shadow: $params;
+}

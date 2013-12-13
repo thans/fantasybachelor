@@ -1,0 +1,26 @@
+$fontFamily: "Helvetica Neue", "Segoe UI", Helvetica, Arial;
+
+@mixin fontStyleHeading1() {
+  @include fontStyle(64px, 100);
+}
+
+@mixin fontStyleTitle() {
+  @include fontStyle(36px, 100);
+}
+
+@mixin fontStyleNavigation() {
+  @include fontStyle(14px, 100);
+}
+
+@mixin fontStyleDefault() {
+  @include fontStyle(18px, 300);
+}
+
+@mixin fontStyleWomanButton() {
+  @include fontStyle(30px, 100);
+}
+
+@mixin fontStyle($fontSize, $fontWeight) {
+  font-size: $fontSize;
+  font-weight: $fontWeight;
+}

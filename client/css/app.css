@@ -1,0 +1,151 @@
+#login {
+  position: relative;
+  margin: 200px auto 0 auto;
+  width: 750px;
+  height: 318px;
+  border-bottom: 1px solid #dcdee0; }
+  #login .rose {
+    background-image: url("../images/roseLarge.png");
+    background-repeat: no-repeat;
+    width: 250px;
+    height: 318px; }
+  #login .title {
+    font-size: 64px;
+    font-weight: 100;
+    position: absolute;
+    top: 60px;
+    left: 250px; }
+  #login .loginWithFacebook {
+    background-image: url("../images/facebookLogin.png");
+    background-repeat: no-repeat;
+    width: 315px;
+    height: 60px;
+    position: absolute;
+    top: 160px;
+    left: 250px;
+    cursor: pointer; }
+    #login .loginWithFacebook.disabled {
+      opacity: .5; }
+
+header .first {
+  margin-left: 48px; }
+header .left {
+  float: left; }
+header .right {
+  float: right; }
+header #topRowWrapper {
+  height: 60px;
+  line-height: 60px; }
+  header #topRowWrapper #topRow {
+    background-image: url("../images/roseSmall.png");
+    background-repeat: no-repeat;
+    width: 1200px;
+    height: 100%; }
+    header #topRowWrapper #topRow > * {
+      padding: 0 12px; }
+    header #topRowWrapper #topRow .title {
+      font-size: 36px;
+      font-weight: 100; }
+    header #topRowWrapper #topRow .user {
+      text-align: center; }
+      header #topRowWrapper #topRow .user:hover {
+        background-color: #dcdee0;
+        cursor: pointer; }
+header #navigationWrapper {
+  height: 40px;
+  line-height: 40px;
+  background-color: #53585f;
+  color: #dcdee0;
+  font-size: 14px;
+  font-weight: 100; }
+  header #navigationWrapper #navigation > * {
+    padding: 0 12px; }
+    header #navigationWrapper #navigation > *:hover, header #navigationWrapper #navigation > *.selected {
+      background-color: #f34542;
+      cursor: pointer; }
+
+#womenSelection #remainingWomenWrapper {
+  width: 240px;
+  margin: 18px 0; }
+  #womenSelection #remainingWomenWrapper #remainingWomen {
+    border-right: 1px solid #dcdee0;
+    text-align: center; }
+  #womenSelection #remainingWomenWrapper .upArrow, #womenSelection #remainingWomenWrapper .downArrow {
+    display: inline-block;
+    margin: 0 auto; }
+    #womenSelection #remainingWomenWrapper .upArrow:hover, #womenSelection #remainingWomenWrapper .downArrow:hover {
+      cursor: pointer; }
+    #womenSelection #remainingWomenWrapper .upArrow.disabled, #womenSelection #remainingWomenWrapper .downArrow.disabled {
+      opacity: .5; }
+  #womenSelection #remainingWomenWrapper .upArrow {
+    background-image: url("../images/arrowUp.png");
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 12px; }
+  #womenSelection #remainingWomenWrapper .downArrow {
+    background-image: url("../images/arrowDown.png");
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 12px; }
+  #womenSelection #remainingWomenWrapper #women li {
+    background-image: url("../images/womanSmall.png");
+    background-repeat: no-repeat;
+    width: 204px;
+    height: 80px;
+    line-height: 80px;
+    padding-left: 70px;
+    background-position: left bottom;
+    background-color: #fbfbfb;
+    margin: 18px;
+    -webkit-box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, 0.45);
+    -moz-box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, 0.45);
+    box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, 0.45);
+    font-size: 30px;
+    font-weight: 100; }
+    #womenSelection #remainingWomenWrapper #women li:hover {
+      background-color: #eeeeee;
+      cursor: pointer; }
+
+html {
+  height: 100%; }
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial;
+  color: #53585f;
+  position: relative;
+  margin: auto;
+  background: white;
+  font-size: 18px;
+  font-weight: 300; }
+
+.fullWidth {
+  width: 100%; }
+
+.minWidth {
+  width: 1200px;
+  margin-left: auto;
+  margin-right: auto; }
+
+a {
+  color: inherit;
+  text-decoration: none; }
+
+ul {
+  margin: 0;
+  padding: 0; }
+
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none; }
+
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box; }
+
+.hide {
+  display: none; }

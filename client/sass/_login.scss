@@ -1,0 +1,42 @@
+$loginRoseHeight: 318px;
+$loginRoseWidth: 250px;
+$loginRoseUrl: $imagesDir + "roseLarge.png";
+
+$loginTitleTop: 60px;
+$loginTitleLeft: 250px;
+
+$loginFacebookHeight: 60px;
+$loginFacebookWidth: 315px;
+$loginFacebookTop: $loginTitleTop + 100px;
+$loginFacebookLeft: $loginTitleLeft;
+$loginFacebookUrl: $imagesDir + "facebookLogin.png";
+
+$loginHeight: $loginRoseHeight;
+$loginWidth: 750px;
+$loginMarginTop: 200px;
+
+#login {
+  position: relative;
+  margin: $loginMarginTop auto 0 auto;
+  @include size($loginWidth, $loginHeight);
+  border-bottom:  1px solid $lightGray;
+
+  .rose {
+    @include backgroundImage($loginRoseUrl, $loginRoseWidth, $loginRoseHeight);
+  }
+
+  .title {
+    @include fontStyleHeading1();
+    @include absolute($loginTitleTop, $loginTitleLeft);
+  }
+
+  .loginWithFacebook {
+    @include backgroundImage($loginFacebookUrl, $loginFacebookWidth, $loginFacebookHeight);
+    @include absolute($loginFacebookTop, $loginFacebookLeft);
+    cursor: pointer;
+
+    &.disabled {
+      opacity: .5;
+    }
+  }
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/app.css">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script src="js/facebook.js"></script>
+    </head>
+    <body>
+        <div id="fb-root"></div>
+        <div id="login" class="hide">
+            <div class="rose"></div>
+            <div class="title">Fantasy Bachelor</div>
+            <div class="loginWithFacebook disabled"></div>
+        </div>
+        <div id="main" class="hide">
+            <header>
+                <div id="topRowWrapper" class="fullWidth">
+                    <div id="topRow" class="minWidth">
+                        <div class="title first left">Fantasy Bachelor</div>
+                        <div class="user right"></div>
+                    </div>
+                </div>
+                <div id="navigationWrapper" class="fullWidth">
+                    <ul id="navigation" class="minWidth">
+                        <li href="#leaderboard" class="leaderboard right">Leaderboard</li>
+                    </ul>
+                </div>
+            </header>
+            <section id="womenSelectionWrapper" class="fullWidth">
+                <div id="womenSelection" class="minWidth">
+                    <div id="remainingWomenWrapper">
+                        <div id="remainingWomen">
+                            <div class="title">
+                                Remaining Women
+                            </div>
+                            <div class="upArrow"></div>
+                            <ul id="women"></ul>
+                            <div class="downArrow"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <script src="js/app.js"></script>
+    </body>
+</html>

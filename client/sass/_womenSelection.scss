@@ -1,0 +1,63 @@
+$womenSelectionPadding: 18px;
+
+$womenSelectionArrowWidth: 24px;
+$womenSelectionArrowHeight: 12px;
+$womenSelectionArrowUpUrl: $imagesDir + "arrowUp.png";
+$womenSelectionArrowDownUrl: $imagesDir + "arrowDown.png";
+
+$womenSelectionButtonHeight: 80px;
+$womenSelectionButtonWidth: $width / 5 - $womenSelectionPadding * 2;
+$womenSelectionButtonUrl: $imagesDir + "womanSmall.png";
+
+#womenSelection {
+
+  #remainingWomenWrapper {
+    width: $width / 5;
+    margin: $womenSelectionPadding 0;
+
+    #remainingWomen {
+      border-right: 1px solid $lightGray;
+      text-align: center;
+    }
+
+    .upArrow, .downArrow {
+      display: inline-block;
+      margin: 0 auto;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &.disabled {
+        opacity: .5;
+      }
+    }
+
+    .upArrow {
+      @include backgroundImage($womenSelectionArrowUpUrl, $womenSelectionArrowWidth, $womenSelectionArrowHeight);
+    }
+
+    .downArrow {
+      @include backgroundImage($womenSelectionArrowDownUrl, $womenSelectionArrowWidth, $womenSelectionArrowHeight);
+    }
+
+    #women {
+      li {
+        @include backgroundImage($womenSelectionButtonUrl, $womenSelectionButtonWidth, $womenSelectionButtonHeight);
+        line-height: $womenSelectionButtonHeight;
+        padding-left: 70px;
+        background-position: left bottom;
+        background-color: $offWhite;
+        margin: $womenSelectionPadding;
+        @include boxShadow(1px 1px 6px 0px rgba(0,0,0,0.45));
+        @include fontStyleWomanButton();
+
+        &:hover {
+          background-color: darken($offWhite, 5%);
+
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
