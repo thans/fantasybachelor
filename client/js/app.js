@@ -1,108 +1,102 @@
-var women = [
-    {
-        id: 1,
-        name: 'Alexis',
-        imageSmall: 'images/alexisSmall.png',
-        imageMedium: 'images/alexisMedium.png',
-        imageLarge: 'images/alexisLarge.png',
-        stats: [
-            {
-                key: 'Age',
-                value: '31'
-            },
-            {
-                key: 'Occupation',
-                value: 'Message Therapist'
-            },
-            {
-                key: 'Hometown',
-                value: 'Apopka, FL'
-            },
-            {
-                key: 'Height',
-                value: '5’7”'
-            },
-            {
-                key: 'Tattoos',
-                value: 'None'
-            },
-            {
-                key: 'Favorite Actress',
-                value: 'Kate Winslet'
-            },
-            {
-                key: 'Top 3 Favorite Groups/Artists',
-                value: 'The Beatles, Bob Dylan, Radiohead'
-            },
-            {
-                key: 'Favorite Sports Team',
-                value: 'LA Clippers'
-            }
-        ],
-        questions: [
-            {
-                key: 'What is your favorite memory from your childhood?',
-                value: 'The family trip we took to Lake Tahoe. I\'d never seen anything more gorgeous in my life, I learned how to play foosball, ate California Sourdough toast and laughed til my belly hurt with my family.'
-            },
-            {
-                key: 'What is your favorite holiday and why?',
-                value: 'It\'s close. Thanksgiving because it\'s such a cool day for everyone to just be thankful, give back and eat! And I also LOVE the Fourth of July because it\'s so romantic and I\'m grateful for our freedom!'
-            },
-            {
-                key: 'What do you hope to get out of participating in this television show?',
-                value: 'I hope to find love! And if He decides I\'m not the girl for him, I hope to gain friendships, peace through time away, a greater understanding of people and love and the beautiful world around me.'
-            },
-            {
-                key: 'If you wanted to really impress a man, what would you do and why?',
-                value: 'I would try to find out some secret wish or childhood dream, then figure out a way to make it come true. Something they\'ve always wanted or wanted to try. We all have them and it means a lot when the person you love is invested in those things.'
-            }
-        ]
-    }
-];
+var CONSTANTS = {};
+CONSTANTS.IMAGES_DIR = 'images/';
+CONSTANTS.SMALL_WOMEN_DIR = CONSTANTS.IMAGES_DIR + 'womenSmall/';
+CONSTANTS.MEDIUM_WOMEN_DIR = CONSTANTS.IMAGES_DIR + 'womenMedium/';
+CONSTANTS.LARGE_WOMEN_DIR = CONSTANTS.IMAGES_DIR + 'womenLarge/';
+CONSTANTS.DEFAULT_WOMAN_SMALL = CONSTANTS.SMALL_WOMEN_DIR + 'womanSmall.png';
+CONSTANTS.DEFAULT_WOMAN_MEDIUM = CONSTANTS.MEDIUM_WOMEN_DIR + 'womanMedium.png';
+CONSTANTS.DEFAULT_WOMAN_LARGE = CONSTANTS.LARGE_WOMEN_DIR + 'womanLarge.png';
 
+var utils = {
+    getSmallImage: function(contestant) {
+        return CONSTANTS.SMALL_WOMEN_DIR + contestant.codeName + 'Small.png';
+    },
 
-// Temp Data
-var weekData = [
-    {
-        id: 1,
-        name: 'Week 1',
-        openTime: new Date(2013, 11, 1),
-        closeTime: new Date(2013, 11, 30),
-        remainingWomen: [
-            {
-                id: 1,
-                multiplier: 2
-            }
-        ],
-        selectedWomen: [1]
+    getMediumImage: function(contestant) {
+        return CONSTANTS.MEDIUM_WOMEN_DIR + contestant.codeName + 'Medium.png';
     },
-    {
-        id: 2,
-        name: 'Week 2',
-        openTime: new Date(2013, 12, 1),
-        closeTime: new Date(2013, 12, 30),
-        remainingWomen: [
-            {
-                id: 1,
-                multiplier: 2
-            }
-        ],
-        selectedWomen: [1]
-    },
-    {
-        id: 3,
-        name: 'Week 3',
-        openTime: new Date(2014, 1, 1),
-        closeTime: new Date(2014, 1, 30),
-        remainingWomen: [
-            {
-                id: 1,
-                multiplier: 2
-            }
-        ],
-        selectedWomen: [1]
+
+    getLargeImage: function(contestant) {
+        return CONSTANTS.LARGE_WOMEN_DIR + contestant.codeName + 'Large.png';
     }
-];
+}
+
+var ContestantData = function() {
+    var contestants = [
+        {
+            id: 1,
+            name: 'Alexis',
+            codeName: 'alexis',
+            stats: [
+                {
+                    key: 'Age',
+                    value: '31'
+                },
+                {
+                    key: 'Occupation',
+                    value: 'Message Therapist'
+                },
+                {
+                    key: 'Hometown',
+                    value: 'Apopka, FL'
+                },
+                {
+                    key: 'Height',
+                    value: '5’7”'
+                },
+                {
+                    key: 'Tattoos',
+                    value: 'None'
+                },
+                {
+                    key: 'Favorite Actress',
+                    value: 'Kate Winslet'
+                },
+                {
+                    key: 'Top 3 Favorite Groups/Artists',
+                    value: 'The Beatles, Bob Dylan, Radiohead'
+                },
+                {
+                    key: 'Favorite Sports Team',
+                    value: 'LA Clippers'
+                }
+            ],
+            questions: [
+                {
+                    key: 'What is your favorite memory from your childhood?',
+                    value: 'The family trip we took to Lake Tahoe. I\'d never seen anything more gorgeous in my life, I learned how to play foosball, ate California Sourdough toast and laughed til my belly hurt with my family.'
+                },
+                {
+                    key: 'What is your favorite holiday and why?',
+                    value: 'It\'s close. Thanksgiving because it\'s such a cool day for everyone to just be thankful, give back and eat! And I also LOVE the Fourth of July because it\'s so romantic and I\'m grateful for our freedom!'
+                },
+                {
+                    key: 'What do you hope to get out of participating in this television show?',
+                    value: 'I hope to find love! And if He decides I\'m not the girl for him, I hope to gain friendships, peace through time away, a greater understanding of people and love and the beautiful world around me.'
+                },
+                {
+                    key: 'If you wanted to really impress a man, what would you do and why?',
+                    value: 'I would try to find out some secret wish or childhood dream, then figure out a way to make it come true. Something they\'ve always wanted or wanted to try. We all have them and it means a lot when the person you love is invested in those things.'
+                }
+            ]
+        }
+    ];
+
+    this.loadContestants = function(callback) {
+        callback();
+    }
+
+    this.getContestantById = function(contestantId) {
+        var contestant = false;
+        $.each(contestants, function(i, v) {
+            if (v.id === contestantId) {
+                contestant = v;
+            }
+        });
+        return contestant;
+    };
+}
+var contestantData = new ContestantData();
 
 var WeekData = function() {
     this.getWeeks = function(callback) {
@@ -136,48 +130,73 @@ var WeekData = function() {
                 return false;
             }
         });
-        return week;
+        callback(week);
     };
+
+    // Temp Data
+        var weekData = [
+            {
+                id: 1,
+                name: 'Week 1',
+                openTime: new Date(2013, 11, 1),
+                closeTime: new Date(2013, 11, 30),
+                remainingWomen: [
+                    {
+                        id: 1,
+                        multiplier: 2
+                    }
+                ],
+                selectedWomen: [1],
+                numberOfSelections: 6
+            },
+            {
+                id: 2,
+                name: 'Week 2',
+                openTime: new Date(2013, 12, 1),
+                closeTime: new Date(2013, 12, 30),
+                remainingWomen: [
+                    {
+                        id: 1,
+                        multiplier: 2
+                    }
+                ],
+                selectedWomen: [1],
+                numberOfSelections: 6
+            },
+            {
+                id: 3,
+                name: 'Week 3',
+                openTime: new Date(2014, 1, 1),
+                closeTime: new Date(2014, 1, 30),
+                remainingWomen: [
+                    {
+                        id: 1,
+                        multiplier: 2
+                    }
+                ],
+                selectedWomen: [1],
+                numberOfSelections: 6
+            }
+        ];
 }
 
 var wd = new WeekData();
 wd.getWeeks(function(weeks) {
-    $.each(weeks, function(i, v) {
-        $('<li>')
-            .attr('data-id', v.id)
-            .addClass('left')
-            .toggleClass('first', i === 0)
-            .text(v.name)
-            .click(function() {
-                navManager.goToWeek(v.id);
-                history.pushState({func: 'goToWeek', data: v.id}, null, '#weekId=' + v.id);
-            })
-            .appendTo('#navigation');
+    contestantData.loadContestants(function() {
+        $.each(weeks, function(i, v) {
+            $('<li>')
+                .attr('data-id', v.id)
+                .addClass('left')
+                .toggleClass('first', i === 0)
+                .text(v.name)
+                .click(function() {
+                    navManager.goToWeek(v.id);
+                    history.pushState({func: 'goToWeek', data: v.id}, null, '#weekId=' + v.id);
+                })
+                .appendTo('#navigation');
+        });
     });
-})
-
-
-
-
-var remainingWomen = [1];
-$.each(remainingWomen, function(i, v) {
-    var woman = findWomanById(v);
-    $('<li>')
-        .attr('data-id', woman.id)
-        .css('background-image', 'url("' + woman.imageSmall + '")')
-        .text(woman.name)
-        .appendTo('#women');
 });
-
-function findWomanById(id) {
-    var woman = false;
-    $.each(women, function(i, v) {
-        if (v.id === id) {
-            woman = v;
-        }
-    });
-    return woman;
-}
 
 var fb = new Facebook().loadSdk(function() {
     fb.silentLogin(authChangeHandler);
@@ -246,6 +265,36 @@ var NavigationManager = function() {
             // Set selected class on navbar element
             $('#navigation .selected').removeClass('selected');
             $('#navigation li[data-id="'+weekId+'"]').addClass('selected');
+
+            // Load week data
+            wd.getWeekById(weekId, function(weekData) {
+
+                // Display Week title
+                $('#selectedWomen .sectionTitle').text(weekData.name);
+
+                // Set remaining women
+                $('#women').empty();
+                $.each(weekData.remainingWomen, function(i, v) {
+                    var woman = contestantData.getContestantById(v.id);
+                    $('<li>')
+                        .attr('data-id', woman.id)
+                        .css('background-image', 'url("' + utils.getSmallImage(woman) + '")')
+                        .text(woman.name)
+                        .appendTo('#women');
+                });
+
+                // Set selected women
+                $('.selectedWomenLayout').hide();
+                var layout = $('.selectedWomenLayout.select' + weekData.numberOfSelections);
+                layout.find('.woman').css('background-image', '');
+                $.each(weekData.selectedWomen, function(i, v) {
+                    layout
+                        .find('.woman' + (i + 1))
+                        .css('background-image', 'url("' + utils.getMediumImage(contestantData.getContestantById(v)) + '")');
+                })
+                layout.show();
+            })
+
         }
     };
 

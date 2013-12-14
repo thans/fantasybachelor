@@ -1,5 +1,15 @@
 $width: 1200px;
 $imagesDir: "../images/";
+$womenSmallDir: $imagesDir + "womenSmall/";
+$womenMediumDir: $imagesDir + "womenMedium/";
+$womenLargeDir: $imagesDir + "womenLarge/";
+
+$womanSmallWidth: 69px;
+$womanSmallHeight: 75px;
+$womanMediumWidth: 160px;
+$womanMediumHeight: 175px;
+$womanLargeWidth: 320px;
+$womanLargeHeight: 350px;
 
 @import "mixins";
 @import "colors";
@@ -58,4 +68,8 @@ li {
 
 .hide {
   display: none;
+}
+
+.sectionTitle {
+  @include fontStyleWomanSectionTitle();
 }

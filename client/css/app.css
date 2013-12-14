@@ -66,7 +66,8 @@ header #navigationWrapper {
 
 #womenSelection #remainingWomenWrapper {
   width: 240px;
-  margin: 18px 0; }
+  margin: 18px 0;
+  float: left; }
   #womenSelection #remainingWomenWrapper #remainingWomen {
     border-right: 1px solid #dcdee0;
     text-align: center; }
@@ -88,7 +89,7 @@ header #navigationWrapper {
     width: 24px;
     height: 12px; }
   #womenSelection #remainingWomenWrapper #women li {
-    background-image: url("../images/womanSmall.png");
+    background-image: url("../images/womenSmall/womanSmall.png");
     background-repeat: no-repeat;
     width: 204px;
     height: 80px;
@@ -105,6 +106,25 @@ header #navigationWrapper {
     #womenSelection #remainingWomenWrapper #women li:hover {
       background-color: #eeeeee;
       cursor: pointer; }
+#womenSelection #selectedWomen {
+  width: 960px;
+  float: left;
+  margin: 18px 0;
+  padding: 0 18px; }
+
+.selectedWomenLayout .row {
+  border-bottom: 1px solid #dcdee0;
+  width: 552px;
+  padding-right: 18px;
+  font-size: 0;
+  margin: 18px auto; }
+  .selectedWomenLayout .row .woman {
+    display: inline-block;
+    margin-left: 18px;
+    background-image: url("../images/womenMedium/womanMedium.png");
+    background-repeat: no-repeat;
+    width: 160px;
+    height: 175px; }
 
 html {
   height: 100%; }
@@ -149,3 +169,7 @@ li {
 
 .hide {
   display: none; }
+
+.sectionTitle {
+  font-size: 64px;
+  font-weight: 100; }

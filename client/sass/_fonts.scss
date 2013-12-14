@@ -20,6 +20,10 @@ $fontFamily: "Helvetica Neue", "Segoe UI", Helvetica, Arial;
   @include fontStyle(30px, 100);
 }
 
+@mixin fontStyleWomanSectionTitle() {
+  @include fontStyle(64px, 100);
+}
+
 @mixin fontStyle($fontSize, $fontWeight) {
   font-size: $fontSize;
   font-weight: $fontWeight;

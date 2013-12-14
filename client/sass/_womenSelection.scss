@@ -5,15 +5,18 @@ $womenSelectionArrowHeight: 12px;
 $womenSelectionArrowUpUrl: $imagesDir + "arrowUp.png";
 $womenSelectionArrowDownUrl: $imagesDir + "arrowDown.png";
 
-$womenSelectionButtonHeight: 80px;
+$womenSelectionButtonHeight: $womanSmallHeight + 5;
 $womenSelectionButtonWidth: $width / 5 - $womenSelectionPadding * 2;
-$womenSelectionButtonUrl: $imagesDir + "womanSmall.png";
+$womenSelectionButtonUrl: $womenSmallDir + "womanSmall.png";
+
+$womenSelectionDefaultUrl: $womenMediumDir + "womanMedium.png";
 
 #womenSelection {
 
   #remainingWomenWrapper {
     width: $width / 5;
     margin: $womenSelectionPadding 0;
+    float: left;
 
     #remainingWomen {
       border-right: 1px solid $lightGray;
@@ -58,6 +61,31 @@ $womenSelectionButtonUrl: $imagesDir + "womanSmall.png";
           cursor: pointer;
         }
       }
+    }
+  }
+
+  #selectedWomen {
+    width: 4 * $width / 5;
+    float: left;
+    margin: $womenSelectionPadding 0;
+    padding: 0 $womenSelectionPadding;
+
+  }
+}
+
+.selectedWomenLayout {
+  .row {
+    border-bottom: 1px solid $lightGray;
+    width: 3 * ($womenSelectionPadding + $womanMediumWidth) + $womenSelectionPadding;
+    padding-right: $womenSelectionPadding;
+    font-size: 0;
+    margin: $womenSelectionPadding auto;
+
+    .woman {
+      display: inline-block;
+      margin-left: $womenSelectionPadding;
+
+      @include backgroundImage($womenSelectionDefaultUrl, $womanMediumWidth, $womanMediumHeight);
     }
   }
 }
