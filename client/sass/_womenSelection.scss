@@ -7,9 +7,9 @@ $womenSelectionArrowDownUrl: $imagesDir + "arrowDown.png";
 
 $womenSelectionButtonHeight: $womanSmallHeight + 5;
 $womenSelectionButtonWidth: $width / 5 - $womenSelectionPadding * 2;
-$womenSelectionButtonUrl: $womenSmallDir + "womanSmall.png";
+$womenSelectionButtonUrl: $womanSmallUrl;
 
-$womenSelectionDefaultUrl: $womenMediumDir + "womanMedium.png";
+$womenSelectionDefaultUrl: $womanMediumUrl;
 
 #womenSelection {
 
@@ -54,11 +54,19 @@ $womenSelectionDefaultUrl: $womenMediumDir + "womanMedium.png";
         margin: $womenSelectionPadding;
         @include boxShadow(1px 1px 6px 0px rgba(0,0,0,0.45));
         @include fontStyleWomanButton();
+        cursor: pointer;
+
+        &.selected {
+          color: $white;
+          background-color: $red;
+
+          &:hover {
+            background-color: darken($red, 5%);
+          }
+        }
 
         &:hover {
           background-color: darken($offWhite, 5%);
-
-          cursor: pointer;
         }
       }
     }

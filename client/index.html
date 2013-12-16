@@ -3,6 +3,8 @@
     <head>
         <link rel="stylesheet" type="text/css" href="css/app.css">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script src="//underscorejs.org/underscore-min.js"></script>
+        <script src="//momentjs.com/downloads/moment.min.js"></script>
         <script src="js/facebook.js"></script>
     </head>
     <body>
@@ -50,6 +52,27 @@
                                 <div class="woman woman4"></div>
                                 <div class="woman woman5"></div>
                                 <div class="woman woman6"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="bioModal" class="modal hide">
+                    <div class="modal-dialog">
+                        <button type="button" class="close">&times;</button>
+                        <div class="left">
+                            <div class="title"></div>
+                            <div class="stats"></div>
+                            <div class="questions"></div>
+                        </div>
+                        <div class="right">
+                            <div class="womanWrapper">
+                                <div class="woman"></div>
+                            </div>
+                            <div class="btn-container">
+                                <button type="button" class="btn-large btn-success chooseMe">Choose Me</button>
+                                <button type="button" class="btn-large btn-danger rejectMe">Reject Me</button>
+                                <button type="button" class="btn-large btn-disabled selectionClosed">Selection Closed</button>
+                                <button type="button" class="btn-large btn-disabled selectionFull">Selections Full</button>
                             </div>
                         </div>
                     </div>

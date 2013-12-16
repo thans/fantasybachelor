@@ -1,3 +1,117 @@
+.btn, .btn-large {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.428571429;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px; }
+
+.btn-large {
+  font-size: 24px;
+  font-weight: 300;
+  padding: 6px 60px; }
+
+.btn-success {
+  color: white;
+  background-color: #29bba5;
+  border-color: #26ae9a; }
+  .btn-success:hover {
+    background-color: #24a693;
+    border-color: #209180; }
+
+.btn-danger {
+  color: white;
+  background-color: #f34542;
+  border-color: #f23734; }
+  .btn-danger:hover {
+    background-color: #f12d2a;
+    border-color: #f01612; }
+
+.btn-disabled {
+  color: #8a919a;
+  background-color: #fbfbfb;
+  border-color: #f3f3f3;
+  cursor: default; }
+
+button.close {
+  float: right;
+  font-size: 21px;
+  font-weight: bold;
+  line-height: 1;
+  color: black;
+  text-shadow: 0 1px 0 white;
+  opacity: .2;
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  -webkit-appearance: none; }
+  button.close:hover {
+    opacity: .5; }
+
+.modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5000;
+  overflow: auto;
+  overflow-y: scroll;
+  background-color: rgba(0, 0, 0, 0.5); }
+
+.modal-dialog {
+  width: 1000px;
+  margin: 30px auto;
+  padding: 18px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.5);
+  position: relative; }
+
+#bioModal .modal-dialog {
+  min-height: 500px; }
+  #bioModal .modal-dialog .title {
+    font-size: 48px;
+    font-weight: 100; }
+  #bioModal .modal-dialog .left {
+    width: 590px; }
+  #bioModal .modal-dialog .stat {
+    font-size: 14px;
+    font-weight: 300; }
+    #bioModal .modal-dialog .stat .name {
+      font-size: 14px;
+      font-weight: 500; }
+  #bioModal .modal-dialog .question {
+    font-size: 14px;
+    font-weight: 300;
+    margin-top: 9px; }
+    #bioModal .modal-dialog .question .q {
+      font-size: 14px;
+      font-weight: 500; }
+  #bioModal .modal-dialog .right {
+    position: absolute;
+    bottom: 0;
+    right: 18px; }
+  #bioModal .modal-dialog .womanWrapper {
+    padding: 0 18px;
+    border-bottom: 1px solid #dcdee0; }
+  #bioModal .modal-dialog .woman {
+    background-image: url("../images/womenLarge/womanLarge.png");
+    background-repeat: no-repeat;
+    width: 320px;
+    height: 350px; }
+  #bioModal .modal-dialog .btn-container {
+    padding: 18px;
+    text-align: center; }
+
 #login {
   position: relative;
   margin: 200px auto 0 auto;
@@ -102,10 +216,15 @@ header #navigationWrapper {
     -moz-box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, 0.45);
     box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, 0.45);
     font-size: 30px;
-    font-weight: 100; }
+    font-weight: 100;
+    cursor: pointer; }
+    #womenSelection #remainingWomenWrapper #women li.selected {
+      color: white;
+      background-color: #f34542; }
+      #womenSelection #remainingWomenWrapper #women li.selected:hover {
+        background-color: #f12d2a; }
     #womenSelection #remainingWomenWrapper #women li:hover {
-      background-color: #eeeeee;
-      cursor: pointer; }
+      background-color: #eeeeee; }
 #womenSelection #selectedWomen {
   width: 960px;
   float: left;
@@ -127,7 +246,8 @@ header #navigationWrapper {
     height: 175px; }
 
 html {
-  height: 100%; }
+  height: 100%;
+  min-width: 1200px; }
 
 body {
   height: 100%;
@@ -166,6 +286,10 @@ li {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box; }
+
+input, button {
+  outline: none;
+  font-family: inherit; }
 
 .hide {
   display: none; }

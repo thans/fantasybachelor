@@ -3,6 +3,9 @@ $imagesDir: "../images/";
 $womenSmallDir: $imagesDir + "womenSmall/";
 $womenMediumDir: $imagesDir + "womenMedium/";
 $womenLargeDir: $imagesDir + "womenLarge/";
+$womanSmallUrl: $womenSmallDir + "womanSmall.png";
+$womanMediumUrl: $womenMediumDir + "womanMedium.png";
+$womanLargeUrl: $womenLargeDir + "womanLarge.png";
 
 $womanSmallWidth: 69px;
 $womanSmallHeight: 75px;
@@ -14,12 +17,16 @@ $womanLargeHeight: 350px;
 @import "mixins";
 @import "colors";
 @import "fonts";
+@import "buttons";
+@import "modal";
+@import "bioModal";
 @import "login";
 @import "header";
 @import "womenSelection";
 
 html {
   height: 100%;
+  min-width: $width;
 }
 
 body {
@@ -64,6 +71,11 @@ li {
   box-sizing:border-box;
   -moz-box-sizing:border-box;
   -webkit-box-sizing:border-box
+}
+
+input, button {
+  outline: none;
+  font-family: inherit;
 }
 
 .hide {
