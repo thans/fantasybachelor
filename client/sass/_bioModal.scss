@@ -9,7 +9,7 @@ $bioModalMinHeight: 500px;
       @include fontStyleHeading2();
     }
     .left {
-      width: $modalWidth - (5 * $modalPadding + $womanLargeWidth);
+      width: $modalWidth - (5 * $modalPadding + $contestantLargeWidth);
     }
 
     .stat {
@@ -35,13 +35,13 @@ $bioModalMinHeight: 500px;
       right: $modalPadding;
     }
 
-    .womanWrapper {
+    .contestantWrapper {
       padding: 0 $modalPadding;
       border-bottom: 1px solid $lightGray;
     }
 
-    .woman {
-      @include backgroundImage($womanLargeUrl, $womanLargeWidth, $womanLargeHeight);
+    .contestant {
+      @include backgroundImage($contestantLargeUrl, $contestantLargeWidth, $contestantLargeHeight);
     }
 
     .btn-container {

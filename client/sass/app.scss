@@ -1,18 +1,18 @@
 $width: 1200px;
 $imagesDir: "../images/";
-$womenSmallDir: $imagesDir + "womenSmall/";
-$womenMediumDir: $imagesDir + "womenMedium/";
-$womenLargeDir: $imagesDir + "womenLarge/";
-$womanSmallUrl: $womenSmallDir + "womanSmall.png";
-$womanMediumUrl: $womenMediumDir + "womanMedium.png";
-$womanLargeUrl: $womenLargeDir + "womanLarge.png";
+$contestantsSmallDir: $imagesDir + "contestantsSmall/";
+$contestantsMediumDir: $imagesDir + "contestantsMedium/";
+$contestantsLargeDir: $imagesDir + "contestantsLarge/";
+$contestantSmallUrl: $contestantsSmallDir + "womanSmall.png";
+$contestantMediumUrl: $contestantsMediumDir + "womanMedium.png";
+$contestantLargeUrl: $contestantsLargeDir + "womanLarge.png";
 
-$womanSmallWidth: 69px;
-$womanSmallHeight: 75px;
-$womanMediumWidth: 160px;
-$womanMediumHeight: 175px;
-$womanLargeWidth: 320px;
-$womanLargeHeight: 350px;
+$contestantSmallWidth: 69px;
+$contestantSmallHeight: 75px;
+$contestantMediumWidth: 160px;
+$contestantMediumHeight: 175px;
+$contestantLargeWidth: 320px;
+$contestantLargeHeight: 350px;
 
 @import "mixins";
 @import "colors";
@@ -22,7 +22,7 @@ $womanLargeHeight: 350px;
 @import "bioModal";
 @import "login";
 @import "header";
-@import "womenSelection";
+@import "contestantSelection";
 
 html {
   height: 100%;
@@ -83,5 +83,5 @@ input, button {
 }
 
 .sectionTitle {
-  @include fontStyleWomanSectionTitle();
+  @include fontStyleContestantSectionTitle();
 }

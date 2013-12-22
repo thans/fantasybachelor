@@ -28,32 +28,23 @@
                     </ul>
                 </div>
             </header>
-            <section id="womenSelectionWrapper" class="fullWidth">
-                <div id="womenSelection" class="minWidth">
-                    <div id="remainingWomenWrapper">
-                        <div id="remainingWomen">
+            <section id="contestantSelectionWrapper" class="fullWidth">
+                <div id="contestantSelection" class="minWidth">
+                    <div id="remainingContestantsWrapper">
+                        <div id="remainingContestants">
                             <div class="title">
-                                Remaining Women
+                                Remaining Contestants
                             </div>
                             <div class="upArrow"></div>
-                            <ul id="women"></ul>
+                            <div class="well">
+                                <ul id="contestantContainer"></ul>
+                            </div>
                             <div class="downArrow"></div>
                         </div>
                     </div>
-                    <div id="selectedWomen">
+                    <div id="selectedContestants">
                         <div class="sectionTitle"></div>
-                        <div class="select6 selectedWomenLayout hide">
-                            <div class="row">
-                                <div class="woman woman1"></div>
-                                <div class="woman woman2"></div>
-                                <div class="woman woman3"></div>
-                            </div>
-                            <div class=row>
-                                <div class="woman woman4"></div>
-                                <div class="woman woman5"></div>
-                                <div class="woman woman6"></div>
-                            </div>
-                        </div>
+                        <div id="selectedContestantsLayoutWrapper"></div>
                     </div>
                 </div>
                 <div id="bioModal" class="modal hide">
@@ -65,14 +56,13 @@
                             <div class="questions"></div>
                         </div>
                         <div class="right">
-                            <div class="womanWrapper">
-                                <div class="woman"></div>
+                            <div class="contestantWrapper">
+                                <div class="contestant"></div>
                             </div>
                             <div class="btn-container">
                                 <button type="button" class="btn-large btn-success chooseMe">Choose Me</button>
-                                <button type="button" class="btn-large btn-danger rejectMe">Reject Me</button>
-                                <button type="button" class="btn-large btn-disabled selectionClosed">Selection Closed</button>
-                                <button type="button" class="btn-large btn-disabled selectionFull">Selections Full</button>
+                                <button type="button" class="btn-large btn-danger removeMe">Remove Me</button>
+                                <button type="button" class="btn-large btn-disabled disabled"></button>
                             </div>
                         </div>
                     </div>

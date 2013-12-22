@@ -1,0 +1,169 @@
+$contestantsSelectionPadding: 18px;
+
+$contestantsSelectionScoreSize: 70px;
+$contestantsSelectionScoreSmallSize: 40px;
+
+$contestantsSelectionArrowWidth: 24px;
+$contestantsSelectionArrowHeight: 12px;
+$contestantsSelectionArrowUpUrl: $imagesDir + "arrowUp.png";
+$contestantsSelectionArrowDownUrl: $imagesDir + "arrowDown.png";
+
+$contestantsSelectionButtonHeight: $contestantSmallHeight + 5;
+$contestantsSelectionButtonWidth: $width / 5 - $contestantsSelectionPadding * 2;
+$contestantsSelectionButtonUrl: $contestantSmallUrl;
+
+$contestantsSelectionDefaultUrl: $contestantMediumUrl;
+
+#contestantSelection {
+
+  #remainingContestantsWrapper {
+    width: $width / 5;
+    margin: $contestantsSelectionPadding 0;
+    float: left;
+
+    #remainingContestants {
+      border-right: 1px solid $lightGray;
+      text-align: center;
+    }
+
+    .upArrow, .downArrow {
+      display: inline-block;
+      margin: 0 auto;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &.disabled {
+        opacity: .5;
+      }
+    }
+
+    .upArrow {
+      @include backgroundImage($contestantsSelectionArrowUpUrl, $contestantsSelectionArrowWidth, $contestantsSelectionArrowHeight);
+    }
+
+    .downArrow {
+      @include backgroundImage($contestantsSelectionArrowDownUrl, $contestantsSelectionArrowWidth, $contestantsSelectionArrowHeight);
+    }
+
+    #contestantContainer {
+      li {
+        @include backgroundImage($contestantsSelectionButtonUrl, $contestantsSelectionButtonWidth, $contestantsSelectionButtonHeight);
+        line-height: $contestantsSelectionButtonHeight;
+        padding-left: 70px;
+        background-position: left bottom;
+        background-color: $offWhite;
+        margin: $contestantsSelectionPadding;
+        @include boxShadow(1px 1px 6px 0px rgba(0,0,0,0.45));
+        @include fontStyleContestantButton();
+        cursor: pointer;
+        position: relative;
+
+        &.selected {
+          color: $white;
+          background-color: $red;
+
+          &:hover {
+            background-color: darken($red, 5%);
+          }
+        }
+
+        &:hover {
+          background-color: darken($offWhite, 5%);
+        }
+
+        .score {
+          width: $contestantsSelectionScoreSmallSize;
+          height: $contestantsSelectionScoreSmallSize;
+          @include borderRadius($contestantsSelectionScoreSmallSize/2);
+          color: $white;
+          text-align: center;
+          line-height: $contestantsSelectionScoreSmallSize;
+          @include fontScoreSmall();
+          margin-left: 6px;
+          display: none;
+
+          &[data-color="green"] {
+            display: inline-block;
+            background: $green;
+          }
+
+          &[data-color="yellow"] {
+            display: inline-block;
+            background: $yellow;
+          }
+
+          &[data-color="red"] {
+            display: inline-block;
+            background: $red;
+          }
+        }
+      }
+    }
+  }
+
+  #selectedContestants {
+    width: 4 * $width / 5;
+    float: left;
+    margin: $contestantsSelectionPadding 0;
+    padding: 0 $contestantsSelectionPadding;
+
+  }
+}
+
+.contestantLayout {
+  .row {
+    border-bottom: 1px solid $lightGray;
+    width: 3 * ($contestantsSelectionPadding + $contestantMediumWidth) + $contestantsSelectionPadding;
+    padding-right: $contestantsSelectionPadding;
+    font-size: 0;
+    margin: $contestantsSelectionPadding auto;
+
+    .contestant {
+      display: inline-block;
+      margin-left: $contestantsSelectionPadding;
+      position: relative;
+
+      .image {
+        @include backgroundImage($contestantsSelectionDefaultUrl, $contestantMediumWidth, $contestantMediumHeight);
+        //position: relative;
+      }
+
+      .score {
+        width: $contestantsSelectionScoreSize;
+        height: $contestantsSelectionScoreSize;
+        position: absolute;
+        bottom: -15px;
+        right: -15px;
+        @include borderRadius($contestantsSelectionScoreSize/2);
+        color: $white;
+        text-align: center;
+        line-height: $contestantsSelectionScoreSize - 3px;
+        @include fontScore();
+        display: none;
+
+        &[data-color="green"] {
+          display: initial;
+          background: $green;
+        }
+
+        &[data-color="yellow"] {
+          display: initial;
+          background: $yellow;
+        }
+
+        &[data-color="red"] {
+          display: initial;
+          background: $red;
+        }
+      }
+
+
+
+      &.enabled {
+        cursor: pointer;
+      }
+    }
+  }
+}

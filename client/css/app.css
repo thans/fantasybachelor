@@ -100,11 +100,11 @@ button.close {
     position: absolute;
     bottom: 0;
     right: 18px; }
-  #bioModal .modal-dialog .womanWrapper {
+  #bioModal .modal-dialog .contestantWrapper {
     padding: 0 18px;
     border-bottom: 1px solid #dcdee0; }
-  #bioModal .modal-dialog .woman {
-    background-image: url("../images/womenLarge/womanLarge.png");
+  #bioModal .modal-dialog .contestant {
+    background-image: url("../images/contestantsLarge/womanLarge.png");
     background-repeat: no-repeat;
     width: 320px;
     height: 350px; }
@@ -178,32 +178,32 @@ header #navigationWrapper {
       background-color: #f34542;
       cursor: pointer; }
 
-#womenSelection #remainingWomenWrapper {
+#contestantSelection #remainingContestantsWrapper {
   width: 240px;
   margin: 18px 0;
   float: left; }
-  #womenSelection #remainingWomenWrapper #remainingWomen {
+  #contestantSelection #remainingContestantsWrapper #remainingContestants {
     border-right: 1px solid #dcdee0;
     text-align: center; }
-  #womenSelection #remainingWomenWrapper .upArrow, #womenSelection #remainingWomenWrapper .downArrow {
+  #contestantSelection #remainingContestantsWrapper .upArrow, #contestantSelection #remainingContestantsWrapper .downArrow {
     display: inline-block;
     margin: 0 auto; }
-    #womenSelection #remainingWomenWrapper .upArrow:hover, #womenSelection #remainingWomenWrapper .downArrow:hover {
+    #contestantSelection #remainingContestantsWrapper .upArrow:hover, #contestantSelection #remainingContestantsWrapper .downArrow:hover {
       cursor: pointer; }
-    #womenSelection #remainingWomenWrapper .upArrow.disabled, #womenSelection #remainingWomenWrapper .downArrow.disabled {
+    #contestantSelection #remainingContestantsWrapper .upArrow.disabled, #contestantSelection #remainingContestantsWrapper .downArrow.disabled {
       opacity: .5; }
-  #womenSelection #remainingWomenWrapper .upArrow {
+  #contestantSelection #remainingContestantsWrapper .upArrow {
     background-image: url("../images/arrowUp.png");
     background-repeat: no-repeat;
     width: 24px;
     height: 12px; }
-  #womenSelection #remainingWomenWrapper .downArrow {
+  #contestantSelection #remainingContestantsWrapper .downArrow {
     background-image: url("../images/arrowDown.png");
     background-repeat: no-repeat;
     width: 24px;
     height: 12px; }
-  #womenSelection #remainingWomenWrapper #women li {
-    background-image: url("../images/womenSmall/womanSmall.png");
+  #contestantSelection #remainingContestantsWrapper #contestantContainer li {
+    background-image: url("../images/contestantsSmall/womanSmall.png");
     background-repeat: no-repeat;
     width: 204px;
     height: 80px;
@@ -217,33 +217,84 @@ header #navigationWrapper {
     box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, 0.45);
     font-size: 30px;
     font-weight: 100;
-    cursor: pointer; }
-    #womenSelection #remainingWomenWrapper #women li.selected {
+    cursor: pointer;
+    position: relative; }
+    #contestantSelection #remainingContestantsWrapper #contestantContainer li.selected {
       color: white;
       background-color: #f34542; }
-      #womenSelection #remainingWomenWrapper #women li.selected:hover {
+      #contestantSelection #remainingContestantsWrapper #contestantContainer li.selected:hover {
         background-color: #f12d2a; }
-    #womenSelection #remainingWomenWrapper #women li:hover {
+    #contestantSelection #remainingContestantsWrapper #contestantContainer li:hover {
       background-color: #eeeeee; }
-#womenSelection #selectedWomen {
+    #contestantSelection #remainingContestantsWrapper #contestantContainer li .score {
+      width: 40px;
+      height: 40px;
+      -webkit-border-radius: 20px;
+      -moz-border-radius: 20px;
+      border-radius: 20px;
+      color: white;
+      text-align: center;
+      line-height: 40px;
+      font-size: 22px;
+      font-weight: 100;
+      margin-left: 6px;
+      display: none; }
+      #contestantSelection #remainingContestantsWrapper #contestantContainer li .score[data-color="green"] {
+        display: inline-block;
+        background: #29bba5; }
+      #contestantSelection #remainingContestantsWrapper #contestantContainer li .score[data-color="yellow"] {
+        display: inline-block;
+        background: #f1c42c; }
+      #contestantSelection #remainingContestantsWrapper #contestantContainer li .score[data-color="red"] {
+        display: inline-block;
+        background: #f34542; }
+#contestantSelection #selectedContestants {
   width: 960px;
   float: left;
   margin: 18px 0;
   padding: 0 18px; }
 
-.selectedWomenLayout .row {
+.contestantLayout .row {
   border-bottom: 1px solid #dcdee0;
   width: 552px;
   padding-right: 18px;
   font-size: 0;
   margin: 18px auto; }
-  .selectedWomenLayout .row .woman {
+  .contestantLayout .row .contestant {
     display: inline-block;
     margin-left: 18px;
-    background-image: url("../images/womenMedium/womanMedium.png");
-    background-repeat: no-repeat;
-    width: 160px;
-    height: 175px; }
+    position: relative; }
+    .contestantLayout .row .contestant .image {
+      background-image: url("../images/contestantsMedium/womanMedium.png");
+      background-repeat: no-repeat;
+      width: 160px;
+      height: 175px; }
+    .contestantLayout .row .contestant .score {
+      width: 70px;
+      height: 70px;
+      position: absolute;
+      bottom: -15px;
+      right: -15px;
+      -webkit-border-radius: 35px;
+      -moz-border-radius: 35px;
+      border-radius: 35px;
+      color: white;
+      text-align: center;
+      line-height: 67px;
+      font-size: 36px;
+      font-weight: 300;
+      display: none; }
+      .contestantLayout .row .contestant .score[data-color="green"] {
+        display: initial;
+        background: #29bba5; }
+      .contestantLayout .row .contestant .score[data-color="yellow"] {
+        display: initial;
+        background: #f1c42c; }
+      .contestantLayout .row .contestant .score[data-color="red"] {
+        display: initial;
+        background: #f34542; }
+    .contestantLayout .row .contestant.enabled {
+      cursor: pointer; }
 
 html {
   height: 100%;
