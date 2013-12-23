@@ -1,6 +1,0 @@
-header {
-  width: 100%; }
-  header > * > *:first-child {
-    margin-left: 6; }
-  header #topRow {
-    height: 60px; }

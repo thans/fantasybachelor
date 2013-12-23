@@ -468,6 +468,17 @@ var NavigationManager = function() {
                     });
                 }
                 displaySelectedContestants();
+
+                var selectionStatus = $('#selectionStatus');
+                if (moment().isAfter(weekData.scoresAvailableTime)) {
+                    selectionStatus.attr('data-color', 'red').text('Selection Closed');
+                } else if (moment().isBefore(weekData.openTime)) {
+                    selectionStatus.attr('data-color', 'yellow').text('Coming Soon');
+                } else if (moment().isBefore(weekData.closeTime)) {
+                    selectionStatus.attr('data-color', 'green').text('Selection Open');
+                } else {
+                    selectionStatus.attr('data-color', 'yellow').text('Show in Progress');
+                }
             })
 
         }
