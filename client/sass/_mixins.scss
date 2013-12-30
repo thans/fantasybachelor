@@ -27,3 +27,11 @@
   -moz-border-radius: $params;
   border-radius: $params;
 }
+
+@mixin transition($params) {
+  -webkit-transition: $params;
+  -moz-transition: $params;
+  -o-transition: $params;
+  -ms-transition: $params;
+  transition: $params;
+}

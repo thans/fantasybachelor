@@ -37,7 +37,7 @@ $contestantsSelectionStatusWidth: 500px;
       }
 
       &.disabled {
-        opacity: .5;
+        opacity: .2;
       }
     }
 
@@ -49,43 +49,61 @@ $contestantsSelectionStatusWidth: 500px;
       @include backgroundImage($contestantsSelectionArrowDownUrl, $contestantsSelectionArrowWidth, $contestantsSelectionArrowHeight);
     }
 
+    .well {
+      height: 5 * $contestantsSelectionButtonHeight + 5 * $contestantsSelectionPadding + 2px; // 2px for border
+      border-top: 1px solid $transparent;
+      border-bottom: 1px solid $transparent;
+      margin: 0 $contestantsSelectionPadding/2;
+      @include transition(border-color .1s ease);
+
+      &.moving {
+        border-color: $lightGray;
+      }
+    }
+
     #contestantContainer {
       li {
-        @include backgroundImage($contestantsSelectionButtonUrl, $contestantsSelectionButtonWidth, $contestantsSelectionButtonHeight);
-        line-height: $contestantsSelectionButtonHeight;
-        padding-left: 70px;
-        background-position: left bottom;
-        background-color: $offWhite;
-        margin: $contestantsSelectionPadding;
-        @include boxShadow(1px 1px 6px 0px rgba(0,0,0,0.45));
-        @include fontStyleContestantButton();
-        cursor: pointer;
-        position: relative;
+        width: 100%;
+        padding: $contestantsSelectionPadding/2;
 
-        &.selected {
-          color: $white;
-          background-color: $red;
+        > div {
+          @include backgroundImage($contestantsSelectionButtonUrl, $contestantsSelectionButtonWidth, $contestantsSelectionButtonHeight);
+          line-height: $contestantsSelectionButtonHeight;
+          padding-left: 70px;
+          background-position: left bottom;
+          background-color: $offWhite;
+          @include boxShadow(1px 1px 6px 0px rgba(0,0,0,0.45));
+          @include fontStyleContestantButton();
+          cursor: pointer;
+          position: relative;
+
+          &.selected {
+            color: $white;
+            background-color: $red;
+
+            &:hover {
+              background-color: darken($red, 5%);
+            }
+          }
 
           &:hover {
-            background-color: darken($red, 5%);
+            background-color: darken($offWhite, 5%);
           }
-        }
 
-        &:hover {
-          background-color: darken($offWhite, 5%);
-        }
-
-        .score {
-          width: $contestantsSelectionScoreSmallSize;
-          height: $contestantsSelectionScoreSmallSize;
-          @include borderRadius($contestantsSelectionScoreSmallSize/2);
-          color: $white;
-          text-align: center;
-          line-height: $contestantsSelectionScoreSmallSize;
-          @include fontScoreSmall();
-          margin-left: 6px;
-          display: inline-block;
-          opacity: 0;
+          .score {
+            width: $contestantsSelectionScoreSmallSize;
+            height: $contestantsSelectionScoreSmallSize;
+            @include borderRadius($contestantsSelectionScoreSmallSize/2);
+            color: $white;
+            text-align: center;
+            line-height: $contestantsSelectionScoreSmallSize;
+            @include fontScoreSmall();
+            position: relative;
+            left: 6px;
+            top: -4px;
+            display: inline-block;
+            opacity: 0;
+          }
         }
       }
     }

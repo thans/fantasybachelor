@@ -1,14 +1,14 @@
 [data-color="green"] {
-  opacity: 1;
-  background: #29bba5; }
+  opacity: 1 !important;
+  background: #29bba5 !important; }
 
 [data-color="yellow"] {
-  opacity: 1;
-  background: #f1c42c; }
+  opacity: 1 !important;
+  background: #f1c42c !important; }
 
 [data-color="red"] {
-  opacity: 1;
-  background: #f34542; }
+  opacity: 1 !important;
+  background: #f34542 !important; }
 
 .btn, .btn-large {
   display: inline-block;
@@ -203,7 +203,7 @@ header #navigationWrapper {
     #contestantSelection #remainingContestantsWrapper .upArrow:hover, #contestantSelection #remainingContestantsWrapper .downArrow:hover {
       cursor: pointer; }
     #contestantSelection #remainingContestantsWrapper .upArrow.disabled, #contestantSelection #remainingContestantsWrapper .downArrow.disabled {
-      opacity: .5; }
+      opacity: .2; }
   #contestantSelection #remainingContestantsWrapper .upArrow {
     background-image: url("../images/arrowUp.png");
     background-repeat: no-repeat;
@@ -214,44 +214,60 @@ header #navigationWrapper {
     background-repeat: no-repeat;
     width: 24px;
     height: 12px; }
+  #contestantSelection #remainingContestantsWrapper .well {
+    height: 492px;
+    border-top: 1px solid rgba(0, 0, 0, 0);
+    border-bottom: 1px solid rgba(0, 0, 0, 0);
+    margin: 0 9px;
+    -webkit-transition: border-color 0.1s ease;
+    -moz-transition: border-color 0.1s ease;
+    -o-transition: border-color 0.1s ease;
+    -ms-transition: border-color 0.1s ease;
+    transition: border-color 0.1s ease; }
+    #contestantSelection #remainingContestantsWrapper .well.moving {
+      border-color: #dcdee0; }
   #contestantSelection #remainingContestantsWrapper #contestantContainer li {
-    background-image: url("../images/contestantsSmall/womanSmall.png");
-    background-repeat: no-repeat;
-    width: 204px;
-    height: 80px;
-    line-height: 80px;
-    padding-left: 70px;
-    background-position: left bottom;
-    background-color: #fbfbfb;
-    margin: 18px;
-    -webkit-box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, 0.45);
-    -moz-box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, 0.45);
-    box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, 0.45);
-    font-size: 30px;
-    font-weight: 100;
-    cursor: pointer;
-    position: relative; }
-    #contestantSelection #remainingContestantsWrapper #contestantContainer li.selected {
-      color: white;
-      background-color: #f34542; }
-      #contestantSelection #remainingContestantsWrapper #contestantContainer li.selected:hover {
-        background-color: #f12d2a; }
-    #contestantSelection #remainingContestantsWrapper #contestantContainer li:hover {
-      background-color: #eeeeee; }
-    #contestantSelection #remainingContestantsWrapper #contestantContainer li .score {
-      width: 40px;
-      height: 40px;
-      -webkit-border-radius: 20px;
-      -moz-border-radius: 20px;
-      border-radius: 20px;
-      color: white;
-      text-align: center;
-      line-height: 40px;
-      font-size: 22px;
+    width: 100%;
+    padding: 9px; }
+    #contestantSelection #remainingContestantsWrapper #contestantContainer li > div {
+      background-image: url("../images/contestantsSmall/womanSmall.png");
+      background-repeat: no-repeat;
+      width: 204px;
+      height: 80px;
+      line-height: 80px;
+      padding-left: 70px;
+      background-position: left bottom;
+      background-color: #fbfbfb;
+      -webkit-box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, 0.45);
+      -moz-box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, 0.45);
+      box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, 0.45);
+      font-size: 30px;
       font-weight: 100;
-      margin-left: 6px;
-      display: inline-block;
-      opacity: 0; }
+      cursor: pointer;
+      position: relative; }
+      #contestantSelection #remainingContestantsWrapper #contestantContainer li > div.selected {
+        color: white;
+        background-color: #f34542; }
+        #contestantSelection #remainingContestantsWrapper #contestantContainer li > div.selected:hover {
+          background-color: #f12d2a; }
+      #contestantSelection #remainingContestantsWrapper #contestantContainer li > div:hover {
+        background-color: #eeeeee; }
+      #contestantSelection #remainingContestantsWrapper #contestantContainer li > div .score {
+        width: 40px;
+        height: 40px;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        border-radius: 20px;
+        color: white;
+        text-align: center;
+        line-height: 40px;
+        font-size: 22px;
+        font-weight: 100;
+        position: relative;
+        left: 6px;
+        top: -4px;
+        display: inline-block;
+        opacity: 0; }
 #contestantSelection #selectedContestants {
   width: 960px;
   float: left;

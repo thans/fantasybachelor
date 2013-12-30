@@ -286,6 +286,42 @@ var WeekData = function() {
                     {
                         id: 3,
                         multiplier: 1
+                    },
+                    {
+                        id: 1,
+                        multiplier: 1
+                    },
+                    {
+                        id: 2,
+                        multiplier: 1
+                    },
+                    {
+                        id: 3,
+                        multiplier: 1
+                    },
+                    {
+                        id: 1,
+                        multiplier: 1
+                    },
+                    {
+                        id: 2,
+                        multiplier: 1
+                    },
+                    {
+                        id: 3,
+                        multiplier: 1
+                    },
+                    {
+                        id: 1,
+                        multiplier: 1
+                    },
+                    {
+                        id: 2,
+                        multiplier: 1
+                    },
+                    {
+                        id: 3,
+                        multiplier: 1
                     }
                 ],
                 selectedContestants: [2, 3],
@@ -462,7 +498,7 @@ var NavigationManager = function() {
                     $.each(weekData.remainingContestants, function(i, v) {
                         if (_.contains(weekData.selectedContestants, v.id)) {
                             contestantLayout.addContestant(contestantData.getContestantById(v.id), v.multiplier, _.contains(weekData.eliminatedContestants, v.id), function() {
-                                $('#contestantContainer li[data-id="' + v.id + '"]').click();
+                                $('#contestantContainer [data-id="' + v.id + '"]').click();
                             });
                         }
                     });
@@ -479,6 +515,23 @@ var NavigationManager = function() {
                 } else {
                     selectionStatus.attr('data-color', 'yellow').text('Show in Progress');
                 }
+
+                var slyElement = $('#remainingContestants .well');
+                var sly = new Sly(slyElement, {
+                    itemNav: 'basic',
+                    smart: 1,
+                    scrollBy: 1,
+                    speed: 300,
+                    keyboardNavBy: 'pages',
+                    easing: 'linear',
+
+                    // Buttons
+                    prevPage: slyElement.parent().find('.upArrow'),
+                    nextPage: slyElement.parent().find('.downArrow')
+                }).init();
+                sly.on('moveStart', function() {slyElement.addClass('moving')});
+                sly.on('moveEnd', function() {slyElement.removeClass('moving')});
+                sly.reload();
             })
 
         }
@@ -563,7 +616,7 @@ var ContestantButton = function() {
     var selected = false;
     var contestant;
     var multiplier;
-    var element = $('<li>');
+    var element = $('<div>');
 
     var _click = function(handler) {
         if (handler) {
@@ -659,7 +712,7 @@ var ContestantButton = function() {
 
     var _appendTo = function(parent) {
         if (parent !== undefined) {
-            element.appendTo(parent);
+            element.appendTo('<li>').parent().appendTo(parent);
         }
         return this;
     }
