@@ -1,0 +1,3 @@
+ssh info
+
+ssh -i ~/.ssh/node-server.pem ubuntu@ec2-54-201-134-58.us-west-2.compute.amazonaws.com
