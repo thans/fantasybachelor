@@ -1,0 +1,53 @@
+$bioModalMinHeight: 500px;
+
+#bioModal {
+
+  .modal-dialog {
+    min-height: $bioModalMinHeight;
+
+    .title {
+      @include fontStyleHeading2();
+    }
+    .left {
+      width: $modalWidth - (5 * $modalPadding + $contestantLargeWidth);
+    }
+
+    .stat {
+      @include fontStyleSmall();
+
+      .name {
+        @include fontStyleSmallBold();
+      }
+    }
+
+    .question {
+      @include fontStyleSmall();
+      margin-top: $modalPadding / 2;
+
+      .q {
+        @include fontStyleSmallBold();
+      }
+    }
+
+    .right {
+      position: absolute;
+      bottom: 0;
+      right: $modalPadding;
+    }
+
+    .contestantWrapper {
+      padding: 0 $modalPadding;
+      border-bottom: 1px solid $lightGray;
+    }
+
+    .contestant {
+      @include backgroundImage($contestantLargeUrl, $contestantLargeWidth, $contestantLargeHeight);
+    }
+
+    .btn-container {
+      padding: $modalPadding;
+      text-align: center;
+    }
+  }
+
+}

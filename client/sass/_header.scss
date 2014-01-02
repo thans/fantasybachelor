@@ -1,0 +1,69 @@
+$headerRoseHeight: 60px;
+$headerRoseWidth: 47px;
+$headerRoseUrl: "../images/roseSmall.png";
+
+$headerTopRowHeight: $headerRoseHeight;
+$headerNavigationHeight: 40px;
+
+$headerCellPadding: 12px;
+
+header {
+
+  .first {
+    margin-left: $headerRoseHeight - $headerCellPadding;
+  }
+
+  .left {
+    float: left;
+  }
+
+  .right {
+    float: right;
+  }
+
+  #topRowWrapper {
+    height: $headerTopRowHeight;
+    line-height: $headerTopRowHeight;
+
+    #topRow {
+      @include backgroundImage($headerRoseUrl, $width, 100%);
+
+      > * {
+        padding: 0 $headerCellPadding;
+      }
+
+      .title {
+        @include fontStyleTitle();
+      }
+
+      .user {
+        text-align: center;
+
+        &:hover {
+          background-color: $lightGray;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  #navigationWrapper {
+    height: $headerNavigationHeight;
+    line-height: $headerNavigationHeight;
+    background-color: $darkGray;
+    color: $lightGray;
+    @include fontStyleNavigation();
+
+    #navigation {
+      > * {
+        padding: 0 $headerCellPadding;
+
+        &:hover, &.selected {
+          background-color: $red;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+}

@@ -1,0 +1,87 @@
+$width: 1200px;
+$imagesDir: "../images/";
+$contestantsSmallDir: $imagesDir + "contestantsSmall/";
+$contestantsMediumDir: $imagesDir + "contestantsMedium/";
+$contestantsLargeDir: $imagesDir + "contestantsLarge/";
+$contestantSmallUrl: $contestantsSmallDir + "womanSmall.png";
+$contestantMediumUrl: $contestantsMediumDir + "womanMedium.png";
+$contestantLargeUrl: $contestantsLargeDir + "womanLarge.png";
+
+$contestantSmallWidth: 69px;
+$contestantSmallHeight: 75px;
+$contestantMediumWidth: 160px;
+$contestantMediumHeight: 175px;
+$contestantLargeWidth: 320px;
+$contestantLargeHeight: 350px;
+
+@import "mixins";
+@import "colors";
+@import "fonts";
+@import "buttons";
+@import "modal";
+@import "bioModal";
+@import "login";
+@import "header";
+@import "contestantSelection";
+
+html {
+  height: 100%;
+  min-width: $width;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: $fontFamily;
+  color: $darkGray;
+  position: relative;
+  margin: auto;
+  background: $white;
+  @include fontStyleDefault();
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.minWidth {
+  width: $width;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+* {
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box
+}
+
+input, button {
+  outline: none;
+  font-family: inherit;
+}
+
+.hide {
+  display: none;
+}
+
+.sectionTitle {
+  @include fontStyleContestantSectionTitle();
+}
