@@ -15,3 +15,5 @@ war/fantasybachelor/*
 
 war/WEB-INF/classes/*
 war/WEB-INF/deploy/*
+
+node_modules/*
