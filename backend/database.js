@@ -23,20 +23,24 @@ exports.getExpressConnection = function() {
                 }
             });
             models.user.login = function(user, callback) {
-                this.exists({fbId: user.fbId}, function(err, exists) {
+                console.log('Logging in user: ' + JSON.stringify(user));
+                var thiz = this;
+                this.find({fbId: user.fbId}, function(err, users) {
                     if (err) throw err;
 
-                    if (exists) {
-                        callback(100);
+                    if (users.length > 0) {
+                        users[0].score = 100;
+                        callback(users[0]);
                     } else {
-                        this.create({
+                        thiz.create({
                             firstName: user.firstName,
                             lastName: user.lastName,
                             email: user.email,
                             fbId: user.fbId
-                        }, function(err) {
+                        }, function(err, user) {
                             if (err) throw err;
-                            callback(100);
+                            user.score = 100;
+                            callback(user);
                         });
                     }
                 })

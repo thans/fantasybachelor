@@ -16,6 +16,12 @@ CONSTANTS.CONTESTANT_ARRANGEMENTS = {
     1: [1]
 }
 
+var URLS = {};
+URLS.BASE_URL = window.location.hostname === "localhost" ? 'http://localhost:8000' : 'http://server.fantasybach.com';
+URLS.GET_WEEKS = URLS.BASE_URL + '/getWeeks';
+URLS.GET_CONTESTANTS = URLS.BASE_URL + '/getContestants';
+URLS.LOGIN_USER = URLS.BASE_URL + '/loginUser';
+
 var utils = {
     getSmallImage: function(contestant) {
         return CONSTANTS.SMALL_CONTESTANTS_DIR + contestant.codeName + 'Small.png';
@@ -41,182 +47,13 @@ $.fn.backgroundImage = function(backgroundImage) {
 };
 
 var ContestantData = function() {
-    var contestants = [
-        {
-            id: 1,
-            name: 'Alexis',
-            codeName: 'alexis',
-            stats: [
-                {
-                    key: 'Age',
-                    value: '31'
-                },
-                {
-                    key: 'Occupation',
-                    value: 'Message Therapist'
-                },
-                {
-                    key: 'Hometown',
-                    value: 'Apopka, FL'
-                },
-                {
-                    key: 'Height',
-                    value: '5\'7\"'
-                },
-                {
-                    key: 'Tattoos',
-                    value: 'None'
-                },
-                {
-                    key: 'Favorite Actress',
-                    value: 'Kate Winslet'
-                },
-                {
-                    key: 'Top 3 Favorite Groups/Artists',
-                    value: 'The Beatles, Bob Dylan, Radiohead'
-                },
-                {
-                    key: 'Favorite Sports Team',
-                    value: 'LA Clippers'
-                }
-            ],
-            questions: [
-                {
-                    key: 'What is your favorite memory from your childhood?',
-                    value: 'The family trip we took to Lake Tahoe. I\'d never seen anything more gorgeous in my life, I learned how to play foosball, ate California Sourdough toast and laughed til my belly hurt with my family.'
-                },
-                {
-                    key: 'What is your favorite holiday and why?',
-                    value: 'It\'s close. Thanksgiving because it\'s such a cool day for everyone to just be thankful, give back and eat! And I also LOVE the Fourth of July because it\'s so romantic and I\'m grateful for our freedom!'
-                },
-                {
-                    key: 'What do you hope to get out of participating in this television show?',
-                    value: 'I hope to find love! And if He decides I\'m not the girl for him, I hope to gain friendships, peace through time away, a greater understanding of people and love and the beautiful world around me.'
-                },
-                {
-                    key: 'If you wanted to really impress a man, what would you do and why?',
-                    value: 'I would try to find out some secret wish or childhood dream, then figure out a way to make it come true. Something they\'ve always wanted or wanted to try. We all have them and it means a lot when the person you love is invested in those things.'
-                }
-            ]
-        },
-        {
-            id: 2,
-            name: 'Alli',
-            codeName: 'alli',
-            stats: [
-                {
-                    key: 'Age',
-                    value: '31'
-                },
-                {
-                    key: 'Occupation',
-                    value: 'Message Therapist'
-                },
-                {
-                    key: 'Hometown',
-                    value: 'Apopka, FL'
-                },
-                {
-                    key: 'Height',
-                    value: '5\'7\"'
-                },
-                {
-                    key: 'Tattoos',
-                    value: 'None'
-                },
-                {
-                    key: 'Favorite Actress',
-                    value: 'Kate Winslet'
-                },
-                {
-                    key: 'Top 3 Favorite Groups/Artists',
-                    value: 'The Beatles, Bob Dylan, Radiohead'
-                },
-                {
-                    key: 'Favorite Sports Team',
-                    value: 'LA Clippers'
-                }
-            ],
-            questions: [
-                {
-                    key: 'What is your favorite memory from your childhood?',
-                    value: 'The family trip we took to Lake Tahoe. I\'d never seen anything more gorgeous in my life, I learned how to play foosball, ate California Sourdough toast and laughed til my belly hurt with my family.'
-                },
-                {
-                    key: 'What is your favorite holiday and why?',
-                    value: 'It\'s close. Thanksgiving because it\'s such a cool day for everyone to just be thankful, give back and eat! And I also LOVE the Fourth of July because it\'s so romantic and I\'m grateful for our freedom!'
-                },
-                {
-                    key: 'What do you hope to get out of participating in this television show?',
-                    value: 'I hope to find love! And if He decides I\'m not the girl for him, I hope to gain friendships, peace through time away, a greater understanding of people and love and the beautiful world around me.'
-                },
-                {
-                    key: 'If you wanted to really impress a man, what would you do and why?',
-                    value: 'I would try to find out some secret wish or childhood dream, then figure out a way to make it come true. Something they\'ve always wanted or wanted to try. We all have them and it means a lot when the person you love is invested in those things.'
-                }
-            ]
-        },
-        {
-            id: 3,
-            name: 'Amy J',
-            codeName: 'amyJ',
-            stats: [
-                {
-                    key: 'Age',
-                    value: '31'
-                },
-                {
-                    key: 'Occupation',
-                    value: 'Message Therapist'
-                },
-                {
-                    key: 'Hometown',
-                    value: 'Apopka, FL'
-                },
-                {
-                    key: 'Height',
-                    value: '5\'7\"'
-                },
-                {
-                    key: 'Tattoos',
-                    value: 'None'
-                },
-                {
-                    key: 'Favorite Actress',
-                    value: 'Kate Winslet'
-                },
-                {
-                    key: 'Top 3 Favorite Groups/Artists',
-                    value: 'The Beatles, Bob Dylan, Radiohead'
-                },
-                {
-                    key: 'Favorite Sports Team',
-                    value: 'LA Clippers'
-                }
-            ],
-            questions: [
-                {
-                    key: 'What is your favorite memory from your childhood?',
-                    value: 'The family trip we took to Lake Tahoe. I\'d never seen anything more gorgeous in my life, I learned how to play foosball, ate California Sourdough toast and laughed til my belly hurt with my family.'
-                },
-                {
-                    key: 'What is your favorite holiday and why?',
-                    value: 'It\'s close. Thanksgiving because it\'s such a cool day for everyone to just be thankful, give back and eat! And I also LOVE the Fourth of July because it\'s so romantic and I\'m grateful for our freedom!'
-                },
-                {
-                    key: 'What do you hope to get out of participating in this television show?',
-                    value: 'I hope to find love! And if He decides I\'m not the girl for him, I hope to gain friendships, peace through time away, a greater understanding of people and love and the beautiful world around me.'
-                },
-                {
-                    key: 'If you wanted to really impress a man, what would you do and why?',
-                    value: 'I would try to find out some secret wish or childhood dream, then figure out a way to make it come true. Something they\'ve always wanted or wanted to try. We all have them and it means a lot when the person you love is invested in those things.'
-                }
-            ]
-        }
-    ];
+    var contestants;
 
-    this.loadContestants = function(callback) {
-        callback();
+    this.load = function(user, callback) {
+        return $.get(URLS.GET_CONTESTANTS, {userId: user.id}).done(function(results) {
+            contestants = results;
+            callback && callback();
+        });
     }
 
     this.getContestantById = function(contestantId) {
@@ -229,29 +66,22 @@ var ContestantData = function() {
         return contestant;
     };
 }
-var contestantData = new ContestantData();
 
 var WeekData = function() {
-    this.getWeeks = function(callback) {
+    var weekData;
 
-        // Temp Data
-        callback([
-            {
-                id: 1,
-                name: 'Week 1'
-            },
-            {
-                id: 2,
-                name: 'Week 2'
-            },
-            {
-                id: 3,
-                name: 'Week 3'
-            }
-        ]);
+    this.getAll = function() {
+        return weekData;
+    }
+
+    this.load = function(user, callback) {
+        return $.get(URLS.GET_WEEKS, {userId: user.id}).done(function(results) {
+            weekData = results;
+            callback && callback();
+        });
     };
 
-    this.getCurrentWeek = function(callback) {
+    this.getCurrentWeekId = function(callback) {
         callback(2);
     };
 
@@ -265,127 +95,10 @@ var WeekData = function() {
         });
         callback(week);
     };
-
-    // Temp Data
-        var weekData = [
-            {
-                id: 1,
-                name: 'Week 1',
-                openTime: new Date(2013, 10, 1),
-                closeTime: new Date(2013, 10, 29),
-                scoresAvailableTime: new Date(2013, 10, 30),
-                remainingContestants: [
-                    {
-                        id: 1,
-                        multiplier: 1
-                    },
-                    {
-                        id: 2,
-                        multiplier: 1
-                    },
-                    {
-                        id: 3,
-                        multiplier: 1
-                    },
-                    {
-                        id: 1,
-                        multiplier: 1
-                    },
-                    {
-                        id: 2,
-                        multiplier: 1
-                    },
-                    {
-                        id: 3,
-                        multiplier: 1
-                    },
-                    {
-                        id: 1,
-                        multiplier: 1
-                    },
-                    {
-                        id: 2,
-                        multiplier: 1
-                    },
-                    {
-                        id: 3,
-                        multiplier: 1
-                    },
-                    {
-                        id: 1,
-                        multiplier: 1
-                    },
-                    {
-                        id: 2,
-                        multiplier: 1
-                    },
-                    {
-                        id: 3,
-                        multiplier: 1
-                    }
-                ],
-                selectedContestants: [2, 3],
-                eliminatedContestants: [3],
-                numberOfSelections: 6
-            },
-            {
-                id: 2,
-                name: 'Week 2',
-                openTime: new Date(2013, 11, 1),
-                closeTime: new Date(2013, 11, 30),
-                scoresAvailableTime: new Date(2013, 11, 31),
-                remainingContestants: [
-                    {
-                        id: 1,
-                        multiplier: 1
-                    },
-                    {
-                        id: 2,
-                        multiplier: 2
-                    }
-                ],
-                selectedContestants: [2],
-                numberOfSelections: 6
-            },
-            {
-                id: 3,
-                name: 'Week 3',
-                openTime: new Date(2014, 0, 1),
-                closeTime: new Date(2014, 0, 30),
-                scoresAvailableTime: new Date(2014, 0, 31),
-                remainingContestants: [
-                    {
-                        id: 1,
-                        multiplier: 3
-                    },
-                    {
-                        id: 2,
-                        multiplier: 1
-                    }
-                ],
-                selectedContestants: [],
-                numberOfSelections: 6
-            }
-        ];
 }
 
+var cd = new ContestantData();
 var wd = new WeekData();
-wd.getWeeks(function(weeks) {
-    contestantData.loadContestants(function() {
-        $.each(weeks, function(i, v) {
-            $('<li>')
-                .attr('data-id', v.id)
-                .addClass('left')
-                .toggleClass('first', i === 0)
-                .text(v.name)
-                .click(function() {
-                    navManager.goToWeek(v.id);
-                    history.pushState({func: 'goToWeek', data: v.id}, null, '#weekId=' + v.id);
-                })
-                .appendTo('#navigation');
-        });
-    });
-});
 
 var fb = new Facebook().loadSdk(function() {
     fb.silentLogin(authChangeHandler);
@@ -402,26 +115,56 @@ $('header .user').click(function() {
 });
 
 var isLoggedIn = false;
-function authChangeHandler(user) {
-    if (user) {
-        isLoggedIn = true;
-
-        // Put username in the top corner
-        $('header .user').text(user.name).hover(function() {
-            $(this).width($(this).width()).text('Log Out');
-        }, function() {
-            if (user && user.name) {
-                $(this).width('auto').text(user.name);
+var user;
+function authChangeHandler(fbUser) {
+    if (fbUser) {
+        $.ajax({
+            url: URLS.LOGIN_USER,
+            type: 'POST',
+            data: {
+                fbId: fbUser.id,
+                firstName: fbUser.first_name,
+                lastName: fbUser.last_name,
+                email: fbUser.email
             }
-        });
+        }).done(function(data) {
+            isLoggedIn = true;
+            user = data;
+            $.when(cd.load(user), wd.load(user)).then(function() {
 
-        // Show correct week
-        wd.getCurrentWeek(function(weekId) {
-            navManager.goToWeek(weekId);
-            history.replaceState({func: 'goToWeek', data: weekId}, null, '#weekId=' + weekId);
-        })
+                // Put weeks in navigation header
+                $.each(wd.getAll(), function(i, v) {
+                    $('<li>')
+                        .attr('data-id', v.id)
+                        .addClass('left')
+                        .toggleClass('first', i === 0)
+                        .text(v.name)
+                        .click(function() {
+                            navManager.goToWeek(v.id);
+                            history.pushState({func: 'goToWeek', data: v.id}, null, '#weekId=' + v.id);
+                        })
+                        .appendTo('#navigation');
+                });
+
+                // Put username in the top corner
+                $('header .user').text(fbUser.name).hover(function() {
+                    $(this).width($(this).width()).text('Log Out');
+                }, function() {
+                    if (fbUser && fbUser.name) {
+                        $(this).width('auto').text(fbUser.name);
+                    }
+                });
+
+                // Show correct week
+                wd.getCurrentWeekId(function(weekId) {
+                    navManager.goToWeek(weekId);
+                    history.replaceState({func: 'goToWeek', data: weekId}, null, '#weekId=' + weekId);
+                });
+            });
+        });
     } else {
         isLoggedIn = false;
+        user = undefined;
         navManager.goToLogin();
         history.pushState({func: 'goToLogin'}, null, '#login');
     }
@@ -466,7 +209,7 @@ var NavigationManager = function() {
                 var selectionClosed = moment().isBefore(weekData.openTime) || moment().isAfter(weekData.closeTime);
                 var selectionFull = weekData.selectedContestants.length === weekData.numberOfSelections;
                 $.each(weekData.remainingContestants, function(i, v) {
-                    var contestant = contestantData.getContestantById(v.id);
+                    var contestant = cd.getContestantById(v.id);
                     var selected = _.contains(weekData.selectedContestants, v.id);
 
                     var button = new ContestantButton()
@@ -497,7 +240,7 @@ var NavigationManager = function() {
                     contestantLayout.clear();
                     $.each(weekData.remainingContestants, function(i, v) {
                         if (_.contains(weekData.selectedContestants, v.id)) {
-                            contestantLayout.addContestant(contestantData.getContestantById(v.id), v.multiplier, _.contains(weekData.eliminatedContestants, v.id), function() {
+                            contestantLayout.addContestant(cd.getContestantById(v.id), v.multiplier, _.contains(weekData.eliminatedContestants, v.id), function() {
                                 $('#contestantContainer [data-id="' + v.id + '"]').click();
                             });
                         }
