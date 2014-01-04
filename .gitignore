@@ -15,3 +15,6 @@ war/fantasybachelor/*
 
 war/WEB-INF/classes/*
 war/WEB-INF/deploy/*
+compiler.jar
+
+client/js/app.min.js

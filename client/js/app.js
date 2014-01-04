@@ -1,3 +1,6 @@
+/**
+ * Constants
+ */
 var CONSTANTS = {};
 CONSTANTS.IMAGES_DIR = 'images/';
 CONSTANTS.SMALL_CONTESTANTS_DIR = CONSTANTS.IMAGES_DIR + 'contestantsSmall/';
@@ -16,6 +19,10 @@ CONSTANTS.CONTESTANT_ARRANGEMENTS = {
     1: [1]
 }
 
+
+/**
+ * Utility Functions
+ */
 var utils = {
     getSmallImage: function(contestant) {
         return CONSTANTS.SMALL_CONTESTANTS_DIR + contestant.codeName + 'Small.png';
@@ -30,6 +37,9 @@ var utils = {
     }
 }
 
+/**
+ * jQuery plugins
+ */
 $.fn.backgroundImage = function(backgroundImage) {
     return this.each(function() {
         if (backgroundImage) {
@@ -267,106 +277,106 @@ var WeekData = function() {
     };
 
     // Temp Data
-        var weekData = [
-            {
-                id: 1,
-                name: 'Week 1',
-                openTime: new Date(2013, 10, 1),
-                closeTime: new Date(2013, 10, 29),
-                scoresAvailableTime: new Date(2013, 10, 30),
-                remainingContestants: [
-                    {
-                        id: 1,
-                        multiplier: 1
-                    },
-                    {
-                        id: 2,
-                        multiplier: 1
-                    },
-                    {
-                        id: 3,
-                        multiplier: 1
-                    },
-                    {
-                        id: 1,
-                        multiplier: 1
-                    },
-                    {
-                        id: 2,
-                        multiplier: 1
-                    },
-                    {
-                        id: 3,
-                        multiplier: 1
-                    },
-                    {
-                        id: 1,
-                        multiplier: 1
-                    },
-                    {
-                        id: 2,
-                        multiplier: 1
-                    },
-                    {
-                        id: 3,
-                        multiplier: 1
-                    },
-                    {
-                        id: 1,
-                        multiplier: 1
-                    },
-                    {
-                        id: 2,
-                        multiplier: 1
-                    },
-                    {
-                        id: 3,
-                        multiplier: 1
-                    }
-                ],
-                selectedContestants: [2, 3],
-                eliminatedContestants: [3],
-                numberOfSelections: 6
-            },
-            {
-                id: 2,
-                name: 'Week 2',
-                openTime: new Date(2013, 11, 1),
-                closeTime: new Date(2013, 11, 30),
-                scoresAvailableTime: new Date(2013, 11, 31),
-                remainingContestants: [
-                    {
-                        id: 1,
-                        multiplier: 1
-                    },
-                    {
-                        id: 2,
-                        multiplier: 2
-                    }
-                ],
-                selectedContestants: [2],
-                numberOfSelections: 6
-            },
-            {
-                id: 3,
-                name: 'Week 3',
-                openTime: new Date(2014, 0, 1),
-                closeTime: new Date(2014, 0, 30),
-                scoresAvailableTime: new Date(2014, 0, 31),
-                remainingContestants: [
-                    {
-                        id: 1,
-                        multiplier: 3
-                    },
-                    {
-                        id: 2,
-                        multiplier: 1
-                    }
-                ],
-                selectedContestants: [],
-                numberOfSelections: 6
-            }
-        ];
+    var weekData = [
+        {
+            id: 1,
+            name: 'Week 1',
+            openTime: new Date(2013, 10, 1),
+            closeTime: new Date(2013, 10, 29),
+            scoresAvailableTime: new Date(2013, 10, 30),
+            remainingContestants: [
+                {
+                    id: 1,
+                    multiplier: 1
+                },
+                {
+                    id: 2,
+                    multiplier: 1
+                },
+                {
+                    id: 3,
+                    multiplier: 1
+                },
+                {
+                    id: 1,
+                    multiplier: 1
+                },
+                {
+                    id: 2,
+                    multiplier: 1
+                },
+                {
+                    id: 3,
+                    multiplier: 1
+                },
+                {
+                    id: 1,
+                    multiplier: 1
+                },
+                {
+                    id: 2,
+                    multiplier: 1
+                },
+                {
+                    id: 3,
+                    multiplier: 1
+                },
+                {
+                    id: 1,
+                    multiplier: 1
+                },
+                {
+                    id: 2,
+                    multiplier: 1
+                },
+                {
+                    id: 3,
+                    multiplier: 1
+                }
+            ],
+            selectedContestants: [2, 3],
+            eliminatedContestants: [3],
+            numberOfSelections: 6
+        },
+        {
+            id: 2,
+            name: 'Week 2',
+            openTime: new Date(2013, 11, 1),
+            closeTime: new Date(2013, 11, 30),
+            scoresAvailableTime: new Date(2013, 11, 31),
+            remainingContestants: [
+                {
+                    id: 1,
+                    multiplier: 1
+                },
+                {
+                    id: 2,
+                    multiplier: 2
+                }
+            ],
+            selectedContestants: [2],
+            numberOfSelections: 6
+        },
+        {
+            id: 3,
+            name: 'Week 3',
+            openTime: new Date(2014, 0, 1),
+            closeTime: new Date(2014, 0, 30),
+            scoresAvailableTime: new Date(2014, 0, 31),
+            remainingContestants: [
+                {
+                    id: 1,
+                    multiplier: 3
+                },
+                {
+                    id: 2,
+                    multiplier: 1
+                }
+            ],
+            selectedContestants: [],
+            numberOfSelections: 6
+        }
+    ];
 }
 
 var wd = new WeekData();
@@ -532,6 +542,7 @@ var NavigationManager = function() {
                 sly.on('moveStart', function() {slyElement.addClass('moving')});
                 sly.on('moveEnd', function() {slyElement.removeClass('moving')});
                 sly.reload();
+
             })
 
         }
@@ -552,7 +563,7 @@ var BioModal = function(element) {
             .click(function() {
                 element.hide();
             }).children().click(function(e) {
-                    e.stopPropagation();
+                e.stopPropagation();
             });
 
         element.find('.title').text(contestant.name);
