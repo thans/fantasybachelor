@@ -18,3 +18,7 @@ war/WEB-INF/deploy/*
 compiler.jar
 
 client/js/app.min.js
+war/WEB-INF/deploy/*
+compiler.jar
+client/js/app.min.js
+node_modules/*

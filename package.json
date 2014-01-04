@@ -1,0 +1,11 @@
+{
+	"name": "FantasyBach",
+	"version": "0.0.1",
+	"main": "database.js",
+	"dependencies": {
+		"orm": "2.1.*",
+		"express": "3.0.*",
+		"underscore" : "1.4.*",
+		"mysql" : "2.0.*"
+	}
+}
