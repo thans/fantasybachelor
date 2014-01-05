@@ -2,6 +2,8 @@ var cd = new ContestantData();
 var wd = new WeekData();
 var navManager = new NavigationManager();
 var bioModal = new BioModal('#bioModal');
+var dropdown = new Dropdown().addItem($('<li>test</li>')).addDivider().addItem($('<li>test</li>')).appendTo('#navigation');
+
 
 var fb = new Facebook().loadSdk(function() {
     fb.silentLogin(authChangeHandler);
