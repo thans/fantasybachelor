@@ -19,7 +19,7 @@ app.use(function (req, res, next) {
 app.use(express.bodyParser());
 
 app.get('/numUsers', function (req, res) {
-    req.models.user.count(function(err, count) {
+    req.models.user.count({}, function(err, count) {
         if (err) throw err;
         res.send('Number of users: ' + count);
     });
@@ -28,10 +28,14 @@ app.get('/numUsers', function (req, res) {
 app.post('/loginUser', function (req, res) {
     req.models.user.login(req.body, function(user) {
         res.send(user);
-    })
+    });
 });
 
 app.get('/getWeeks', function (req, res) {
+    req.models.week.getWeeks(req.body, function(data) {
+        res.send(data);
+    });
+    /*
     res.send([
         {
             id: 1,
@@ -132,9 +136,15 @@ app.get('/getWeeks', function (req, res) {
             numberOfSelections: 6
         }
     ]);
+*/
 });
 
 app.get('/getContestants', function (req, res) {
+    req.models.contestant.getContestantData(req.body, function(data) {
+        res.send(data);
+    });
+    /*
+
     res.send([
         {
             id: 1,
@@ -308,6 +318,7 @@ app.get('/getContestants', function (req, res) {
             ]
         }
     ]);
+*/
 });
 
 app.post('/selectContestant', function(req, res) {
