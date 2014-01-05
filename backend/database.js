@@ -68,6 +68,13 @@ exports.getExpressConnection = function() {
                 this.find({}).each(function(item) {
                     models.elimination.getEliminatedContestantsByWeek(item.id, function(eliminated) {
                         models.contestant.getRemainingContestants(eliminated, function(remaining) {
+                            var remainderWithMult = [];
+                            _und.each(remaining, function(oneContestant {
+                                remainderWithMult.push({
+                                    id: oneContestant,
+                                    multiplier: 1
+                                });
+                            });
                             models.prediction.getSelectionByWeek(user, item.id, function(selections) {
                                 weekData.push({
                                     id: item.id,
