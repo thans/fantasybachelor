@@ -13,7 +13,7 @@ var WeekData = function() {
     };
 
     this.getCurrentWeekId = function(callback) {
-        callback(2);
+        callback(5);
     };
 
     this.getWeekById = function(id, callback) {

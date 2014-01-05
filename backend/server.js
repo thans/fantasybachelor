@@ -141,6 +141,7 @@ app.get('/getWeeks', function (req, res) {
 
 app.get('/getContestants', function (req, res) {
     req.models.contestant.getContestantData(req.body, function(data) {
+        console.log('WeekData: ' + JSON.stringify(data));
         res.send(data);
     });
     /*
