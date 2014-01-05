@@ -19,6 +19,7 @@ var NavigationManager = function() {
             $('#navigation .selected').removeClass('selected');
             $('#navigation li[data-id="'+weekId+'"]').addClass('selected');
 
+
             // Load week data
             wd.getWeekById(weekId, function(weekData) {
 
@@ -45,8 +46,18 @@ var NavigationManager = function() {
                                 console.log("contestant: " + this.contestant().id + " selected: " + selected);
                                 if (!selected) {
                                     weekData.selectedContestants = _.without(weekData.selectedContestants, this.contestant().id);
+                                    $.post(URLS.REMOVE_CONTESTANT, {
+                                        contestantId: this.contestant().id,
+                                        userId: user.id,
+                                        weekId: v.id
+                                    });
                                 } else {
                                     weekData.selectedContestants.push(this.contestant().id);
+                                    $.post(URLS.SELECT_CONTESTANT, {
+                                        contestantId: this.contestant().id,
+                                        userId: user.id,
+                                        weekId: v.id
+                                    });
                                 }
                                 displaySelectedContestants();
                             }, this)).show();

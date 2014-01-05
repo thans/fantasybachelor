@@ -310,6 +310,16 @@ app.get('/getContestants', function (req, res) {
     ]);
 });
 
+app.post('/selectContestant', function(req, res) {
+    console.log('selectContestant: ' + JSON.stringify(req.body));
+    res.send('Sweet!');
+});
+
+app.post('/removeContestant', function(req, res) {
+    console.log('removeContestant: ' + JSON.stringify(req.body));
+    res.send('Sweet!');
+});
+
 app.listen(getPort());
 console.log('Listening on port ' + getPort());
 
