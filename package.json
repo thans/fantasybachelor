@@ -6,6 +6,7 @@
 		"orm": "2.1.*",
 		"express": "3.0.*",
 		"underscore" : "1.4.*",
-		"mysql" : "2.0.*"
+		"mysql" : "2.0.*",
+        "underscore" : "1.4.*"
 	}
 }
