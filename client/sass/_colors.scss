@@ -8,6 +8,7 @@ $red: rgb(243, 69, 66);
 $green: rgb(41, 187, 165);
 $yellow: rgb(241, 196, 44);
 $glass: rgba(0, 0, 0, .5);
+$shadow: rgba(0, 0, 0, .2);
 $transparent: rgba(0, 0, 0, 0);
 
 @mixin dataColor($name, $value) {

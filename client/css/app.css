@@ -68,6 +68,33 @@ button.close {
   button.close:hover {
     opacity: .5; }
 
+.dropdown {
+  display: inline-block; }
+  .dropdown .arrow {
+    background-image: url("../images/arrow.png");
+    background-repeat: no-repeat;
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    margin-left: 6px; }
+
+.dropdownPopover {
+  position: absolute;
+  background-color: white;
+  -webkit-box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.2); }
+  .dropdownPopover .item {
+    padding: 12px 24px; }
+    .dropdownPopover .item:hover {
+      background-color: #dcdee0;
+      cursor: pointer; }
+    .dropdownPopover .item.selected {
+      background-color: #f34542 !important;
+      color: white !important; }
+  .dropdownPopover .divider {
+    border-bottom: 1px solid #dcdee0; }
+
 .modal {
   position: fixed;
   top: 0;
@@ -153,7 +180,7 @@ button.close {
     #login .loginWithFacebook.disabled {
       opacity: .5; }
 
-header .first {
+header .first, header .dropdownPopover {
   margin-left: 48px; }
 header .left {
   float: left; }
@@ -186,9 +213,8 @@ header #navigationWrapper {
   font-weight: 100; }
   header #navigationWrapper #navigation > * {
     padding: 0 12px; }
-    header #navigationWrapper #navigation > *:hover, header #navigationWrapper #navigation > *.selected {
-      background-color: #f34542;
-      cursor: pointer; }
+    header #navigationWrapper #navigation > * #userScore {
+      font-weight: 600; }
 
 #contestantSelection #remainingContestantsWrapper {
   width: 240px;

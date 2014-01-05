@@ -1,0 +1,40 @@
+$dropdownArrowUrl: $imagesDir + "arrow.png";
+$dropdownArrowSize: 10px;
+$dropdownArrowSpace: 6px;
+
+$dropdownVerticalPadding: 12px;
+$dropdownHorizontalPadding: 24px;
+
+.dropdown {
+  display: inline-block;
+
+  .arrow {
+    @include backgroundImage($dropdownArrowUrl, $dropdownArrowSize, $dropdownArrowSize);
+    display: inline-block;
+    margin-left: $dropdownArrowSpace;
+  }
+}
+
+.dropdownPopover {
+  position: absolute;
+  background-color: $white;
+  @include boxShadow(0 0 $dropdownHorizontalPadding 0 $shadow);
+
+  .item {
+    padding: $dropdownVerticalPadding $dropdownHorizontalPadding;
+
+    &:hover {
+      background-color: $lightGray;
+      cursor: pointer;
+    }
+
+    &.selected {
+      background-color: $red !important;
+      color: $white !important;
+    }
+  }
+
+  .divider {
+    border-bottom: 1px solid $lightGray;
+  }
+}

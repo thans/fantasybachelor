@@ -1,15 +1,21 @@
 var Dropdown = function() {
-    var element = $('<div class="dropdown"><span class="label">Test</span><span class="arrow"></span></div>');
-    var popover = $('<div class="dropdownPopover"><ul class="items"></ul></div>');
+    var element = $('<div class="dropdown"><span class="label"></span><span class="arrow"></span></div>');
+    var popover = $('<div class="dropdownPopover"><ul class="items"></ul></div>').appendTo($('body')).hide();;
 
     element.hover(function() {
+        console.log('element ON');
         popover.css({
             top: element.position().top,
             left: element.position().left
-        }).appendTo($('body')).show();
+        }).show();
+    }, function() {
+        console.log('element OFF');
     });
-    popover.hover(function() {}, function() {
-        this.hide().remove();
+    popover.hover(function() {
+        console.log('Popover ON');
+    }, function() {
+        console.log('Popover OFF');
+        $(this).hide();
     });
 
     this.appendTo = function(parent) {
@@ -18,9 +24,15 @@ var Dropdown = function() {
     }
 
     this.addItem = function(item) {
-        item.addClass('item');
-        popover.find('.items').append(item);
+        item
+            .addClass('item')
+            .appendTo(popover.find('.items'));
         return this;
+    }
+
+    this.setSelected = function(id) {
+        popover.find('.selected').removeClass('selected');
+        element.find('.label').text(popover.find('.items > [data-id="' + id + '"]').first().addClass('selected').text());
     }
 
     this.addDivider = function() {

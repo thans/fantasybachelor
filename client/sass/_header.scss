@@ -9,7 +9,7 @@ $headerCellPadding: 12px;
 
 header {
 
-  .first {
+  .first, .dropdownPopover {
     margin-left: $headerRoseHeight - $headerCellPadding;
   }
 
@@ -58,9 +58,13 @@ header {
       > * {
         padding: 0 $headerCellPadding;
 
-        &:hover, &.selected {
-          background-color: $red;
-          cursor: pointer;
+        //&:hover, &.selected {
+        //  background-color: $red;
+        //  cursor: pointer;
+        //}
+
+        #userScore {
+          font-weight: 600;
         }
       }
     }

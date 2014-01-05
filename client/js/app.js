@@ -2,7 +2,7 @@ var cd = new ContestantData();
 var wd = new WeekData();
 var navManager = new NavigationManager();
 var bioModal = new BioModal('#bioModal');
-var dropdown = new Dropdown().addItem($('<li>test</li>')).addDivider().addItem($('<li>test</li>')).appendTo('#navigation');
+var dropdown = new Dropdown().appendTo('#navigation');
 
 
 var fb = new Facebook().loadSdk(function() {
@@ -39,17 +39,18 @@ function authChangeHandler(fbUser) {
 
                 // Put weeks in navigation header
                 $.each(wd.getAll(), function(i, v) {
-                    $('<li>')
+                    dropdown.addItem($('<li>')
                         .attr('data-id', v.id)
                         .addClass('left')
                         .toggleClass('first', i === 0)
                         .text(v.name)
                         .click(function() {
+                            dropdown.setSelected(v.id);
                             navManager.goToWeek(v.id);
                             history.pushState({func: 'goToWeek', data: v.id}, null, '#weekId=' + v.id);
-                        })
-                        .appendTo('#navigation');
+                        }));
                 });
+                dropdown.addDivider().addItem($('<li>Leaderboard</li>')).addItem($('<li>Meet Juan Pablo</li>'));
 
                 // Put username in the top corner
                 $('header .user').text(fbUser.name).hover(function() {
@@ -60,8 +61,12 @@ function authChangeHandler(fbUser) {
                     }
                 });
 
+                // Show user score
+                $('#userScore').text(user.score + 'pts');
+
                 // Show correct week
                 wd.getCurrentWeekId(function(weekId) {
+                    dropdown.setSelected(weekId);
                     navManager.goToWeek(weekId);
                     history.replaceState({func: 'goToWeek', data: weekId}, null, '#weekId=' + weekId);
                 });
