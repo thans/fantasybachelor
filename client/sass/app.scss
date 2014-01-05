@@ -79,6 +79,36 @@ input, button {
   font-family: inherit;
 }
 
+table {
+  border-collapse: collapse;
+
+  tr {
+
+    &:first-child > * {
+      border-top: 0;
+    }
+
+    &:last-child > * {
+      border-bottom: 0;
+    }
+
+    th, td {
+      padding: 12px;
+      width: 200px;
+      text-align: center;
+      border: 1px solid $lightGray;
+
+      &:first-child {
+        border-left: 0;
+      }
+
+      &:last-child {
+        border-right: 0;
+      }
+    }
+  }
+}
+
 .hide {
   display: none;
 }

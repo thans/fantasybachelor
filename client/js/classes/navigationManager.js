@@ -11,14 +11,11 @@ var NavigationManager = function() {
     this.goToWeek = function(weekId) {
         if (isLoggedIn) {
 
-            // Show main section, hide login section
+            // Show main section, hide login section, hide other sections, show this section
             $('#login').hide();
             $('#main').show();
-
-            // Set selected class on navbar element
-            $('#navigation .selected').removeClass('selected');
-            $('#navigation li[data-id="'+weekId+'"]').addClass('selected');
-
+            $('section').hide();
+            $('#contestantSelectionWrapper').show();
 
             // Load week data
             wd.getWeekById(weekId, function(weekData) {
@@ -113,6 +110,21 @@ var NavigationManager = function() {
     };
 
     this.goToLeaderboard = function() {
+        if (isLoggedIn) {
 
+            // Show main section, hide login section, hide other sections, show this section
+            $('#login').hide();
+            $('#main').show();
+            $('section').hide();
+            $('#leaderboardWrapper').show();
+
+            $.get(URLS.GET_LEADERBOARD).done(function(data) {
+                var table = $('#leaderboard .data');
+                table.find('.dataRow').remove();
+                $.each(data, function(i, v) {
+                    table.append('<tr class="dataRow"><td>' + v.name + '</td><td>' + v.score + '</td></tr>');
+                });
+            })
+        }
     };
 }

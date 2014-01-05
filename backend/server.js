@@ -332,6 +332,24 @@ app.post('/removeContestant', function(req, res) {
     res.send('Sweet!');
 });
 
+app.get('/getLeaderboard', function(req, res) {
+    console.log('getLeaderboard');
+    res.send([
+        {
+            name: 'Mitchell Loeppky',
+            score: 100
+        },
+        {
+            name: 'Tore Hanssen',
+            score: 200
+        },
+        {
+            name: 'Elijahim Chinus',
+            score: 63
+        }
+    ]);
+});
+
 app.listen(getPort());
 console.log('Listening on port ' + getPort());
 

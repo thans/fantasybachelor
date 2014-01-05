@@ -50,7 +50,18 @@ function authChangeHandler(fbUser) {
                             history.pushState({func: 'goToWeek', data: v.id}, null, '#weekId=' + v.id);
                         }));
                 });
-                dropdown.addDivider().addItem($('<li>Leaderboard</li>')).addItem($('<li>Meet Juan Pablo</li>'));
+                dropdown
+                    .addDivider()
+                    .addItem(
+                        $('<li>Leaderboard</li>')
+                            .attr('data-id', 'leaderboard')
+                            .click(function() {
+                                dropdown.setSelected('leaderboard');
+                                navManager.goToLeaderboard();
+                                history.pushState({func: 'goToLeaderboard'}, null, '#leaderboard');
+                            }))
+                    .addItem(
+                        $('<li>Meet Juan Pablo</li>'));
 
                 // Put username in the top corner
                 $('header .user').text(fbUser.name).hover(function() {
