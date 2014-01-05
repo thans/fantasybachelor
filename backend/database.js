@@ -69,7 +69,7 @@ exports.getExpressConnection = function() {
                     models.elimination.getEliminatedContestantsByWeek(item.id, function(eliminated) {
                         models.contestant.getRemainingContestants(eliminated, function(remaining) {
                             var remainderWithMult = [];
-                            _und.each(remaining, function(oneContestant {
+                            _und.each(remaining, function(oneContestant) {
                                 remainderWithMult.push({
                                     id: oneContestant,
                                     multiplier: 1
@@ -82,7 +82,7 @@ exports.getExpressConnection = function() {
                                     openTime: item.openDatetime,
                                     closeTime: item.closeDatetime,
                                     scoresAvailableTime: item.scoresAvailableDatetime,
-                                    remainingContestants: remainingWithMultipliers,
+                                    remainingContestants: remainderWithMult,
                                     selectedContestants: selections,
                                     eliminatedContestants: eliminated, 
                                     numberOfSelections: Math.min(remaining.length, 6) 
