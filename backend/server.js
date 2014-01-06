@@ -9,8 +9,12 @@ app.use(express.compress());
 app.use(database.getExpressConnection());
 app.use(express.bodyParser());
 
+app.use('/js', express.static('backend/public/js'));
+app.use('/css', express.static('backend/public/css'));
+app.use('/images', express.static('backend/public/images'));
+
 app.get('/', function(req, res) {
-    res.sendfile("../client/index.html");
+    res.sendfile('backend/public/index.html');
 });
 
 app.get('/numUsers', function (req, res) {
