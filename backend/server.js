@@ -32,7 +32,7 @@ app.post('/loginUser', function (req, res) {
 });
 
 app.get('/getWeeks', function (req, res) {
-    req.models.week.getWeeks(req.body, function(data) {
+    req.models.week.getWeeks(req.query.userId, function(data) {
         res.send(data);
     });
 });
@@ -46,10 +46,17 @@ app.get('/getContestants', function (req, res) {
 
 app.post('/selectContestant', function(req, res) {
     console.log('selectContestant: ' + JSON.stringify(req.body));
+    req.models.contestant.selectContestant(req.query.userId, req.query.weekId, req.query.contestantId, function(data) {
+        res.send(data);
+    });
+    
     res.send('Sweet!');
 });
 
 app.post('/removeContestant', function(req, res) {
+    req.models.contestant.remove(req.query.userId, req.query.weekId, req.query.contestantId, function(data) {
+        res.send(data);
+    });
     console.log('removeContestant: ' + JSON.stringify(req.body));
     res.send('Sweet!');
 });
