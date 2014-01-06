@@ -11,7 +11,6 @@ exports.getExpressConnection = function() {
             models.user = db.define('user', {
                 firstName: 'text',
                 lastName: 'text',
-                email: 'text',
                 fbId: 'number'
             }, {
                 methods: {
@@ -29,18 +28,16 @@ exports.getExpressConnection = function() {
                     if (users.length > 0) {
                         users[0].score = 100;
                         models.userScores.getScore(users[0].id, function(userScore) {
-                            callback
-                            (userScore);
+                            users[0].score = userScore.score;
+                            callback(users[0]);
                         })
                     } else {
                         thiz.create({
                             firstName: user.firstName,
                             lastName: user.lastName,
-                            email: user.email,
                             fbId: user.fbId
                         }, function(err, user) {
                             if (err) throw err;
-                            // TODO
                             var today = new Date();
 
                             // Create a score of 0 for the user
@@ -84,7 +81,7 @@ exports.getExpressConnection = function() {
                 this.find({}).each(function(item) {
                     models.elimination.getEliminatedContestantsByWeek(item.id, function(eliminated) {
                         models.contestant.getRemainingContestants(eliminated, function(remaining) {
-                            models.prediction.getValueOfSelection(user, item.number, remaining, function(selectionValues) {
+                            models.prediction.getValueOfSelections(user, item.number, remaining, function(selectionValues) {
                                 models.prediction.getSelectionByWeek(user, item.id, function(selections) {
                                     weekData.push({
                                         id: item.id,
@@ -245,7 +242,7 @@ exports.getExpressConnection = function() {
             models.contestant.selectContestant = function(userId, weekId, contestantId, callback) {
                 //create new prediction and scoring opportunity
                 var value = 1;
-                var contestants = [contestantId];
+                var contestants = [parseInt(contestantId)];
                 console.log("userId", userId);
                 console.log("weekId", weekId);
                 console.log("contestantId", contestantId);
@@ -325,10 +322,10 @@ exports.getExpressConnection = function() {
 
             models.prediction.getSelectionByWeek = function(userId, weekId, callback) {
                 var selections = [];
-                // TODO filter by user and week
+                
                 this.findByScoringOpportunity({week_id : weekId}).each(function(selection) {
                     if (selection.user_id == userId) {
-                        scoringOpportunities.push(selection.scoringOpportunity_id);
+                        selections.push(selection.scoringOpportunity_id);
                     }
                 }).count(function(count) {
                     callback(selections);
@@ -338,26 +335,26 @@ exports.getExpressConnection = function() {
             // TODO
             models.prediction.getValueOfSelections = function(userId, weekNum, ids, callback) {
                 var values = [];
-                this.find({user_id: userId}, function(err, userPredictions) {
-                    if (err) throw err;
-                    var opportunities = [];
-                    for (var predict in userPredictions) {
-                        console.log(predict);
-                        if (_und.indexOf(ids, predict.contestant_id) > -1) {
-                            opportunities.push(predict.scoringOpportunity_id);
-                        }
+                var opportunities = [];
+                this.find({user_id: userId}).each(function(predict) {
+                    if (_und.indexOf(ids, predict.contestant_id) != -1) {
+                        opportunities.push(predict.scoringopportunity_id);
                     }
+                }).count(function(count) {
+                    console.log("opportunities", opportunities);
+                    console.log("weel num", weekNum);
                     models.scoringOpportunity.findByWeek({number : weekNum - 1}).each(function(selection) {
-                        if (_und.indexOf(opportunities, selection.id) > -1) {
+                        console.log("selction", selection.id);
+                        if (_und.indexOf(opportunities, parseInt(selection.id)) > -1) {
                             values.push({
                                 id: selection.contestant_id,
                                 multiplier: selection.value
                             });
                         }
+                    }).count(function(ct) {
+                        console.log("values", values);
+                        callback(values);
                     });
-                }).count(function(count) {
-                    console.log(values);
-                    callback(values);
                 });
             }
 
@@ -436,7 +433,7 @@ exports.getExpressConnection = function() {
             models.userScores.getScore = function(userId, callback) {
                 this.find({user_id: userId}, function(err, score) {
                     if (err) throw err;
-                    callback(score);
+                    callback(score[0]);
                 });
             }
 
