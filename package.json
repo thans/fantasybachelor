@@ -8,6 +8,7 @@
 		"orm": "2.1.0",
 		"express": "3.0.1",
 		"underscore" : "1.4.0",
-		"mysql" : "2.0.0-rc1"
+		"mysql" : "2.0.0-rc2",
+        "cors" : "2.1.1"
 	}
 }

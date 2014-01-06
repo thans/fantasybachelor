@@ -12,18 +12,25 @@ var WeekData = function() {
         });
     };
 
-    this.getCurrentWeekId = function(callback) {
-        callback(5);
+    this.getCurrentWeek = function() {
+        var currentWeek = false;
+        $.each(weekData, function(i, v) {
+            if (moment().isAfter(v.openTime) && moment().isBefore(v.scoresAvailableTime)) {
+                currentWeek = v;
+                return false;
+            }
+        });
+        return currentWeek;
     };
 
-    this.getWeekById = function(id, callback) {
-        var week;
+    this.getWeekById = function(id) {
+        var week = false;
         $.each(weekData, function(i, v) {
             if (v.id === id) {
                 week = v;
                 return false;
             }
         });
-        callback(week);
+        return week;
     };
 }

@@ -5,18 +5,13 @@ var app = express();
 
 console.log('Running in: ' + process.env.NODE_ENV);
 
+app.use(express.compress());
 app.use(database.getExpressConnection());
-
-// Allow requests from another domain
-app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', process.env.NODE_ENV === 'production' ? 'http://www.fantasybach.com' : 'http://localhost:8888');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-    next();
-});
-
 app.use(express.bodyParser());
+
+app.get('/', function(req, res) {
+    res.sendfile("../client/index.html");
+});
 
 app.get('/numUsers', function (req, res) {
     req.models.user.count({}, function(err, count) {

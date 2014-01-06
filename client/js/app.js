@@ -82,11 +82,10 @@ function authChangeHandler(fbUser) {
                 $('#userScore').text(user.score + 'pts');
 
                 // Show correct week
-                wd.getCurrentWeekId(function(weekId) {
-                    dropdown.setSelected(weekId);
-                    navManager.goToWeek(weekId);
-                    history.replaceState({func: 'goToWeek', data: weekId}, null, '#weekId=' + weekId);
-                });
+                var currentWeekId = wd.getCurrentWeek().id;
+                dropdown.setSelected(currentWeekId);
+                navManager.goToWeek(currentWeekId);
+                history.replaceState({func: 'goToWeek', data: currentWeekId}, null, '#weekId=' + currentWeekId);
             });
         });
     } else {
