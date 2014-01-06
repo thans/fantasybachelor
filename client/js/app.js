@@ -61,7 +61,13 @@ function authChangeHandler(fbUser) {
                                 history.pushState({func: 'goToLeaderboard'}, null, '#leaderboard');
                             }))
                     .addItem(
-                        $('<li>Meet Juan Pablo</li>'));
+                        $('<li>Meet Juan Pablo</li>')
+                            .attr('data-id', 'juanPablo')
+                            .click(function() {
+                                dropdown.setSelected('juanPablo');
+                                navManager.goToJuanPablo();
+                                history.pushState({func: 'goToJuanPablo'}, null, '#meetJuanPablo');
+                            }));
 
                 // Put username in the top corner
                 $('header .user').text(fbUser.name).hover(function() {

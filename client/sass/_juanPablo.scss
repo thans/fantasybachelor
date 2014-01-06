@@ -1,0 +1,31 @@
+#juanPablo {
+  .stat {
+    @include fontStyleSmall();
+
+    .name {
+      @include fontStyleSmallBold();
+    }
+  }
+
+  .question {
+    @include fontStyleSmall();
+    margin-top: $modalPadding / 2;
+
+    .q {
+      @include fontStyleSmallBold();
+    }
+  }
+
+  .right {
+    float: right;
+  }
+
+  .contestantWrapper {
+    padding: 0 $modalPadding;
+    border-bottom: 1px solid $lightGray;
+  }
+
+  .contestant {
+    @include backgroundImage($contestantLargeUrl, $contestantLargeWidth, $contestantLargeHeight);
+  }
+}
