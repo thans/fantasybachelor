@@ -99,6 +99,11 @@ exports.getExpressConnection = function() {
                                     });
                                     num--;
                                     if (num == 0) {
+                                        weekData.sort(function(a, b) {
+                                            if (a.id < b.id) return -1;
+                                            if (a.id > b.id) return 1;
+                                            return 0;
+                                        });
                                         callback(weekData);
                                     }
                                 });
@@ -225,9 +230,6 @@ exports.getExpressConnection = function() {
                 });
             }
 
-
-
-
             models.contestant.getRemainingContestants = function(eliminated, callback) {
                 var allContestants = [];
                 this.find({}).each(function(one) {
@@ -257,14 +259,13 @@ exports.getExpressConnection = function() {
                             name: "selection",
                             type: "NORMAL",
                             value: value,
-                            weed_id: weekId
+                            week_id: weekId
                         }], function(err, items) {
                             if (err) throw err;
-
                             models.prediction.create([{
                                 createdDatetime: getSQLDateTime(new Date()),
                                 user_id: userId,
-                                scoringOpportunity_id: items[0].id,
+                                scoringopportunity_id: items[0].id,
                                 contestant_id: contestantId
                             }], function (err, items) {
                                 if (err) throw err;
@@ -275,18 +276,19 @@ exports.getExpressConnection = function() {
 
                     });
                 });
-
-                
-                
             }
 
-            // TODO
-            models.contestant.removeContestant = function(userId, weekId, contestandId, callback) {
+            models.contestant.removeContestant = function(userId, weekId, contestantId, callback) {
                 //delete scoring opportunity and prediction
-                models.prediction.findByScoringOpportunity({ week_d: weekId, user_id : userId, contestant_id : contestantId }).remove(function (err) {
-                    // TODO does this remove both entries?
-                    if (err) throw err;
-                    callback(1);
+                models.prediction.find({contestant_id : contestantId, user_id : userId }).findByScoringOpportunity({ week_id: weekId }).each(function(oneOpp) {
+                    var scoreToDelete = oneOpp.scoringopportunity_id;
+                    oneOpp.remove(function(err) {
+                        if (err) throw err;
+                        models.scoringOpportunity.find({id: scoreToDelete}, function(err, score) {
+                            if (err) throw err;
+                            score[0].remove();
+                        });
+                    });
                 });
             }
 
@@ -316,11 +318,10 @@ exports.getExpressConnection = function() {
 
             models.prediction = db.define('prediction', {
                 createdDatetime: 'date',
-                user_id: 'number',
             });
             models.prediction.hasOne('user', models.user);
             models.prediction.hasOne('contestant', models.contestant);
-            models.prediction.hasOne('scoringOpportunity', models.scoringOpportunity, {reverse: 'prediction'});
+            models.prediction.hasOne('scoringOpportunity', models.scoringOpportunity);
 
             models.prediction.getSelectionByWeek = function(userId, weekId, callback) {
                 var selections = [];
@@ -337,17 +338,25 @@ exports.getExpressConnection = function() {
             // TODO
             models.prediction.getValueOfSelections = function(userId, weekNum, ids, callback) {
                 var values = [];
-                this.findByScoringOpportunity({}).findByWeek({number : weekNum - 1}).each(function(selection) {
-                    if (selection.user_id == userId) {
-                        var index = _und.indexOf(ids, selection.contestant_id);
-                        if (index > -1) {
+                this.find({user_id: userId}, function(err, userPredictions) {
+                    if (err) throw err;
+                    var opportunities = [];
+                    for (var predict in userPredictions) {
+                        console.log(predict);
+                        if (_und.indexOf(ids, predict.contestant_id) > -1) {
+                            opportunities.push(predict.scoringOpportunity_id);
+                        }
+                    }
+                    models.scoringOpportunity.findByWeek({number : weekNum - 1}).each(function(selection) {
+                        if (_und.indexOf(opportunities, selection.id) > -1) {
                             values.push({
                                 id: selection.contestant_id,
                                 multiplier: selection.value
                             });
                         }
-                    }
+                    });
                 }).count(function(count) {
+                    console.log(values);
                     callback(values);
                 });
             }

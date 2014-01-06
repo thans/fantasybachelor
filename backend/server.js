@@ -46,15 +46,18 @@ app.get('/getContestants', function (req, res) {
 
 app.post('/selectContestant', function(req, res) {
     console.log('selectContestant: ' + JSON.stringify(req.body));
-    req.models.contestant.selectContestant(req.query.userId, req.query.weekId, req.query.contestantId, function(data) {
+    req.models.contestant.selectContestant(req.body.userId, req.body.weekId, req.body.contestantId, function(data) {
         res.send(data);
     });
 });
 
 app.post('/removeContestant', function(req, res) {
     console.log('removeContestant: ' + JSON.stringify(req.body));
-    req.models.contestant.remove(req.query.userId, req.query.weekId, req.query.contestantId, function(data) {
-        res.send(data);
+    console.log(req.body.userId);
+    console.log(req.body.weekId);
+    console.log(req.body.contestantId);
+    req.models.contestant.removeContestant(req.body.userId, req.body.weekId, req.body.contestantId, function(data) {
+        res.send("score! " + data);
     });
 });
 
