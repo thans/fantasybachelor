@@ -50,10 +50,10 @@ var ContestantButton = function() {
             return SELECTION_MODES.CONTESTANT_UNSELECTABLE;
         } else if (selectionClosed) {
             return SELECTION_MODES.SELECTION_CLOSED;
-        } else if (selectionFull) {
-            return SELECTION_MODES.SELECTION_FULL;
         } else if (selected) {
             return SELECTION_MODES.REMOVABLE;
+        } else if (selectionFull) {
+            return SELECTION_MODES.SELECTION_FULL;
         }
         return SELECTION_MODES.CHOOSABLE;
     }

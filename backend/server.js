@@ -354,5 +354,5 @@ app.listen(getPort());
 console.log('Listening on port ' + getPort());
 
 function getPort() {
-    return process.env.NODE_ENV === 'production' ? 80 : 8000;
+    return process.env.PORT || 8000;
 }

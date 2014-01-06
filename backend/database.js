@@ -255,7 +255,7 @@ exports.getExpressConnection = function() {
 
 function getConnectionUrl() {
     verifyEnv();
-    return process.env.RDS_PROTOCOL + '://' + process.env.RDS_USERNAME + ':' + process.env.RDS_PASSWORD + '@' + process.env.RDS_HOSTNAME + '/' + process.env.RDS_DATABASE;
+    return process.env.RDS_PROTOCOL + '://' + process.env.RDS_USERNAME + ':' + process.env.RDS_PASSWORD + '@' + process.env.RDS_HOSTNAME + '/' + process.env.RDS_DATABASE + '?pool=true';
 }
 
 function getConnectionOpts() {

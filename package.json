@@ -1,12 +1,13 @@
 {
 	"name": "FantasyBach",
 	"version": "0.0.1",
-	"main": "database.js",
+    "scripts": {
+        "start": "node backend/server.js"
+    },
 	"dependencies": {
-		"orm": "2.1.*",
-		"express": "3.0.*",
-		"underscore" : "1.4.*",
-		"mysql" : "2.0.*",
-        "underscore" : "1.4.*"
+		"orm": "2.1.0",
+		"express": "3.0.1",
+		"underscore" : "1.4.0",
+		"mysql" : "2.0.0-rc1"
 	}
 }

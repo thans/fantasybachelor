@@ -1,20 +1,19 @@
 var Dropdown = function() {
     var element = $('<div class="dropdown"><span class="label"></span><span class="arrow"></span></div>');
-    var popover = $('<div class="dropdownPopover"><ul class="items"></ul></div>').appendTo($('body')).hide();;
+    var popover = $('<div class="dropdownPopover"><ul class="items"></ul></div>')
+        .appendTo($('body'))
+        .hide()
+        .click(function() {
+            $(this).hide();
+        });
 
     element.hover(function() {
-        console.log('element ON');
         popover.css({
             top: element.position().top,
             left: element.position().left
         }).show();
-    }, function() {
-        console.log('element OFF');
     });
-    popover.hover(function() {
-        console.log('Popover ON');
-    }, function() {
-        console.log('Popover OFF');
+    popover.hover(function() {}, function() {
         $(this).hide();
     });
 
