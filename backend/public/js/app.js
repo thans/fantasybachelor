@@ -2,7 +2,7 @@ var cd = new ContestantData();
 var wd = new WeekData();
 var navManager = new NavigationManager();
 var bioModal = new BioModal('#bioModal');
-var dropdown = new Dropdown().addItem($('<li>test</li>')).addDivider().addItem($('<li>test</li>')).appendTo('#navigation');
+var dropdown = new Dropdown().appendTo('#navigation');
 
 
 var fb = new Facebook().loadSdk(function() {
@@ -39,17 +39,35 @@ function authChangeHandler(fbUser) {
 
                 // Put weeks in navigation header
                 $.each(wd.getAll(), function(i, v) {
-                    $('<li>')
+                    dropdown.addItem($('<li>')
                         .attr('data-id', v.id)
                         .addClass('left')
                         .toggleClass('first', i === 0)
                         .text(v.name)
                         .click(function() {
+                            dropdown.setSelected(v.id);
                             navManager.goToWeek(v.id);
                             history.pushState({func: 'goToWeek', data: v.id}, null, '#weekId=' + v.id);
-                        })
-                        .appendTo('#navigation');
+                        }));
                 });
+                dropdown
+                    .addDivider()
+                    .addItem(
+                        $('<li>Leaderboard</li>')
+                            .attr('data-id', 'leaderboard')
+                            .click(function() {
+                                dropdown.setSelected('leaderboard');
+                                navManager.goToLeaderboard();
+                                history.pushState({func: 'goToLeaderboard'}, null, '#leaderboard');
+                            }))
+                    .addItem(
+                        $('<li>Meet Juan Pablo</li>')
+                            .attr('data-id', 'juanPablo')
+                            .click(function() {
+                                dropdown.setSelected('juanPablo');
+                                navManager.goToJuanPablo();
+                                history.pushState({func: 'goToJuanPablo'}, null, '#meetJuanPablo');
+                            }));
 
                 // Put username in the top corner
                 $('header .user').text(fbUser.name).hover(function() {
@@ -60,11 +78,14 @@ function authChangeHandler(fbUser) {
                     }
                 });
 
+                // Show user score
+                $('#userScore').text(user.score + 'pts');
+
                 // Show correct week
-                wd.getCurrentWeekId(function(weekId) {
-                    navManager.goToWeek(weekId);
-                    history.replaceState({func: 'goToWeek', data: weekId}, null, '#weekId=' + weekId);
-                });
+                var currentWeekId = wd.getCurrentWeek().id;
+                dropdown.setSelected(currentWeekId);
+                navManager.goToWeek(currentWeekId);
+                history.replaceState({func: 'goToWeek', data: currentWeekId}, null, '#weekId=' + currentWeekId);
             });
         });
     } else {

@@ -5,18 +5,17 @@ var app = express();
 
 console.log('Running in: ' + process.env.NODE_ENV);
 
+app.use(express.compress());
 app.use(database.getExpressConnection());
-
-// Allow requests from another domain
-app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', process.env.NODE_ENV === 'production' ? 'http://www.fantasybach.com' : 'http://localhost:8888');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-    next();
-});
-
 app.use(express.bodyParser());
+
+app.use('/js', express.static('backend/public/js'));
+app.use('/css', express.static('backend/public/css'));
+app.use('/images', express.static('backend/public/images'));
+
+app.get('/', function(req, res) {
+    res.sendfile('backend/public/index.html');
+});
 
 app.get('/numUsers', function (req, res) {
     req.models.user.count({}, function(err, count) {
@@ -61,9 +60,27 @@ app.post('/removeContestant', function(req, res) {
     });
 });
 
+app.get('/getLeaderboard', function(req, res) {
+    console.log('getLeaderboard');
+    res.send([
+        {
+            name: 'Mitchell Loeppky',
+            score: 100
+        },
+        {
+            name: 'Tore Hanssen',
+            score: 200
+        },
+        {
+            name: 'Elijahim Chinus',
+            score: 63
+        }
+    ]);
+});
+
 app.listen(getPort());
 console.log('Listening on port ' + getPort());
 
 function getPort() {
-    return process.env.NODE_ENV === 'production' ? 80 : 8000;
+    return process.env.PORT || 8000;
 }

@@ -21,11 +21,11 @@
                 </div>
                 <div id="navigationWrapper" class="fullWidth">
                     <ul id="navigation" class="minWidth">
-                        <li href="#leaderboard" class="leaderboard right">Leaderboard</li>
+                        <li class="score right">Your Score: <span id="userScore">0pts</span></li>
                     </ul>
                 </div>
             </header>
-            <section id="contestantSelectionWrapper" class="fullWidth">
+            <section id="contestantSelectionWrapper" class="fullWidth hide">
                 <div id="contestantSelection" class="minWidth">
                     <div id="remainingContestantsWrapper">
                         <div id="remainingContestants">
@@ -64,6 +64,27 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </section>
+            <section id="leaderboardWrapper" class="fullWidth hide">
+                <div id="leaderboard" class="minWidth">
+                    <div class="sectionTitle">Leaderboard</div>
+                    <table class="data">
+                        <tr class="headerRow">
+                            <th>Name</th>
+                            <th>Score</th>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+            <section id="juanPabloWrapper" class="fullWidth hide">
+                <div id="juanPablo" class="minWidth">
+                    <div class="sectionTitle">Juan Pablo</div>
+                    <div class="right contestantWrapper">
+                        <div class="contestant"></div>
+                    </div>
+                    <div class="stats"></div>
+                    <div class="questions"></div>
                 </div>
             </section>
         </div>
