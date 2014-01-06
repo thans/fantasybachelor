@@ -17,9 +17,6 @@ exports.getExpressConnection = function() {
                 methods: {
                     fullName: function() {
                         return this.firstName + ' ' + this.lastName;
-                    },
-                    getScore: function(callback) {
-                        callback(100);
                     }
                 }
             });
@@ -31,7 +28,10 @@ exports.getExpressConnection = function() {
 
                     if (users.length > 0) {
                         users[0].score = 100;
-                        callback(users[0]);
+                        models.userScores.getScore(users[0].id, function(userScore) {
+                            callback
+                            (userScore);
+                        })
                     } else {
                         thiz.create({
                             firstName: user.firstName,
@@ -41,8 +41,21 @@ exports.getExpressConnection = function() {
                         }, function(err, user) {
                             if (err) throw err;
                             // TODO
-                            user.score = 100;
-                            callback(user);
+                            var today = new Date();
+
+                            // Create a score of 0 for the user
+                            models.week.getEndOfCurrentWeek(function(endOfWeek) {
+                                models.userScores.create({
+                                    updatedTimestamp: getSQLDateTime(new Date()),
+                                    expiresTimestamp: endOfWeek,
+                                    user_id: user.id,
+                                    score: 0
+                                }, function(error, score) {
+                                    if (error) throw error;
+                                    user.score = 0;
+                                    callback(user);
+                                });
+                            });
                         });
                     }
                 });
@@ -61,6 +74,8 @@ exports.getExpressConnection = function() {
                     }
                 }
             });
+
+            // TODO more efficiently, lots of queries!
             models.week.getWeeks = function(user, callback) {
                 console.log('Getting week information');
                 var thiz = this;
@@ -100,6 +115,16 @@ exports.getExpressConnection = function() {
                 });          
             }
 
+            models.week.getEndOfCurrentWeek = function(callback) {
+                var today = new Date();
+                models.week.find({}).each(function(oneWeek) {
+                    if (new Date(oneWeek.openDatetime) < today && new Date(oneWeek.closeDatetime) > today) {
+                        console.log("found", oneWeek.closeDatetime);
+                        callback(oneWeek.closeDatetime);
+                    }
+                });
+            }
+            
 
             models.contestant = db.define('contestant', {
                 name: 'text',
@@ -141,6 +166,68 @@ exports.getExpressConnection = function() {
                 });
             }
 
+
+            models.contestant.fastGetContestantData = function(data, callback) {
+                var finalData = [];
+                var num;
+                var me = this;
+                models.bioStatistic.find({}, function(err, statistics) {
+                    if (err) throw err;
+                    for (var item in statistics) {
+                        if (!finalData[item.contestant_id]) {
+                            var oneStat = [];
+                            oneStat.push({
+                                name: item.name,
+                                value: item.value
+                            });
+                            finalData[item.contestant_id] = {
+                                id: item.contestant_id,
+                                stats: oneStat
+                            }
+                        } else {
+                            finalData[item.contestant_id].stats.push({
+                                name: item.name,
+                                value: item.value
+                            });
+                        }
+                        
+                    }
+                    models.bioQuestion.find({}, function(err, questions) {
+                        if (err) throw err;
+                        for (var stat in statistics) {
+                            if (!finalData[stat.contestant_id].questions) {
+                                var oneQ = [];
+                                oneQ.push({
+                                    question: stat.question,
+                                    answer: stat.answer
+                                });
+                                finalData[stat.contestant_id] = {
+                                    questions: oneQ
+                                }
+                            } else {
+                                finalData[stat.contestant_id].questions.push({
+                                    question: stat.question,
+                                    answer: stat.answer
+                                });
+                            }
+                            
+                        }
+
+                        me.find({}, function(err, contestants) {
+                            if (err) throw err;
+                            for (var person in contestants) {
+                                finalData[person.id].name = person.name;
+                                finalData[person.id].codeName = person.codeName;
+                            }
+                            callback(finalData);
+                        });
+                    });
+                });
+            }
+
+
+
+
             models.contestant.getRemainingContestants = function(eliminated, callback) {
                 var allContestants = [];
                 this.find({}).each(function(one) {
@@ -156,7 +243,10 @@ exports.getExpressConnection = function() {
             models.contestant.selectContestant = function(userId, weekId, contestantId, callback) {
                 //create new prediction and scoring opportunity
                 var value = 1;
-                var contestants = [contestandId];
+                var contestants = [contestantId];
+                console.log("userId", userId);
+                console.log("weekId", weekId);
+                console.log("contestantId", contestantId);
                 models.week.find({id : weekId}, function(err, theWeek) {
                     if (err) throw err;
                     models.prediction.getValueOfSelections(userId, theWeek.number, contestants, function(values) {
@@ -166,7 +256,7 @@ exports.getExpressConnection = function() {
                         models.scoringOpportunity.create([{
                             name: "selection",
                             type: "NORMAL",
-                            value: ),
+                            value: value,
                             weed_id: weekId
                         }], function(err, items) {
                             if (err) throw err;
@@ -230,7 +320,7 @@ exports.getExpressConnection = function() {
             });
             models.prediction.hasOne('user', models.user);
             models.prediction.hasOne('contestant', models.contestant);
-            models.prediction.hasOne('scoringOpportunity', models.scoringOpportunity, {reverse: 'prediction');
+            models.prediction.hasOne('scoringOpportunity', models.scoringOpportunity, {reverse: 'prediction'});
 
             models.prediction.getSelectionByWeek = function(userId, weekId, callback) {
                 var selections = [];
@@ -261,7 +351,6 @@ exports.getExpressConnection = function() {
                     callback(values);
                 });
             }
-
 
             models.bioQuestion = db.define('bioQuestion', {
                 question: 'text',
@@ -296,6 +385,49 @@ exports.getExpressConnection = function() {
                     });
                 }).count(function(count) {
                     callback(stats);
+                });
+            }
+
+            models.userScores = db.define('userScores', {
+                updatedTimestamp: 'date',
+                expiresTimestamp: 'date',
+                score: 'number'
+            });
+
+            models.userScores.hasOne('user', models.user, {reverse: 'userScores'});
+            // eliminations must be updated prior to calling this!
+            models.userScores.updateScores = function(weekId, callback) {
+                var me = this;
+                var updated = {};
+                models.elimination.getEliminatedContestantsByWeek(weekId, function(eliminated) {
+                    models.week.getEndOfCurrentWeek(function(endOfWeek) {
+                        models.prediction.findByScoringOpportunity({}).findByWeek({id: weekId}).each(function(prediction) {
+                            // if the user matches and the prediction was not for an eliminated contestant, then add it
+                            if (eliminated.indexOf(prediction.contestant_id) == -1) {
+                                if (updated[prediction.user_id]) {
+                                    updated[prediction.user_id] += prediction.value;
+                                } else {
+                                    updated[prediction.user_id] = prediction.value;
+                                }
+                            }
+                        }).count(function (count) {
+                            me.find({}).each(function(userScore) {
+                                // sanity check, should only call update after eliminations are added at the end of a show
+                                if (new Date(userScore.expiresTimestamp) < new Date()) {
+                                    userScore.score += updated[userScore.user_id];
+                                    userScore.updatedTimestamp = getSQLDateTime(new Date());
+                                    userScore.expiresTimestamp = endOfWeek;
+                                }
+                            }).save();
+                        });
+                    });
+                });
+            }
+
+            models.userScores.getScore = function(userId, callback) {
+                this.find({user_id: userId}, function(err, score) {
+                    if (err) throw err;
+                    callback(score);
                 });
             }
 

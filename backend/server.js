@@ -49,16 +49,13 @@ app.post('/selectContestant', function(req, res) {
     req.models.contestant.selectContestant(req.query.userId, req.query.weekId, req.query.contestantId, function(data) {
         res.send(data);
     });
-    
-    res.send('Sweet!');
 });
 
 app.post('/removeContestant', function(req, res) {
+    console.log('removeContestant: ' + JSON.stringify(req.body));
     req.models.contestant.remove(req.query.userId, req.query.weekId, req.query.contestantId, function(data) {
         res.send(data);
     });
-    console.log('removeContestant: ' + JSON.stringify(req.body));
-    res.send('Sweet!');
 });
 
 app.listen(getPort());
