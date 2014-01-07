@@ -23,3 +23,5 @@ compiler.jar
 client/js/app.min.js
 node_modules/*
 client/js/app.js.map
+
+*.zip
