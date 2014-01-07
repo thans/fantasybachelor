@@ -81,7 +81,7 @@ exports.getExpressConnection = function() {
                 this.find({}).each(function(item) {
                     models.elimination.getEliminatedContestantsByWeek(item.id, function(eliminated) {
                         models.contestant.getRemainingContestants(eliminated, function(remaining) {
-                            models.prediction.getValueOfSelections(user, item.number, remaining, function(selectionValues) {
+                            models.prediction.getValueOfAll(user, item.number, remaining, function(selectionValues) {
                                 models.prediction.getSelectionByWeek(user, item.id, function(selections) {
                                     weekData.push({
                                         id: item.id,
@@ -112,7 +112,6 @@ exports.getExpressConnection = function() {
 
                 }).count(function(count) {
                     num = count;
-                    console.log("final: " + count);
                     
                 });          
             }
@@ -121,7 +120,6 @@ exports.getExpressConnection = function() {
                 var today = new Date();
                 models.week.find({}).each(function(oneWeek) {
                     if (new Date(oneWeek.openDatetime) < today && new Date(oneWeek.closeDatetime) > today) {
-                        console.log("found", oneWeek.closeDatetime);
                         callback(oneWeek.closeDatetime);
                     }
                 });
@@ -243,12 +241,9 @@ exports.getExpressConnection = function() {
                 //create new prediction and scoring opportunity
                 var value = 1;
                 var contestants = [parseInt(contestantId)];
-                console.log("userId", userId);
-                console.log("weekId", weekId);
-                console.log("contestantId", contestantId);
                 models.week.find({id : weekId}, function(err, theWeek) {
                     if (err) throw err;
-                    models.prediction.getValueOfSelections(userId, theWeek.number, contestants, function(values) {
+                    models.prediction.getValueOfSelections(userId, theWeek[0].number, contestants, function(values) {
                         if (values.length == 1) {
                             value = values[0].multiplier + 1;
                         }
@@ -336,23 +331,53 @@ exports.getExpressConnection = function() {
             models.prediction.getValueOfSelections = function(userId, weekNum, ids, callback) {
                 var values = [];
                 var opportunities = [];
+                var contestant = [];
                 this.find({user_id: userId}).each(function(predict) {
                     if (_und.indexOf(ids, predict.contestant_id) != -1) {
                         opportunities.push(predict.scoringopportunity_id);
+                        contestant.push(predict.contestant_id);
                     }
                 }).count(function(count) {
-                    console.log("opportunities", opportunities);
-                    console.log("weel num", weekNum);
                     models.scoringOpportunity.findByWeek({number : weekNum - 1}).each(function(selection) {
-                        console.log("selction", selection.id);
-                        if (_und.indexOf(opportunities, parseInt(selection.id)) > -1) {
+                        var index = _und.indexOf(opportunities, parseInt(selection.id));
+                        if (index > -1) {
                             values.push({
-                                id: selection.contestant_id,
+                                id: contestant[index],
                                 multiplier: selection.value
                             });
                         }
                     }).count(function(ct) {
-                        console.log("values", values);
+                        callback(values);
+                    });
+                });
+            }
+
+            models.prediction.getValueOfAll = function(userId, weekNum, ids, callback) {
+                var values = [];
+                var opportunities = [];
+                var contestant = [];
+                var contestantMap = {};
+                for (var i = 0; i < ids.length; i++) {
+                    contestantMap[ids[i]] = 1;
+                }
+                this.find({user_id: userId}).each(function(predict) {
+                    if (_und.indexOf(ids, predict.contestant_id) != -1) {
+                        opportunities.push(predict.scoringopportunity_id);
+                        contestant.push(predict.contestant_id);
+                    }
+                }).count(function(count) {
+                    models.scoringOpportunity.findByWeek({number : weekNum - 1}).each(function(selection) {
+                        var index = _und.indexOf(opportunities, parseInt(selection.id));
+                        if (index > -1) {
+                            contestantMap[contestant[index]] = selection.value + 1;
+                        }
+                    }).count(function(ct) {
+                        for (var key in contestantMap) {
+                            values.push({
+                                id: parseInt(key),
+                                multiplier: contestantMap[key]
+                            });
+                        }
                         callback(values);
                     });
                 });
