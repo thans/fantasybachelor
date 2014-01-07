@@ -46,14 +46,14 @@ var NavigationManager = function() {
                                 $.post(URLS.REMOVE_CONTESTANT, {
                                     contestantId: this.contestant().id,
                                     userId: user.id,
-                                    weekId: v.id
+                                    weekId: weekData.id
                                 });
                             } else {
                                 weekData.selectedContestants.push(this.contestant().id);
                                 $.post(URLS.SELECT_CONTESTANT, {
                                     contestantId: this.contestant().id,
                                     userId: user.id,
-                                    weekId: v.id
+                                    weekId: weekData.id
                                 });
                             }
                             displaySelectedContestants();

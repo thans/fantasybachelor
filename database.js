@@ -258,52 +258,37 @@ exports.getExpressConnection = function() {
                 });
             }
 
-            // TODO
             models.contestant.selectContestant = function(userId, weekId, contestantId, callback) {
-                //create new prediction and scoring opportunity
-                var value = 1;
-                var contestants = [parseInt(contestantId)];
-                models.week.find({id : weekId}, function(err, theWeek) {
-                    if (err) throw err;
-                    models.prediction.getValueOfSelections(userId, theWeek[0].number, contestants, function(values) {
-                        if (values.length == 1) {
-                            value = values[0].multiplier + 1;
-                        }
-                        models.scoringOpportunity.create([{
-                            name: "selection",
-                            type: "NORMAL",
-                            value: value,
-                            week_id: weekId
-                        }], function(err, items) {
-                            if (err) throw err;
+                var scoringOpportunityFound = false;
+                models.scoringOpportunity.find({week_id: weekId}).each(function(scoringOpportunity) {
+                    console.log('scoring opportunity: ' + JSON.stringify(scoringOpportunity));
+                    scoringOpportunityFound || models.prediction.find({user_id: userId, scoringOpportunity_id: scoringOpportunity.id}, function(err, predictions) {
+                        console.log('predictions: ' + JSON.stringify(predictions));
+                        if (err) throw err;
+                        if (!scoringOpportunityFound && predictions.length == 0) {
+                            scoringOpportunityFound = true;
+                            console.log('opID: ' + scoringOpportunity.id);
                             models.prediction.create([{
                                 createdDatetime: getSQLDateTime(new Date()),
                                 user_id: userId,
-                                scoringopportunity_id: items[0].id,
+                                scoringOpportunity: scoringOpportunity,
                                 contestant_id: contestantId
-                            }], function (err, items) {
+                            }], function(err, predictions2) {
                                 if (err) throw err;
-                                callback(1);
+                                callback(predictions2[0]);
                             });
-
-                        });
-
-                    });
+                        }
+                    })
                 });
             }
 
             models.contestant.removeContestant = function(userId, weekId, contestantId, callback) {
-                //delete scoring opportunity and prediction
-                models.prediction.find({contestant_id : contestantId, user_id : userId }).findByScoringOpportunity({ week_id: weekId }).each(function(oneOpp) {
-                    var scoreToDelete = oneOpp.scoringopportunity_id;
-                    oneOpp.remove(function(err) {
+                models.scoringOpportunity.find({week_id: weekId}).each(function(scoringOpportunity) {
+                    models.prediction.find({user_id: userId, contestant_id: contestantId, scoringOpportunity_id: scoringOpportunity.id}).remove(function(err) {
                         if (err) throw err;
-                        models.scoringOpportunity.find({id: scoreToDelete}, function(err, score) {
-                            if (err) throw err;
-                            score[0].remove();
-                        });
                     });
                 });
+                callback();
             }
 
             models.elimination = db.define('elimination', {});
@@ -331,7 +316,7 @@ exports.getExpressConnection = function() {
             models.scoringOpportunity.hasOne('week', models.week, {reverse: 'scoringOpportunity'});
 
             models.prediction = db.define('prediction', {
-                createdDatetime: 'date',
+                createdDatetime: 'date'
             });
             models.prediction.hasOne('user', models.user);
             models.prediction.hasOne('contestant', models.contestant);
