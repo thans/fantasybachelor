@@ -1,6 +1,6 @@
 var orm = require("orm");
 var utils = require('./utils');
-var _und = require("underscore");
+var _ = require("underscore");
 var moment = require('moment');
 exports.orm = orm;
 
@@ -25,11 +25,10 @@ exports.getExpressConnection = function() {
                     if (err) throw err;
 
                     if (users.length > 0) {
-                        users[0].score = 100;
                         models.userScores.getScore(users[0].id, function(userScore) {
-                            users[0].score = userScore.score;
+                            users[0].score = userScore;
                             callback(users[0]);
-                        })
+                        });
                     } else {
                         models.user.create({
                             firstName: user.firstName,
@@ -47,7 +46,7 @@ exports.getExpressConnection = function() {
                                     score: 0
                                 }, function(error, scores) {
                                     if (error) throw error;
-                                    user.score = scores[0].score;
+                                    user.score = 0;
                                     callback(user);
                                 });
                             });
@@ -66,16 +65,17 @@ exports.getExpressConnection = function() {
                     if (err) throw err;
                     var i = 0;
                     var next = function() {
-                        i++;
                         if (i < users.length) {
                             models.userScores.getScore(users[i].id, function(score) {
                                 users[i].score = score;
+                                i++;
                                 next();
                             })
                         } else {
-                            callback(users);
+                            callback(_.sortBy(users, function(user) { return -user.score; }));
                         }
                     }
+                    next();
                 });
             }
 
@@ -86,6 +86,7 @@ exports.getExpressConnection = function() {
                 closeDatetime: 'date',
                 scoresAvailableDatetime: 'date'
             }, {
+                autoFetch : true,
                 methods: {
                     isCurrent: function() {
                         var today = new Date();
@@ -94,55 +95,91 @@ exports.getExpressConnection = function() {
                 }
             });
 
-            // TODO more efficiently, lots of queries!
-            models.week.getWeeks = function(user, callback) {
-                console.log('Getting week information');
-                var thiz = this;
-                var weekData = [];
-                var num;
-                this.find({}).each(function(item) {
-                    models.elimination.getEliminatedContestantsByWeek(item.id, function(eliminated) {
-                        models.contestant.getRemainingContestants(eliminated, function(remaining) {
-                            models.prediction.getValueOfAll(user, item.number, remaining, function(selectionValues) {
-                                models.prediction.getSelectionByWeek(user, item.id, function(selections) {
-                                    weekData.push({
-                                        id: item.id,
-                                        name: item.name,
-                                        openTime: item.openDatetime,
-                                        closeTime: item.closeDatetime,
-                                        scoresAvailableTime: item.scoresAvailableDatetime,
-                                        remainingContestants: selectionValues,
-                                        selectedContestants: selections,
-                                        eliminatedContestants: eliminated, 
-                                        numberOfSelections: Math.min(remaining.length - 1, 6)
-                                    });
-                                    num--;
-                                    if (num == 0) {
-                                        weekData.sort(function(a, b) {
-                                            if (a.id < b.id) return -1;
-                                            if (a.id > b.id) return 1;
-                                            return 0;
-                                        });
-                                        callback(weekData);
-                                    }
-                                });
-                            });
-                            
+            models.week.getWeeks = function(userId, callback) {
+                var weeksProcessed = [];
+                //var numWeeks;
+                //var numEliminationsRemaining;
+                models.week.find({}, function(err, weeks) {
+                    if (err) throw err;
+                    //numWeeks = weeks.length;
+                    //numEliminationsRemaining =
+                    _.each(weeks, function(week) {
+                        var weekProcessed = {
+                            id: week.id,
+                            name: week.name,
+                            openTime: week.openDatetime,
+                            closeTime: week.closeDatetime,
+                            scoresAvailableTime: week.scoresAvailableDatetime,
+                            remainingContestants: [],
+                            selectedContestants: [],
+                            eliminatedContestants: [],
+                            numberOfSelections: 6
+                        };
+
+                        // Get eliminatedContestants
+                        weeksProcessed.push(weekProcessed);
+                        _.each(week.eliminations, function(elimination) {
+                            weekProcessed.eliminatedContestants.push(elimination.contestant_id);
                         });
-                        
                     });
 
-                }).count(function(count) {
-                    num = count;
-                    
-                });          
+                    // Add all contestants to remainingContestants
+                    models.contestant.find({}, function(err, contestants) {
+                        if (err) throw err;
+                        var filtered = _.filter(contestants, function(contestant) {return contestant.id != 15;});
+                        _.each(filtered, function(contestant) {
+                            _.each(weeksProcessed, function(week) {
+                                week.remainingContestants.push(contestant.id);
+                            });
+                        });
+
+                        // Get selectedContestants
+                        models.prediction.find({user_id: userId}, function(err, predictions) {
+                            if (err) throw err;
+                            _(predictions).each(function(prediction) {
+                                _(weeksProcessed).find(function(week) { return week.id === prediction.scoringOpportunity.week_id; }).selectedContestants.push(prediction.contestant.id);
+                            });
+
+                            // Remove eliminatedContestants from remainingContestants
+                            _(weeksProcessed).each(function(week) {
+                                var filtered = _(weeksProcessed).filter(function(weekCandidate) {return weekCandidate.id > week.id;});
+                                _(filtered).each(function(weekToRemoveEliminated) {
+                                    weekToRemoveEliminated.remainingContestants = _(weekToRemoveEliminated.remainingContestants).difference(week.eliminatedContestants);
+                                });
+                            });
+
+                            // Calculate Multipliers
+                            _(weeksProcessed).each(function(week, i) {
+                                var remainingContestantsWithMultipliers = [];
+                                if (i === 0) {
+                                    _(week.remainingContestants).each(function(contestant) {
+                                        remainingContestantsWithMultipliers.push({id: contestant, multiplier: 1});
+                                    });
+                                } else {
+                                    var lastWeek = weeksProcessed[i-1];
+                                    _(week.remainingContestants).each(function(contestant) {
+                                        if (_(lastWeek.selectedContestants).contains(contestant)) {
+                                            remainingContestantsWithMultipliers.push({id: contestant, multiplier: _(lastWeek.remainingContestants).find(function(remainingContestant) { return remainingContestant.id === contestant; }).multiplier + 1});
+                                        } else {
+                                            remainingContestantsWithMultipliers.push({id: contestant, multiplier: 1});
+                                        }
+                                    });
+                                }
+                                week.remainingContestants = remainingContestantsWithMultipliers;
+                            })
+                            callback(weeksProcessed);
+                        });
+                    });
+                });
             }
 
             models.week.getEndOfCurrentWeek = function(callback) {
                 var today = new Date();
+                var foundMatch = false;
                 models.week.find({}).each(function(oneWeek) {
-                    if (new Date(oneWeek.openDatetime) < today && new Date(oneWeek.closeDatetime) > today) {
-                        callback(oneWeek.closeDatetime);
+                    if (new Date(oneWeek.openDatetime) < today && new Date(oneWeek.scoresAvailableDatetime) > today && !foundMatch) {
+                        foundMatch = true;
+                        callback(oneWeek.scoresAvailableDatetime);
                     }
                 });
             }
@@ -254,16 +291,14 @@ exports.getExpressConnection = function() {
                         allContestants.push(one.id);
                     }
                 }).count(function(count) {
-                    callback(_und.difference(allContestants, eliminated));
+                    callback(_.difference(allContestants, eliminated));
                 });
             }
 
             models.contestant.selectContestant = function(userId, weekId, contestantId, callback) {
                 var scoringOpportunityFound = false;
                 models.scoringOpportunity.find({week_id: weekId}).each(function(scoringOpportunity) {
-                    console.log('scoring opportunity: ' + JSON.stringify(scoringOpportunity));
                     scoringOpportunityFound || models.prediction.find({user_id: userId, scoringOpportunity_id: scoringOpportunity.id}, function(err, predictions) {
-                        console.log('predictions: ' + JSON.stringify(predictions));
                         if (err) throw err;
                         if (!scoringOpportunityFound && predictions.length == 0) {
                             scoringOpportunityFound = true;
@@ -291,9 +326,9 @@ exports.getExpressConnection = function() {
                 callback();
             }
 
-            models.elimination = db.define('elimination', {});
-            models.elimination.hasOne('contestant', models.contestant);
-            models.elimination.hasOne('week', models.week);
+            models.elimination = db.define('elimination', {}, {autoFetch: true});
+            models.elimination.hasOne('contestant', models.contestant, {reverse: 'eliminations'});
+            models.elimination.hasOne('week', models.week, {reverse: 'eliminations'});
             
 
             models.elimination.getEliminatedContestantsByWeek = function(weekId, callback) {
@@ -312,15 +347,19 @@ exports.getExpressConnection = function() {
                 name: 'text',
                 type: ["NORMAL", "BONUS"],
                 value: 'number'
+            }, {
+                autoFetch: true
             });
-            models.scoringOpportunity.hasOne('week', models.week, {reverse: 'scoringOpportunity'});
+            models.scoringOpportunity.hasOne('week', models.week, {reverse: 'scoringOpportunities'});
 
             models.prediction = db.define('prediction', {
                 createdDatetime: 'date'
+            }, {
+                autoFetch: true
             });
-            models.prediction.hasOne('user', models.user);
-            models.prediction.hasOne('contestant', models.contestant);
-            models.prediction.hasOne('scoringOpportunity', models.scoringOpportunity);
+            models.prediction.hasOne('user', models.user, {reverse: 'predictions'});
+            models.prediction.hasOne('contestant', models.contestant, {reverse: 'predictions'});
+            models.prediction.hasOne('scoringOpportunity', models.scoringOpportunity, {reverse: 'predictions'});
 
             models.prediction.getSelectionByWeek = function(userId, weekId, callback) {
                 var selections = [];
@@ -340,13 +379,13 @@ exports.getExpressConnection = function() {
                 var opportunities = [];
                 var contestant = [];
                 this.find({user_id: userId}).each(function(predict) {
-                    if (_und.indexOf(ids, predict.contestant_id) != -1) {
+                    if (_.indexOf(ids, predict.contestant_id) != -1) {
                         opportunities.push(predict.scoringopportunity_id);
                         contestant.push(predict.contestant_id);
                     }
                 }).count(function(count) {
                     models.scoringOpportunity.findByWeek({number : weekNum - 1}).each(function(selection) {
-                        var index = _und.indexOf(opportunities, parseInt(selection.id));
+                        var index = _.indexOf(opportunities, parseInt(selection.id));
                         if (index > -1) {
                             values.push({
                                 id: contestant[index],
@@ -368,13 +407,13 @@ exports.getExpressConnection = function() {
                     contestantMap[ids[i]] = 1;
                 }
                 this.find({user_id: userId}).each(function(predict) {
-                    if (_und.indexOf(ids, predict.contestant_id) != -1) {
+                    if (_.indexOf(ids, predict.contestant_id) != -1) {
                         opportunities.push(predict.scoringopportunity_id);
                         contestant.push(predict.contestant_id);
                     }
                 }).count(function(count) {
                     models.scoringOpportunity.findByWeek({number : weekNum - 1}).each(function(selection) {
-                        var index = _und.indexOf(opportunities, parseInt(selection.id));
+                        var index = _.indexOf(opportunities, parseInt(selection.id));
                         if (index > -1) {
                             contestantMap[contestant[index]] = selection.value + 1;
                         }
@@ -393,8 +432,10 @@ exports.getExpressConnection = function() {
             models.bioQuestion = db.define('bioQuestion', {
                 question: 'text',
                 answer: 'text',
+            }, {
+                autoFetch : true
             });
-            models.bioQuestion.hasOne('contestant', models.contestant);
+            models.bioQuestion.hasOne('contestant', models.contestant, {reverse: 'bioQuestions'});
 
             models.bioQuestion.getQuestions = function(contestantId, callback) {
                 var bioSurvey = [];
@@ -410,9 +451,11 @@ exports.getExpressConnection = function() {
 
             models.bioStatistic = db.define('bioStatistic', {
                 name: 'text',
-                value: 'text',
+                value: 'text'
+            }, {
+                autoFetch : true
             });
-            models.bioStatistic.hasOne('contestant', models.contestant);
+            models.bioStatistic.hasOne('contestant', models.contestant, {reverse: 'bioStatistics'});
 
             models.bioStatistic.getStats = function(contestantId, callback) {
                 var stats = [];
@@ -465,21 +508,27 @@ exports.getExpressConnection = function() {
             models.userScores.getScore = function(userId, callback) {
                 this.find({user_id: userId}, function(err, scores) {
                     if (err) throw err;
-                    console.log('score ' + JSON.stringify(scores));
                     if (scores.length < 0 || moment().isAfter(scores[0].expiresTimestamp)){
+                        var score = 0;
                         models.week.getWeeks(userId, function(weeks) {
-                            _und.each(weeks, function(week) {
+                            _.each(weeks, function(week) {
                                 if (moment().isAfter(week.scoresAvailableTime)) {
                                     _.each(week.selectedContestants, function(selectedContestant) {
-                                        if (!_und.contains(week.eliminatedContestants, selectedContestant)) {
-                                            score += _und.find(week.remainingContestants, function(remainingContestant) { remainingContestant.id === selectedContestant.id }).multiplier;
+                                        if (!_.contains(week.eliminatedContestants, selectedContestant)) {
+                                            score += _.find(week.remainingContestants, function(remainingContestant) { return remainingContestant.id === selectedContestant }).multiplier;
                                         }
                                     })
                                 }
-                            })
+                            });
+                            models.week.getEndOfCurrentWeek(function(endOfWeek) {
+                                scores[0].save({ score: score, expiresTimestamp: endOfWeek, updatedTimestamp: getSQLDateTime(new Date()) }, function (err) {
+                                    if (err) throw err;
+                                    callback(score);
+                                });
+                            });
                         })
                     } else {
-                        callback(scores[0]);
+                        callback(scores[0].score);
                     }
                 });
             }

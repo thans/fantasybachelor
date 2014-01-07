@@ -28,7 +28,8 @@ var ContestantLayout = function(arrangement, parentSelector, isScoringComplete) 
         element.find('.image')
             .backgroundImage('');
         element.find('.score')
-            .attr('data-color', '');
+            .attr('data-color', '')
+            .text('');
         numSelectedContestants = 0;
     }
     this.clear = _clear;
@@ -56,6 +57,8 @@ var ContestantLayout = function(arrangement, parentSelector, isScoringComplete) 
                 contestantElement.find('.score')
                     .attr('data-color', 'yellow')
                     .html('&times;' + multiplier);
+            } else {
+                contestantElement.find('.score').text('');
             }
 
 

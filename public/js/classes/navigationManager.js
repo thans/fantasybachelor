@@ -26,7 +26,6 @@ var NavigationManager = function() {
             // Set remaining contestants
             $('#contestantContainer').empty();
             var selectionClosed = moment().isBefore(weekData.openTime) || moment().isAfter(weekData.closeTime);
-            var selectionFull = weekData.selectedContestants.length === weekData.numberOfSelections;
             $.each(weekData.remainingContestants, function(i, v) {
                 var contestant = cd.getContestantById(v.id);
                 var selected = _.contains(weekData.selectedContestants, v.id);
@@ -35,7 +34,9 @@ var NavigationManager = function() {
                     .contestant(contestant)
                     .selected(selected)
                     .selectionClosed(selectionClosed)
-                    .selectionFull(selectionFull)
+                    .selectionFull(function() {
+                        return weekData.selectedContestants.length === weekData.numberOfSelections
+                    })
                     .multiplier(v.multiplier)
                     .click(function() {
                         bioModal.setContestant(this.contestant(), this.mode(), $.proxy(function(selected) {
@@ -78,15 +79,27 @@ var NavigationManager = function() {
             displaySelectedContestants();
 
             var selectionStatus = $('#selectionStatus');
+            var color; var text; var note;
             if (moment().isAfter(weekData.scoresAvailableTime)) {
-                selectionStatus.attr('data-color', 'red').text('Selection Closed');
+                color = 'red';
+                text = 'Selection Closed';
+                note = 'Your score has been updated';
             } else if (moment().isBefore(weekData.openTime)) {
-                selectionStatus.attr('data-color', 'yellow').text('Coming Soon');
+                color = 'yellow';
+                text = 'Coming Soon';
+                note = 'Selection opens ' + moment(weekData.openTime).format("h:mm a dddd MMM D");
             } else if (moment().isBefore(weekData.closeTime)) {
-                selectionStatus.attr('data-color', 'green').text('Selection Open');
+                color = 'green';
+                text = 'Selection Open';
+                note = 'Open until ' + moment(weekData.closeTime).format("h:mm a dddd MMM D");
             } else {
-                selectionStatus.attr('data-color', 'yellow').text('Show in Progress');
+                color = 'yellow';
+                text = 'Show in Progress';
+                note = 'Scores available ' + moment(weekData.scoresAvailableTime).format("h:mm a dddd MMM D");
             }
+            selectionStatus.attr('data-color', color);
+            selectionStatus.find('.text').text(text);
+            selectionStatus.find('.note').text(note);
 
             var slyElement = $('#remainingContestants .well');
             var sly = new Sly(slyElement, {
@@ -120,7 +133,7 @@ var NavigationManager = function() {
                 var table = $('#leaderboard .data');
                 table.find('.dataRow').remove();
                 $.each(data, function(i, v) {
-                    table.append('<tr class="dataRow"><td>' + v.name + '</td><td>' + v.score + '</td></tr>');
+                    table.append('<tr class="dataRow"><td>' + v.firstName + ' ' + v.lastName + '</td><td>' + v.score + '</td></tr>');
                 });
             })
         }

@@ -15,9 +15,9 @@ var ContestantButton = function() {
     }
     this.click = _click;
 
-    var _selectionFull = function(isSelectionFull) {
-        if (isSelectionFull !== undefined) {
-            selectionFull = isSelectionFull;
+    var _selectionFull = function(isSelectionFullFunction) {
+        if (isSelectionFullFunction !== undefined) {
+            selectionFull = isSelectionFullFunction;
             return this;
         } else {
             return selectionFull;
@@ -52,7 +52,7 @@ var ContestantButton = function() {
             return SELECTION_MODES.SELECTION_CLOSED;
         } else if (selected) {
             return SELECTION_MODES.REMOVABLE;
-        } else if (selectionFull) {
+        } else if (selectionFull()) {
             return SELECTION_MODES.SELECTION_FULL;
         }
         return SELECTION_MODES.CHOOSABLE;

@@ -279,19 +279,19 @@ header #navigationWrapper {
       #contestantSelection #remainingContestantsWrapper #contestantContainer li > div:hover {
         background-color: #eeeeee; }
       #contestantSelection #remainingContestantsWrapper #contestantContainer li > div .score {
-        width: 40px;
-        height: 40px;
-        -webkit-border-radius: 20px;
-        -moz-border-radius: 20px;
-        border-radius: 20px;
+        width: 36px;
+        height: 36px;
+        -webkit-border-radius: 18px;
+        -moz-border-radius: 18px;
+        border-radius: 18px;
         color: white;
         text-align: center;
-        line-height: 40px;
+        line-height: 36px;
         font-size: 22px;
         font-weight: 100;
-        position: relative;
-        left: 6px;
-        top: -4px;
+        position: absolute;
+        left: 50px;
+        bottom: 2px;
         display: inline-block;
         opacity: 0; }
 #contestantSelection #selectedContestants {
@@ -308,6 +308,9 @@ header #navigationWrapper {
   font-weight: 100;
   color: white;
   text-align: center; }
+  #selectionStatus .note {
+    font-size: 14px;
+    font-weight: 300; }
 
 .contestantLayout .row {
   border-bottom: 1px solid #dcdee0;
