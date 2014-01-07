@@ -1,6 +1,7 @@
 var orm = require("orm");
 var utils = require('./utils');
 var _und = require("underscore");
+var moment = require('moment');
 exports.orm = orm;
 
 exports.getExpressConnection = function() {
@@ -20,9 +21,7 @@ exports.getExpressConnection = function() {
                 }
             });
             models.user.login = function(user, callback) {
-                console.log('Logging in user: ' + JSON.stringify(user));
-                var thiz = this;
-                this.find({fbId: user.fbId}, function(err, users) {
+                models.user.find({fbId: user.fbId}, function(err, users) {
                     if (err) throw err;
 
                     if (users.length > 0) {
@@ -32,13 +31,12 @@ exports.getExpressConnection = function() {
                             callback(users[0]);
                         })
                     } else {
-                        thiz.create({
+                        models.user.create({
                             firstName: user.firstName,
                             lastName: user.lastName,
                             fbId: user.fbId
                         }, function(err, user) {
                             if (err) throw err;
-                            var today = new Date();
 
                             // Create a score of 0 for the user
                             models.week.getEndOfCurrentWeek(function(endOfWeek) {
@@ -47,9 +45,9 @@ exports.getExpressConnection = function() {
                                     expiresTimestamp: endOfWeek,
                                     user_id: user.id,
                                     score: 0
-                                }, function(error, score) {
+                                }, function(error, scores) {
                                     if (error) throw error;
-                                    user.score = 0;
+                                    user.score = scores[0].score;
                                     callback(user);
                                 });
                             });
@@ -57,6 +55,30 @@ exports.getExpressConnection = function() {
                     }
                 });
             };
+            models.user.getAll = function(callback) {
+                models.user.find({}, function(err, users) {
+                    if (err) throw err;
+                    callback(users);
+                });
+            }
+            models.user.getAllWithScore = function(callback) {
+                models.user.find({}, function(err, users) {
+                    if (err) throw err;
+                    var i = 0;
+                    var next = function() {
+                        i++;
+                        if (i < users.length) {
+                            models.userScores.getScore(users[i].id, function(score) {
+                                users[i].score = score;
+                                next();
+                            })
+                        } else {
+                            callback(users);
+                        }
+                    }
+                });
+            }
+
             models.week = db.define('week', {
                 name: 'text',
                 number: 'number',
@@ -92,7 +114,7 @@ exports.getExpressConnection = function() {
                                         remainingContestants: selectionValues,
                                         selectedContestants: selections,
                                         eliminatedContestants: eliminated, 
-                                        numberOfSelections: Math.min(remaining.length, 6) 
+                                        numberOfSelections: Math.min(remaining.length - 1, 6)
                                     });
                                     num--;
                                     if (num == 0) {
@@ -456,13 +478,27 @@ exports.getExpressConnection = function() {
             }
 
             models.userScores.getScore = function(userId, callback) {
-                this.find({user_id: userId}, function(err, score) {
+                this.find({user_id: userId}, function(err, scores) {
                     if (err) throw err;
-                    callback(score[0]);
+                    console.log('score ' + JSON.stringify(scores));
+                    if (scores.length < 0 || moment().isAfter(scores[0].expiresTimestamp)){
+                        models.week.getWeeks(userId, function(weeks) {
+                            _und.each(weeks, function(week) {
+                                if (moment().isAfter(week.scoresAvailableTime)) {
+                                    _.each(week.selectedContestants, function(selectedContestant) {
+                                        if (!_und.contains(week.eliminatedContestants, selectedContestant)) {
+                                            score += _und.find(week.remainingContestants, function(remainingContestant) { remainingContestant.id === selectedContestant.id }).multiplier;
+                                        }
+                                    })
+                                }
+                            })
+                        })
+                    } else {
+                        callback(scores[0]);
+                    }
                 });
             }
-
-        },
+        }
     });
 }
 

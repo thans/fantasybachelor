@@ -29,8 +29,7 @@ function authChangeHandler(fbUser) {
             data: {
                 fbId: fbUser.id,
                 firstName: fbUser.first_name,
-                lastName: fbUser.last_name,
-                email: fbUser.email
+                lastName: fbUser.last_name
             }
         }).done(function(data) {
             isLoggedIn = true;

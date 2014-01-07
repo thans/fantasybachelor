@@ -25,20 +25,22 @@ app.get('/numUsers', function (req, res) {
 });
 
 app.post('/loginUser', function (req, res) {
+    console.log('loginUser: ' + JSON.stringify(req.body));
     req.models.user.login(req.body, function(user) {
         res.send(user);
     });
 });
 
 app.get('/getWeeks', function (req, res) {
+    console.log('getWeeks: ' + JSON.stringify(req.query));
     req.models.week.getWeeks(req.query.userId, function(data) {
         res.send(data);
     });
 });
 
 app.get('/getContestants', function (req, res) {
+    console.log('getContestants: ' + JSON.stringify(req.body));
     req.models.contestant.getContestantData(req.body, function(data) {
-        console.log('WeekData: ' + JSON.stringify(data));
         res.send(data);
     });
 });
@@ -52,9 +54,6 @@ app.post('/selectContestant', function(req, res) {
 
 app.post('/removeContestant', function(req, res) {
     console.log('removeContestant: ' + JSON.stringify(req.body));
-    console.log(req.body.userId);
-    console.log(req.body.weekId);
-    console.log(req.body.contestantId);
     req.models.contestant.removeContestant(req.body.userId, req.body.weekId, req.body.contestantId, function(data) {
         res.send("score! " + data);
     });
@@ -62,20 +61,9 @@ app.post('/removeContestant', function(req, res) {
 
 app.get('/getLeaderboard', function(req, res) {
     console.log('getLeaderboard');
-    res.send([
-        {
-            name: 'Mitchell Loeppky',
-            score: 100
-        },
-        {
-            name: 'Tore Hanssen',
-            score: 200
-        },
-        {
-            name: 'Elijahim Chinus',
-            score: 63
-        }
-    ]);
+    req.models.user.getAllWithScore(function(data) {
+        res.send(data);
+    })
 });
 
 app.listen(getPort());
