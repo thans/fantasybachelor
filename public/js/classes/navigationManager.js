@@ -133,7 +133,7 @@ var NavigationManager = function() {
                 var table = $('#leaderboard .data');
                 table.find('.dataRow').remove();
                 $.each(data, function(i, v) {
-                    table.append('<tr class="dataRow"><td>' + v.firstName + ' ' + v.lastName + '</td><td>' + v.score + '</td></tr>');
+                    v.score > 0 && table.append('<tr class="dataRow"><td>' + v.firstName + ' ' + v.lastName + '</td><td>' + v.score + '</td></tr>');
                 });
             })
         }
