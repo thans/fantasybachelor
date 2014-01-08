@@ -1,5 +1,6 @@
 var express = require('express');
 var database = require('./database');
+var compressor = require('node-minify');
 
 var app = express();
 
@@ -66,9 +67,23 @@ app.get('/getLeaderboard', function(req, res) {
     })
 });
 
+new compressor.minify({
+    type: 'uglifyjs',
+    fileIn: ['public/js/dependencies/jquery.js', 'public/js/dependencies/underscore.js', 'public/js/dependencies/sly.js', 'public/js/dependencies/moment.js', 'public/js/classes/constants.js', 'public/js/classes/urls.js', 'public/js/classes/selectionModes.js', 'public/js/classes/utils.js', 'public/js/classes/weekData.js', 'public/js/classes/contestantData.js', 'public/js/classes/contestantButton.js', 'public/js/classes/dropdown.js', 'public/js/classes/contestantLayout.js', 'public/js/classes/bioModal.js', 'public/js/classes/facebook.js', 'public/js/classes/navigationManager.js', 'public/js/app.js'],
+    fileOut: 'public/js/app.min.js',
+    callback: function(err){
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('Minified js');
+        }
+    }
+});
+
 app.listen(getPort());
 console.log('Listening on port ' + getPort());
 
 function getPort() {
     return process.env.PORT || 8000;
 }
+
