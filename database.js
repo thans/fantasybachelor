@@ -188,6 +188,8 @@ exports.getExpressConnection = function() {
             models.contestant = db.define('contestant', {
                 name: 'text',
                 codename: 'text'
+            }, {
+                autoFetch: true
             });
 
             models.contestant.getAllContestants = function(callback) {
@@ -202,49 +204,69 @@ exports.getExpressConnection = function() {
             }
 
             models.contestant.getContestantData = function(data, callback) {
-                var contestantData = [];
-                var num;
-                this.find({}).each(function(contestant) {
-                    models.bioStatistic.getStats(contestant.id, function(stats) {
-                        models.bioQuestion.getQuestions(contestant.id, function(questions) {
-                            contestantData.push({
-                                id: contestant.id,
-                                name: contestant.name,
-                                codeName: contestant.codename,
-                                stats: stats,
-                                questions: questions
-                            });
-                            num--;
-                            if (num == 0) {
-                                callback(contestantData);
+                models.bioQuestion.findByContestant({}, function(error, questions) {
+                    if (error) throw error;
+                    contestantMap = {};
+                    _.each(questions, function(question) {
+                        console.log(question);
+                        if (contestantMap[question.contestant.id]) {
+                            contestantMap[question.contestant.id].questions.push({question: question.question, answer: question.answer});
+                        } else {
+                            contestantMap[question.contestant.id] = {
+                                id: question.contestant.id,
+                                name: question.contestant.name,
+                                codeName: question.contestant.codename,
+                                questions: [{question: question.question, answer: question.answer}]
                             }
-                        })
-                    })
-                }).count(function(count) {
-                    num = count;
+                        }
+                    });
+                    models.bioStatistic.findByContestant({}, function(err, statistics) {
+                        if (err) throw err;
+                        _.each(statistics, function(stat) {
+                            console.log(stat);
+                            if (contestantMap[stat.contestant.id].stats) {
+                                contestantMap[stat.contestant.id].stats.push({name: stat.name, value: stat.value});
+                            } else {
+                                contestantMap[stat.contestant.id].stats = [{name: stat.name, value: stat.value}];
+                            }
+                        });
+                        callback(_.toArray(contestantMap));
+                    });
                 });
             }
 
 
             models.contestant.fastGetContestantData = function(data, callback) {
+                this.find({}, function(error, contestants) {
+                    _.each(contestants, function(contestant) {
+                        console.log(contestant);
+                    });
+                });
+
+                
+                /*
+
+*/
+
+                /*
                 var finalData = [];
                 var num;
                 var me = this;
                 models.bioStatistic.find({}, function(err, statistics) {
                     if (err) throw err;
                     for (var item in statistics) {
-                        if (!finalData[item.contestant_id]) {
+                        if (!finalData[statistics[item].contestant_id]) {
                             var oneStat = [];
                             oneStat.push({
                                 name: item.name,
                                 value: item.value
                             });
-                            finalData[item.contestant_id] = {
+                            finalData[statistics[item].contestant_id] = {
                                 id: item.contestant_id,
                                 stats: oneStat
                             }
                         } else {
-                            finalData[item.contestant_id].stats.push({
+                            finalData[statistics[item].contestant_id].stats.push({
                                 name: item.name,
                                 value: item.value
                             });
@@ -281,7 +303,7 @@ exports.getExpressConnection = function() {
                             callback(finalData);
                         });
                     });
-                });
+                });*/
             }
 
             models.contestant.getRemainingContestants = function(eliminated, callback) {
@@ -435,7 +457,7 @@ exports.getExpressConnection = function() {
             }, {
                 autoFetch : true
             });
-            models.bioQuestion.hasOne('contestant', models.contestant, {reverse: 'bioQuestions'});
+            models.bioQuestion.hasOne('contestant', models.contestant, {reverse: 'bioQuestion'});
 
             models.bioQuestion.getQuestions = function(contestantId, callback) {
                 var bioSurvey = [];
@@ -455,7 +477,7 @@ exports.getExpressConnection = function() {
             }, {
                 autoFetch : true
             });
-            models.bioStatistic.hasOne('contestant', models.contestant, {reverse: 'bioStatistics'});
+            models.bioStatistic.hasOne('contestant', models.contestant, {reverse: 'bioStatistic'});
 
             models.bioStatistic.getStats = function(contestantId, callback) {
                 var stats = [];
