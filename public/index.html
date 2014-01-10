@@ -25,6 +25,7 @@
                 <div id="navigationWrapper" class="fullWidth">
                     <ul id="navigation" class="minWidth">
                         <li class="score right">Your Score: <span id="userScore">0pts</span></li>
+                        <li class="right" id="howitworks"><a href="/#">How it Works</a></li>
                     </ul>
                 </div>
             </header>
@@ -68,6 +69,31 @@
                         </div>
                     </div>
                 </div>
+                <div id="howitworks-description" class="modal hide">
+                    <div class="popup-dialog">
+                        <button type="button" class="close">&times;</button>
+                        <div class="left">
+                            <div class="title">Welcome to Fantasy Bachelor!</div>
+                            <div>We are currently playing with ABC's "The Bachelor" and we hope you will join us.</div>
+                            <div class="paragraph">
+                                <div class="holder"><span class="sentenceStart">What is Fantasy Bachelor?</span><br /> Fantasybach.com is a site intended to bring the fun of fantasy football to reality television.  Your "team" will consist of up to 6 women that you think have the potential to be the last woman standing in ABC's "The Bachelor".  You can select your team at any point during the week leading up to the show, but selections will close as soon as the show first airs - typically Mondays at 8PM EST.  If you change your mind about your team mid-week, you can remove any of your selections and replace them with a new choice.</div>
+                            </div>
+                            <div class="paragraph">
+                                <div class="holder"><span class="sentenceStart">How are scores calculated?</span><br />  Scoring is quite simple.  For any given week, if a contestant you select makes it to the next week of the show, you will get 1 point.  If you pick that same contestant in subsequent weeks, you will get bonus points for them - picking someone two weeks in a row makes them worth 1 point the first week and 2 points the second week, and so on.  So pick the winner early, and you have a good chance of beating everyone else!  Good luck, and we hope you have as much fun playing as we had dreaming it up!</div>
+                            </div>
+                            <div class="salutation">~The fantasybach.com team</div>
+                        </div>
+                        <div class="right">
+                            <div class="roseWrapper">
+                                <div class="rose"></div>
+                            </div>
+                            <div class="btn-container">
+                                <button type="button" class="btn-large btn-success chooseMe">Play Now!</button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
             </section>
             <section id="leaderboardWrapper" class="fullWidth hide">
                 <div id="leaderboard" class="minWidth">
@@ -91,23 +117,24 @@
                 </div>
             </section>
         </div>
-        <!--<script src="js/dependencies/jquery.js"></script>-->
-        <!--<script src="js/dependencies/underscore.js"></script>-->
-        <!--<script src="js/dependencies/sly.js"></script>-->
-        <!--<script src="js/dependencies/moment.js"></script>-->
-        <!--<script src="js/classes/constants.js"></script>-->
-        <!--<script src="js/classes/urls.js"></script>-->
-        <!--<script src="js/classes/selectionModes.js"></script>-->
-        <!--<script src="js/classes/utils.js"></script>-->
-        <!--<script src="js/classes/dropdown.js"></script>-->
-        <!--<script src="js/classes/weekData.js"></script>-->
-        <!--<script src="js/classes/contestantData.js"></script>-->
-        <!--<script src="js/classes/contestantButton.js"></script>-->
-        <!--<script src="js/classes/contestantLayout.js"></script>-->
-        <!--<script src="js/classes/bioModal.js"></script>-->
-        <!--<script src="js/classes/facebook.js"></script>-->
-        <!--<script src="js/classes/navigationManager.js"></script>-->
-        <!--<script src="js/app.js"></script>-->
-        <script src="js/app.min.js"></script>
+        <script src="js/dependencies/jquery.js"></script>
+        <script src="js/dependencies/underscore.js"></script>
+        <script src="js/dependencies/sly.js"></script>
+        <script src="js/dependencies/moment.js"></script>
+        <script src="js/classes/constants.js"></script>
+        <script src="js/classes/urls.js"></script>
+        <script src="js/classes/selectionModes.js"></script>
+        <script src="js/classes/utils.js"></script>
+        <script src="js/classes/dropdown.js"></script>
+        <script src="js/classes/weekData.js"></script>
+        <script src="js/classes/contestantData.js"></script>
+        <script src="js/classes/contestantButton.js"></script>
+        <script src="js/classes/contestantLayout.js"></script>
+        <script src="js/classes/bioModal.js"></script>
+        <script src="js/classes/facebook.js"></script>
+        <script src="js/classes/navigationManager.js"></script>
+        <script src="js/classes/popup.js"></script>
+        <script src="js/app.js"></script>
+        <!--<script src="js/app.min.js"></script>-->
     </body>
 </html>

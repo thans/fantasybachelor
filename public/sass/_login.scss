@@ -1,7 +1,3 @@
-$loginRoseHeight: 318px;
-$loginRoseWidth: 250px;
-$loginRoseUrl: $imagesDir + "roseLarge.png";
-
 $loginTitleTop: 60px;
 $loginTitleLeft: 250px;
 
@@ -11,7 +7,7 @@ $loginFacebookTop: $loginTitleTop + 100px;
 $loginFacebookLeft: $loginTitleLeft;
 $loginFacebookUrl: $imagesDir + "facebookLogin.png";
 
-$loginHeight: $loginRoseHeight;
+$loginHeight: $roseHeight;
 $loginWidth: 750px;
 $loginMarginTop: 200px;
 
@@ -22,7 +18,7 @@ $loginMarginTop: 200px;
   border-bottom:  1px solid $lightGray;
 
   .rose {
-    @include backgroundImage($loginRoseUrl, $loginRoseWidth, $loginRoseHeight);
+    @include backgroundImage($roseUrl, $roseWidth, $roseHeight);
   }
 
   .title {

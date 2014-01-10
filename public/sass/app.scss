@@ -6,6 +6,7 @@ $contestantsLargeDir: $imagesDir + "contestantsLarge/";
 $contestantSmallUrl: $contestantsSmallDir + "womanSmall.png";
 $contestantMediumUrl: $contestantsMediumDir + "womanMedium.png";
 $contestantLargeUrl: $contestantsLargeDir + "womanLarge.png";
+$roseUrl: $imagesDir + "roseLarge.png";
 
 $contestantSmallWidth: 69px;
 $contestantSmallHeight: 75px;
@@ -13,6 +14,8 @@ $contestantMediumWidth: 160px;
 $contestantMediumHeight: 175px;
 $contestantLargeWidth: 320px;
 $contestantLargeHeight: 350px;
+$roseHeight: 318px;
+$roseWidth: 250px;
 
 @import "mixins";
 @import "colors";
@@ -21,6 +24,7 @@ $contestantLargeHeight: 350px;
 @import "dropdown";
 @import "modal";
 @import "bioModal";
+@import "popup";
 @import "login";
 @import "header";
 @import "contestantSelection";
@@ -113,6 +117,7 @@ table {
 .hide {
   display: none;
 }
+
 
 .sectionTitle {
   @include fontStyleContestantSectionTitle();

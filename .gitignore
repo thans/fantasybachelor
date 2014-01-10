@@ -23,3 +23,7 @@ public/js/app.min.js
 node_modules/*
 
 *.zip
+
+.sass-cache/81aef6e4d1110452e822fc3436c83174f8a1c739/_bioModal.scssc
+
+*.scssc

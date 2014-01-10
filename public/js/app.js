@@ -2,6 +2,7 @@ var cd = new ContestantData();
 var wd = new WeekData();
 var navManager = new NavigationManager();
 var bioModal = new BioModal('#bioModal');
+var howItWorks = new PopUp('#howitworks-description');
 var dropdown = new Dropdown().appendTo('#navigation');
 
 
@@ -75,6 +76,12 @@ function authChangeHandler(fbUser) {
                     if (fbUser && fbUser.name) {
                         $(this).width('auto').text(fbUser.name);
                     }
+                });
+
+
+                $('#howitworks').on('click', function() {
+                    howItWorks.show();
+                    howItWorks.initialize();
                 });
 
                 // Show user score

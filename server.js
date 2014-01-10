@@ -62,7 +62,14 @@ app.post('/removeContestant', function(req, res) {
 
 app.get('/getLeaderboard', function(req, res) {
     console.log('getLeaderboard');
-    req.models.user.getAllWithScore(function(data) {
+    req.models.user.getUnupdatedScores(function(data) {
+        res.send(data);
+    })
+});
+
+app.get('/getActiveUsers', function(req, res) {
+    console.log('get active users');
+    req.models.prediction.getActiveUsers(function(data) {
         res.send(data);
     })
 });
