@@ -17,6 +17,11 @@ var Dropdown = function() {
         $(this).hide();
     });
 
+    this.clear = function() {
+        $(popover).find('.items').empty();
+        return this;
+    }
+
     this.appendTo = function(parent) {
         element.appendTo($(parent));
         return this;

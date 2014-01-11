@@ -2,7 +2,6 @@ var cd = new ContestantData();
 var wd = new WeekData();
 var navManager = new NavigationManager();
 var bioModal = new BioModal('#bioModal');
-var howItWorks = new PopUp('#howitworks-description');
 var dropdown = new Dropdown().appendTo('#navigation');
 
 
@@ -38,6 +37,7 @@ function authChangeHandler(fbUser) {
             $.when(cd.load(user), wd.load(user)).then(function() {
 
                 // Put weeks in navigation header
+                dropdown.clear();
                 $.each(wd.getAll(), function(i, v) {
                     dropdown.addItem($('<li>')
                         .attr('data-id', v.id)
@@ -78,10 +78,15 @@ function authChangeHandler(fbUser) {
                     }
                 });
 
-
-                $('#howitworks').on('click', function() {
-                    howItWorks.show();
-                    howItWorks.initialize();
+                // Setup how it works page
+                $('#howItWorksButton').click(function() {
+                    navManager.goToHowItWorks();
+                    history.replaceState({func: 'goToHowItWorks'}, null, '#howItWorks');
+                });
+                $('#howItWorks .gettingStarted').click(function() {
+                    var currentWeekId = wd.getCurrentWeek().id;
+                    navManager.goToWeek(currentWeekId);
+                    history.replaceState({func: 'goToWeek', data: currentWeekId}, null, '#weekId=' + currentWeekId);
                 });
 
                 // Show user score

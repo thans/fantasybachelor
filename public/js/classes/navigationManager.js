@@ -148,19 +148,30 @@ var NavigationManager = function() {
             $('section').hide();
             var element = $('#juanPabloWrapper').show();
 
-            var contestant = cd.getContestantById(15);
+            var contestant = cd.getContestantById(CONSTANTS.JUAN_PABLO_ID);
 
             var stats = element.find('.stats').empty();
             $.each(contestant.stats, function(i, v) {
-                stats.append('<div class="stat"><span class="name">' + v.key + ':</span> ' + v.value + '</div>');
+                stats.append('<div class="stat"><span class="name">' + v.name + ':</span> ' + v.value + '</div>');
             });
 
             var questions = element.find('.questions').empty();
             $.each(contestant.questions, function(i, v) {
-                questions.append('<div class="question"><span class="q">' + v.key + '</span><br>' + v.value + '</div>');
+                questions.append('<div class="question"><span class="q">' + v.question + '</span><br>' + v.answer + '</div>');
             });
 
             element.find('.contestant').backgroundImage(utils.getLargeImage(contestant));
+        }
+    };
+
+    this.goToHowItWorks = function() {
+        if (isLoggedIn) {
+
+            // Show main section, hide login section, hide other sections, show this section
+            $('#login').hide();
+            $('#main').show();
+            $('section').hide();
+            var element = $('#howItWorksWrapper').show();
         }
     };
 }

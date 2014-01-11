@@ -58,10 +58,14 @@ header {
       > * {
         padding: 0 $headerCellPadding;
 
-        //&:hover, &.selected {
-        //  background-color: $red;
-        //  cursor: pointer;
-        //}
+        &.selectable:hover {
+          background-color: $red;
+          cursor: pointer;
+        }
+
+        &.spacer {
+          padding: 0;
+        }
 
         #userScore {
           font-weight: 600;

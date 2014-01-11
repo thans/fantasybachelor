@@ -208,7 +208,6 @@ exports.getExpressConnection = function() {
                     if (error) throw error;
                     contestantMap = {};
                     _.each(questions, function(question) {
-                        console.log(question);
                         if (contestantMap[question.contestant.id]) {
                             contestantMap[question.contestant.id].questions.push({question: question.question, answer: question.answer});
                         } else {
@@ -223,7 +222,6 @@ exports.getExpressConnection = function() {
                     models.bioStatistic.findByContestant({}, function(err, statistics) {
                         if (err) throw err;
                         _.each(statistics, function(stat) {
-                            console.log(stat);
                             if (contestantMap[stat.contestant.id].stats) {
                                 contestantMap[stat.contestant.id].stats.push({name: stat.name, value: stat.value});
                             } else {

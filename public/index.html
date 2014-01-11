@@ -25,7 +25,10 @@
                 <div id="navigationWrapper" class="fullWidth">
                     <ul id="navigation" class="minWidth">
                         <li class="score right">Your Score: <span id="userScore">0pts</span></li>
-                        <li class="right" id="howitworks"><a href="/#">How it Works</a></li>
+                        <li class="right spacer">|</li>
+                        <li id="howItWorksButton" class="right selectable">
+                            How It Works
+                        </li>
                     </ul>
                 </div>
             </header>
@@ -69,31 +72,6 @@
                         </div>
                     </div>
                 </div>
-                <div id="howitworks-description" class="modal hide">
-                    <div class="popup-dialog">
-                        <button type="button" class="close">&times;</button>
-                        <div class="left">
-                            <div class="title">Welcome to Fantasy Bachelor!</div>
-                            <div>We are currently playing with ABC's "The Bachelor" and we hope you will join us.</div>
-                            <div class="paragraph">
-                                <div class="holder"><span class="sentenceStart">What is Fantasy Bachelor?</span><br /> Fantasybach.com is a site intended to bring the fun of fantasy football to reality television.  Your "team" will consist of up to 6 women that you think have the potential to be the last woman standing in ABC's "The Bachelor".  You can select your team at any point during the week leading up to the show, but selections will close as soon as the show first airs - typically Mondays at 8PM EST.  If you change your mind about your team mid-week, you can remove any of your selections and replace them with a new choice.</div>
-                            </div>
-                            <div class="paragraph">
-                                <div class="holder"><span class="sentenceStart">How are scores calculated?</span><br />  Scoring is quite simple.  For any given week, if a contestant you select makes it to the next week of the show, you will get 1 point.  If you pick that same contestant in subsequent weeks, you will get bonus points for them - picking someone two weeks in a row makes them worth 1 point the first week and 2 points the second week, and so on.  So pick the winner early, and you have a good chance of beating everyone else!  Good luck, and we hope you have as much fun playing as we had dreaming it up!</div>
-                            </div>
-                            <div class="salutation">~The fantasybach.com team</div>
-                        </div>
-                        <div class="right">
-                            <div class="roseWrapper">
-                                <div class="rose"></div>
-                            </div>
-                            <div class="btn-container">
-                                <button type="button" class="btn-large btn-success chooseMe">Play Now!</button>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
             </section>
             <section id="leaderboardWrapper" class="fullWidth hide">
                 <div id="leaderboard" class="minWidth">
@@ -116,25 +94,43 @@
                     <div class="questions"></div>
                 </div>
             </section>
+            <section id="howItWorksWrapper" class="fullWidth hide">
+                <div id="howItWorks" class="minWidth">
+                    <div class="sectionTitle">How It Works</div>
+                    <h4>What is Fantasy Bachelor?</h4>
+                    <div class="theBachelor image left"></div>
+                    <p>FantasyBach.com is a site intended to bring the fun of fantasy football to reality television.  Your "team" will consist of up to 6 women that you think have the potential to be the last woman standing in ABC's "The Bachelor".  You can select your team at any point during the week leading up to the show, but selections will close as soon as the show first airs - typically Mondays at 8PM EST.</p>
+                    <h4>Pick Your Team</h4>
+                    <div class="weekDropdownHover image right"></div>
+                    <div class="weekDropdown image right"></div>
+                    <p>Picking your team is simple. Go to the current week page by selecting it the menu in the top left corner of the screen. Then pick a contestant from the list of remaining contestants. You can then read their bio and click "Choose Me" if you want to choose them. You can choose 6 contestants per week (until the end of the season when there are less than 6 remaining contestants). If you realize you did not want to choose a contestant you can go back, click them again and then click "Remove Me"</p>
+                    <h4>Scoring</h4>
+                    <div class="multiplier image left"></div>
+                    <div class="leaderboard image right"></div>
+                    <p>Scoring is simple. If a contestant you select gets a rose, you will get 1 point. If you pick that same contestant in the following week, you will get bonus points for them. Picking someone two weeks in a row makes them worth 1 point the first week and 2 points the second week, and so on. So pick the winner early, and you will earn lots of points!</p>
+                    <p>Your score will be available after the show airs on the west coast - usually 10PM PST. You can also check out the leaderboard (accessible from the menu in the top left corner of the screen) to see how you compare to other players. Leagues are not currently available, but look for that feature in future seasons of the show.</p>
+                    <button type="button" class="btn-large btn-success gettingStarted">Get Started</button>
+                </div>
+            </section>
         </div>
-        <script src="js/dependencies/jquery.js"></script>
-        <script src="js/dependencies/underscore.js"></script>
-        <script src="js/dependencies/sly.js"></script>
-        <script src="js/dependencies/moment.js"></script>
-        <script src="js/classes/constants.js"></script>
-        <script src="js/classes/urls.js"></script>
-        <script src="js/classes/selectionModes.js"></script>
-        <script src="js/classes/utils.js"></script>
-        <script src="js/classes/dropdown.js"></script>
-        <script src="js/classes/weekData.js"></script>
-        <script src="js/classes/contestantData.js"></script>
-        <script src="js/classes/contestantButton.js"></script>
-        <script src="js/classes/contestantLayout.js"></script>
-        <script src="js/classes/bioModal.js"></script>
-        <script src="js/classes/facebook.js"></script>
-        <script src="js/classes/navigationManager.js"></script>
-        <script src="js/classes/popup.js"></script>
-        <script src="js/app.js"></script>
-        <!--<script src="js/app.min.js"></script>-->
+        <!--<script src="js/dependencies/jquery.js"></script>-->
+        <!--<script src="js/dependencies/underscore.js"></script>-->
+        <!--<script src="js/dependencies/sly.js"></script>-->
+        <!--<script src="js/dependencies/moment.js"></script>-->
+        <!--<script src="js/classes/constants.js"></script>-->
+        <!--<script src="js/classes/urls.js"></script>-->
+        <!--<script src="js/classes/selectionModes.js"></script>-->
+        <!--<script src="js/classes/utils.js"></script>-->
+        <!--<script src="js/classes/dropdown.js"></script>-->
+        <!--<script src="js/classes/weekData.js"></script>-->
+        <!--<script src="js/classes/contestantData.js"></script>-->
+        <!--<script src="js/classes/contestantButton.js"></script>-->
+        <!--<script src="js/classes/contestantLayout.js"></script>-->
+        <!--<script src="js/classes/bioModal.js"></script>-->
+        <!--<script src="js/classes/facebook.js"></script>-->
+        <!--<script src="js/classes/navigationManager.js"></script>-->
+        <!--<script src="js/classes/popup.js"></script>-->
+        <!--<script src="js/app.js"></script>-->
+        <script src="js/app.min.js"></script>
     </body>
 </html>

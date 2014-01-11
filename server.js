@@ -62,7 +62,7 @@ app.post('/removeContestant', function(req, res) {
 
 app.get('/getLeaderboard', function(req, res) {
     console.log('getLeaderboard');
-    req.models.user.getUnupdatedScores(function(data) {
+    req.models.user.getAllWithScore(function(data) {
         res.send(data);
     })
 });
