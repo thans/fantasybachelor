@@ -15,3 +15,12 @@ war/fantasybachelor/*
 
 war/WEB-INF/classes/*
 war/WEB-INF/deploy/*
+compiler.jar
+
+war/WEB-INF/deploy/*
+compiler.jar
+public/js/app.min.js
+node_modules/*
+
+*.zip
+*.scssc
