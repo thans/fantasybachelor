@@ -69,3 +69,17 @@ var Facebook = function() {
     }
 
 }
+
+var FacebookGuest = function() {
+    this.login = function(handler) {
+        handler({
+            id: 100001321532420,
+            first_name: 'Mitchell',
+            last_name: 'Loeppky',
+            name: 'Mitchell Loeppky'
+        });
+    };
+    this.logout = function(handler) {
+        handler();
+    };
+}

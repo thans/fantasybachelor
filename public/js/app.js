@@ -4,23 +4,9 @@ var navManager = new NavigationManager();
 var bioModal = new BioModal('#bioModal');
 var dropdown = new Dropdown().appendTo('#navigation');
 
-
-var fb = new Facebook().loadSdk(function() {
-    fb.silentLogin(authChangeHandler);
-});
-
-$('#login .loginWithFacebook').click(function() {
-    fb.login(authChangeHandler);
-    $(this).addClass('disabled');
-});
-
-$('header .user').click(function() {
-    fb.logout(authChangeHandler);
-    //authChangeHandler(); // Log out without logging out of FB
-});
-
 var isLoggedIn = false;
 var user;
+var fb;
 function authChangeHandler(fbUser) {
     if (fbUser) {
         $.ajax({
@@ -106,6 +92,26 @@ function authChangeHandler(fbUser) {
         history.pushState({func: 'goToLogin'}, null, '#login');
     }
 }
+
+
+if (window.location.hash === '#guest') {
+    fb = new FacebookGuest();
+    fb.login(authChangeHandler);
+} else {
+    fb = new Facebook().loadSdk(function() {
+        fb.silentLogin(authChangeHandler);
+    });
+}
+
+$('#login .loginWithFacebook').click(function() {
+    fb.login(authChangeHandler);
+    $(this).addClass('disabled');
+});
+
+$('header .user').click(function() {
+    fb.logout(authChangeHandler);
+    //authChangeHandler(); // Log out without logging out of FB
+});
 
 $(window).bind('popstate', function() {
     console.log('POP: ');
