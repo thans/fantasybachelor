@@ -13,12 +13,12 @@ var BioModal = function(element) {
         element.find('.title').text(contestant.name);
 
         var stats = element.find('.stats').empty();
-        $.each(contestant.stats, function(i, v) {
+        $.each(contestant.bioStatistics, function(i, v) {
             stats.append('<div class="stat"><span class="name">' + v.name + ':</span> ' + v.value + '</div>');
         });
 
         var questions = element.find('.questions').empty();
-        $.each(contestant.questions, function(i, v) {
+        $.each(contestant.bioQuestions, function(i, v) {
             questions.append('<div class="question"><span class="q">' + v.question + '</span><br>' + v.answer + '</div>');
         });
 
