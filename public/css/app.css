@@ -358,7 +358,8 @@ header #navigationWrapper {
   width: 552px;
   padding-right: 18px;
   font-size: 0;
-  margin: 18px auto; }
+  margin: 18px auto;
+  text-align: center; }
   .contestantLayout .row .contestant {
     display: inline-block;
     margin-left: 18px;
