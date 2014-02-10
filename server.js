@@ -7,7 +7,6 @@ var app = express();
 console.log('Running in: ' + process.env.NODE_ENV);
 
 app.use(express.compress());
-app.use(database.getExpressConnection());
 app.use(express.bodyParser());
 
 app.use('/js', express.static('public/js'));
@@ -18,60 +17,34 @@ app.get('/', function(req, res) {
     res.sendfile('public/index.html');
 });
 
-app.get('/numUsers', function (req, res) {
-    req.models.user.count({}, function(err, count) {
-        if (err) throw err;
-        res.send('Number of users: ' + count);
-    });
-});
-
 app.post('/loginUser', function (req, res) {
     console.log('loginUser: ' + JSON.stringify(req.body));
-    req.models.user.login(req.body, function(user) {
-        res.send(user);
-    });
+    database.User.login(req.body, responseFunction(res), errorFunction(res));
 });
 
 app.get('/getWeeks', function (req, res) {
     console.log('getWeeks: ' + JSON.stringify(req.query));
-    req.models.week.getWeeks(req.query.userId, function(data) {
-        res.send(data);
-    });
+    database.Weeks.getExtended(req.query.userId, responseFunction(res), errorFunction(res));
 });
 
 app.get('/getContestants', function (req, res) {
     console.log('getContestants: ' + JSON.stringify(req.body));
-    req.models.contestant.getContestantData(req.body, function(data) {
-        res.send(data);
-    });
+    database.Contestants.getAll(responseFunction(res), errorFunction(res));
 });
 
 app.post('/selectContestant', function(req, res) {
     console.log('selectContestant: ' + JSON.stringify(req.body));
-    req.models.contestant.selectContestant(req.body.userId, req.body.weekId, req.body.contestantId, function(data) {
-        res.send(data);
-    });
+    database.Predictions.makePrediction(req.body.userId, req.body.weekId, req.body.contestantId, responseFunction(res), errorFunction(res));
 });
 
 app.post('/removeContestant', function(req, res) {
     console.log('removeContestant: ' + JSON.stringify(req.body));
-    req.models.contestant.removeContestant(req.body.userId, req.body.weekId, req.body.contestantId, function(data) {
-        res.send("score! " + data);
-    });
+    database.Predictions.removePrediction(req.body.userId, req.body.weekId, req.body.contestantId, responseFunction(res), errorFunction(res));
 });
 
 app.get('/getLeaderboard', function(req, res) {
     console.log('getLeaderboard');
-    req.models.user.getAllWithScore(function(data) {
-        res.send(data);
-    })
-});
-
-app.get('/getActiveUsers', function(req, res) {
-    console.log('get active users');
-    req.models.prediction.getActiveUsers(function(data) {
-        res.send(data);
-    })
+    database.User.getLeaderboard(responseFunction(res), errorFunction(res));
 });
 
 new compressor.minify({
@@ -87,8 +60,22 @@ new compressor.minify({
     }
 });
 
+// Start listening for requests
 app.listen(getPort());
 console.log('Listening on port ' + getPort());
+
+function responseFunction(res) {
+    return function(data) {
+        res.send(data);
+    }
+}
+
+function errorFunction(res) {
+    return function(err) {
+        console.log(err);
+        res && res.send('Something went wrong:\n' + err, 500);
+    }
+}
 
 function getPort() {
     return process.env.PORT || 8000;
