@@ -47,6 +47,14 @@ function authChangeHandler(fbUser) {
                                 history.pushState({func: 'goToLeaderboard'}, null, '#leaderboard');
                             }))
                     .addItem(
+                        $('<li>Statistics</li>')
+                            .attr('data-id', 'statistics')
+                            .click(function() {
+                                dropdown.setSelected('statistics');
+                                navManager.goToStatistics();
+                                history.pushState({func: 'goToStatistics'}, null, '#statistics');
+                            }))
+                    .addItem(
                         $('<li>Meet Juan Pablo</li>')
                             .attr('data-id', 'juanPablo')
                             .click(function() {
