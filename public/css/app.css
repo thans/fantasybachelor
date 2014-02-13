@@ -283,8 +283,8 @@ header #navigationWrapper {
     height: 12px; }
   #contestantSelection #remainingContestantsWrapper .well {
     height: 492px;
-    border-top: 1px solid transparent;
-    border-bottom: 1px solid transparent;
+    border-top: 1px solid rgba(0, 0, 0, 0);
+    border-bottom: 1px solid rgba(0, 0, 0, 0);
     margin: 0 9px;
     -webkit-transition: border-color 0.1s ease;
     -moz-transition: border-color 0.1s ease;
@@ -410,6 +410,13 @@ header #navigationWrapper {
   background-repeat: no-repeat;
   width: 320px;
   height: 350px; }
+
+#statistics .chartContainer {
+  float: left; }
+#statistics .small {
+  width: 35%; }
+#statistics .big {
+  width: 65%; }
 
 html {
   height: 100%;
