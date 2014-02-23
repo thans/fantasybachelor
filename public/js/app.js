@@ -3,6 +3,7 @@ var wd = new WeekData();
 var navManager = new NavigationManager();
 var bioModal = new BioModal('#bioModal');
 var dropdown = new Dropdown().appendTo('#navigation');
+var grapher = new LineChart();
 
 var isLoggedIn = false;
 var user;

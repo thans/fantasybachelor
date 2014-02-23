@@ -6,3 +6,4 @@ URLS.LOGIN_USER = URLS.BASE_URL + '/loginUser';
 URLS.SELECT_CONTESTANT = URLS.BASE_URL + '/selectContestant';
 URLS.REMOVE_CONTESTANT = URLS.BASE_URL + '/removeContestant';
 URLS.GET_LEADERBOARD = URLS.BASE_URL + '/getLeaderboard';
+URLS.GET_STATISTICS = URLS.BASE_URL + '/getStatistics';

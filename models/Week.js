@@ -138,3 +138,55 @@ module.exports.Weeks.getCurrentWeek = function(success, failure) {
         }));
     }, failure);
 };
+
+
+module.exports.Weeks.getWeeklyPredictions = function(success, failure) {
+    new Database.Weeks().fetch({withRelated: ['scoringOpportunities']}).then(function(weeks) {
+        weeks.sortBy(function(week) {
+            return week.number;
+        });
+
+        // Remove weeks not scored (should be done in query)
+        weeks = weeks.filter(function(week) {
+            return moment().isAfter(week.get('scoresAvailableDatetime'));
+        });
+
+        var contestantsAndWeekCount = {};
+        var finalData = [];
+
+        async.each(weeks, function(week, callback) {
+            week.load({predictions: function(qb) {}})
+                .then(function(week) {
+                    week.related('predictions').each(function(prediction) {
+                        if (contestantsAndWeekCount[prediction.attributes.contestant_id]) {
+
+                            // adjust for 0 based index
+                            contestantsAndWeekCount[prediction.get('contestant_id')][week.get('number') - 1]++;
+                        } else {
+
+                            // initilize array of correct size to all 0
+                            contestantsAndWeekCount[prediction.get('contestant_id')] = Array.apply(null, new Array(weeks.length)).map(Number.prototype.valueOf,0);
+                        }
+                    });
+                    callback();
+                }, callback);
+        }, function(err) {
+            if (err) {
+                failure(err);
+            } else {
+                new Database.Contestants()
+                    .query('where', 'id', '!=', '15')
+                    .fetch()
+                    .then(function(contestants) {
+                        contestants.each(function(contestant) {
+                            finalData.push({
+                                name: contestant.get('name'),
+                                data: contestantsAndWeekCount[contestant.get('id')]
+                            });
+                        });
+                        success(finalData);
+                    });
+            }
+        });
+    }, failure);
+};
