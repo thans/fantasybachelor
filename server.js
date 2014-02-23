@@ -42,6 +42,11 @@ app.post('/removeContestant', function(req, res) {
     database.Predictions.removePrediction(req.body.userId, req.body.weekId, req.body.contestantId, responseFunction(res), errorFunction(res));
 });
 
+app.get('/getStatistics', function(req, res) {
+    console.log('getStatistics');
+    database.Weeks.getWeeklyPredictions(responseFunction(res), errorFunction(res));
+});
+
 app.get('/getLeaderboard', function(req, res) {
     console.log('getLeaderboard');
     database.User.getLeaderboard(responseFunction(res), errorFunction(res));
@@ -49,7 +54,7 @@ app.get('/getLeaderboard', function(req, res) {
 
 new compressor.minify({
     type: 'uglifyjs',
-    fileIn: ['public/js/dependencies/jquery.js', 'public/js/dependencies/underscore.js', 'public/js/dependencies/sly.js', 'public/js/dependencies/moment.js', 'public/js/classes/constants.js', 'public/js/classes/urls.js', 'public/js/classes/selectionModes.js', 'public/js/classes/utils.js', 'public/js/classes/weekData.js', 'public/js/classes/contestantData.js', 'public/js/classes/contestantButton.js', 'public/js/classes/dropdown.js', 'public/js/classes/contestantLayout.js', 'public/js/classes/bioModal.js', 'public/js/classes/facebook.js', 'public/js/classes/navigationManager.js', 'public/js/app.js'],
+    fileIn: ['public/js/dependencies/jquery.js', 'public/js/dependencies/underscore.js', 'public/js/dependencies/sly.js', 'public/js/dependencies/moment.js', 'public/js/classes/constants.js', 'public/js/classes/urls.js', 'public/js/classes/selectionModes.js', 'public/js/classes/utils.js', 'public/js/classes/weekData.js', 'public/js/classes/contestantData.js', 'public/js/classes/contestantButton.js', 'public/js/classes/dropdown.js', 'public/js/classes/contestantLayout.js', 'public/js/classes/bioModal.js', 'public/js/classes/facebook.js', 'public/js/classes/lineChart.js', 'public/js/classes/navigationManager.js', 'public/js/app.js'],
     fileOut: 'public/js/app.min.js',
     callback: function(err){
         if (err) {
