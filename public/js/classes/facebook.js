@@ -59,7 +59,7 @@ var Facebook = function() {
 
     // Gets the App Id for debug vs production mode
     var getAppId = function() {
-        return window.location.hostname === "localhost" ? '781695765179715' : '307416292730318';
+        return window.location.hostname === "localhost" ? '366200293518584' : '307416292730318';
     }
 
     // Gets the current FB user's data.
