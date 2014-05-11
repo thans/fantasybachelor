@@ -411,12 +411,9 @@ header #navigationWrapper {
   width: 320px;
   height: 350px; }
 
-#statistics .chartContainer {
-  float: left; }
-#statistics .small {
-  width: 35%; }
-#statistics .big {
-  width: 65%; }
+#statistics #statsLine {
+  heigth: 600px;
+  width: 100%; }
 
 html {
   height: 100%;

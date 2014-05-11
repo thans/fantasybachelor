@@ -139,6 +139,20 @@ var NavigationManager = function() {
         }
     };
 
+    this.goToStatistics = function() {
+        if (isLoggedIn) {
+
+            // Show main section, hide login section, hide other sections, show this section
+            $('#login').hide();
+            $('#main').show();
+            $('section').hide();
+            $('#statisticsWrapper').show();
+            $.get(URLS.GET_STATISTICS).done(function(data) {
+                var selectionChart = grapher.contestantsByWeek('#statsLine', data);
+            });
+        }
+    };
+
     this.goToJuanPablo = function() {
         if (isLoggedIn) {
 

@@ -3,6 +3,7 @@ var wd = new WeekData();
 var navManager = new NavigationManager();
 var bioModal = new BioModal('#bioModal');
 var dropdown = new Dropdown().appendTo('#navigation');
+var grapher = new LineChart();
 
 var isLoggedIn = false;
 var user;
@@ -45,6 +46,14 @@ function authChangeHandler(fbUser) {
                                 dropdown.setSelected('leaderboard');
                                 navManager.goToLeaderboard();
                                 history.pushState({func: 'goToLeaderboard'}, null, '#leaderboard');
+                            }))
+                    .addItem(
+                        $('<li>Statistics</li>')
+                            .attr('data-id', 'statistics')
+                            .click(function() {
+                                dropdown.setSelected('statistics');
+                                navManager.goToStatistics();
+                                history.pushState({func: 'goToStatistics'}, null, '#statistics');
                             }))
                     .addItem(
                         $('<li>Meet Juan Pablo</li>')
