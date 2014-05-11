@@ -3,7 +3,7 @@ $loginTitleLeft: 250px;
 
 $loginFacebookHeight: 60px;
 $loginFacebookWidth: 315px;
-$loginFacebookTop: $loginTitleTop + 100px;
+$loginFacebookBottom: 20px;
 $loginFacebookLeft: $loginTitleLeft;
 $loginFacebookUrl: $imagesDir + "facebookLogin.png";
 
@@ -28,7 +28,7 @@ $loginMarginTop: 200px;
 
   .loginWithFacebook {
     @include backgroundImage($loginFacebookUrl, $loginFacebookWidth, $loginFacebookHeight);
-    @include absolute($loginFacebookTop, $loginFacebookLeft);
+    @include absoluteBottom($loginFacebookBottom, $loginFacebookLeft);
     cursor: pointer;
 
     &.disabled {

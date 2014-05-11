@@ -4,6 +4,12 @@
   left: $left;
 }
 
+@mixin absoluteBottom($bottom, $left) {
+  position: absolute;
+  bottom: $bottom;
+  left: $left;
+}
+
 @mixin size($width, $height) {
   width: $width;
   height: $height;
