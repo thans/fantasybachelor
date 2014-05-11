@@ -56,12 +56,12 @@ function authChangeHandler(fbUser) {
                                 history.pushState({func: 'goToStatistics'}, null, '#statistics');
                             }))
                     .addItem(
-                        $('<li>Meet Juan Pablo</li>')
-                            .attr('data-id', 'juanPablo')
+                        $('<li>Meet Andi</li>')
+                            .attr('data-id', 'theBach')
                             .click(function() {
-                                dropdown.setSelected('juanPablo');
-                                navManager.goToJuanPablo();
-                                history.pushState({func: 'goToJuanPablo'}, null, '#meetJuanPablo');
+                                dropdown.setSelected('theBach');
+                                navManager.goToTheBach();
+                                history.pushState({func: 'goToTheBach'}, null, '#meetTheBach');
                             }));
 
                 // Put username in the top corner
@@ -128,5 +128,3 @@ $(window).bind('popstate', function() {
     console.log(' ');
     history.state && history.state.func && navManager[history.state.func](history.state.data);
 });
-
-

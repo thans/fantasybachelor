@@ -153,14 +153,14 @@ var NavigationManager = function() {
         }
     };
 
-    this.goToJuanPablo = function() {
+    this.goToTheBach = function() {
         if (isLoggedIn) {
 
             // Show main section, hide login section, hide other sections, show this section
             $('#login').hide();
             $('#main').show();
             $('section').hide();
-            var element = $('#juanPabloWrapper').show();
+            var element = $('#theBachWrapper').show();
 
             var contestant = cd.getContestantById(CONSTANTS.JUAN_PABLO_ID);
 

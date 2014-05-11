@@ -174,7 +174,7 @@ button.close {
     width: 315px;
     height: 60px;
     position: absolute;
-    top: 160px;
+    bottom: 20px;
     left: 250px;
     cursor: pointer; }
     #login .loginWithFacebook.disabled {
@@ -411,12 +411,9 @@ header #navigationWrapper {
   width: 320px;
   height: 350px; }
 
-#statistics .chartContainer {
-  float: left; }
-#statistics .small {
-  width: 35%; }
-#statistics .big {
-  width: 65%; }
+#statistics #statsLine {
+  heigth: 600px;
+  width: 100%; }
 
 html {
   height: 100%;
