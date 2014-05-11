@@ -27,7 +27,7 @@ module.exports.User.login = function(userData, success, failure) {
                 success(user.toJSON());
             }, failure);
         } else { // This user is new, create a new user
-            new User(userData).save().then(function(newUser) {
+            new Database.User(userData).save().then(function(newUser) {
                 Database.UserScore.getScore(newUser.id, function(score) {
                     newUser.set('score', score);
                     success(newUser.toJSON());
