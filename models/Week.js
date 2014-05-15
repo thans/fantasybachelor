@@ -82,10 +82,9 @@ module.exports.Weeks.getExtended = function(userId, success, failure) {
                         } else {
 
                             extendedWeeks = _.values(extendedWeeks);
-
                             // Add all contestants to remainingContestants
                             new Database.Contestants()
-                                .query('where', 'id', '!=', '15')
+                                .query('where', 'id', '!=', BACH_ID)
                                 .fetch()
                                 .then(function(contestants) {
                                     _.each(extendedWeeks, function(week) {
@@ -175,7 +174,7 @@ module.exports.Weeks.getWeeklyPredictions = function(success, failure) {
                 failure(err);
             } else {
                 new Database.Contestants()
-                    .query('where', 'id', '!=', '15')
+                    .query('where', 'id', '!=', BACH_ID)
                     .fetch()
                     .then(function(contestants) {
                         contestants.each(function(contestant) {
