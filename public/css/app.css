@@ -143,7 +143,7 @@ button.close {
     padding: 0 18px;
     border-bottom: 1px solid #dcdee0; }
   #bioModal .modal-dialog .contestant {
-    background-image: url("../images/contestantsLarge/womanLarge.png");
+    background-image: url("../images/contestantsLarge/manLarge.png");
     background-repeat: no-repeat;
     width: 320px;
     height: 350px; }
@@ -297,7 +297,7 @@ header #navigationWrapper {
     width: 100%;
     padding: 9px; }
     #contestantSelection #remainingContestantsWrapper #contestantContainer li > div {
-      background-image: url("../images/contestantsSmall/womanSmall.png");
+      background-image: url("../images/contestantsSmall/manSmall.png");
       background-repeat: no-repeat;
       width: 204px;
       height: 80px;
@@ -365,7 +365,7 @@ header #navigationWrapper {
     margin-left: 18px;
     position: relative; }
     .contestantLayout .row .contestant .image {
-      background-image: url("../images/contestantsMedium/womanMedium.png");
+      background-image: url("../images/contestantsMedium/manMedium.png");
       background-repeat: no-repeat;
       width: 160px;
       height: 175px; }
@@ -387,26 +387,26 @@ header #navigationWrapper {
     .contestantLayout .row .contestant.enabled {
       cursor: pointer; }
 
-#juanPablo .stat {
+#theBach .stat {
   font-size: 14px;
   font-weight: 300; }
-  #juanPablo .stat .name {
+  #theBach .stat .name {
     font-size: 14px;
     font-weight: 500; }
-#juanPablo .question {
+#theBach .question {
   font-size: 14px;
   font-weight: 300;
   margin-top: 9px; }
-  #juanPablo .question .q {
+  #theBach .question .q {
     font-size: 14px;
     font-weight: 500; }
-#juanPablo .right {
+#theBach .right {
   float: right; }
-#juanPablo .contestantWrapper {
+#theBach .contestantWrapper {
   padding: 0 18px;
   border-bottom: 1px solid #dcdee0; }
-#juanPablo .contestant {
-  background-image: url("../images/contestantsLarge/womanLarge.png");
+#theBach .contestant {
+  background-image: url("../images/contestantsLarge/manLarge.png");
   background-repeat: no-repeat;
   width: 320px;
   height: 350px; }
