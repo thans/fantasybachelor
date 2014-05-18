@@ -51,10 +51,17 @@ var Facebook = function() {
     // Logs the user out of FB and this app.
     // Calls the callback with no parameters when the logout is complete
     this.logout = function(callback) {
-        FB && FB.logout(function() {
-            callback();
-        });
-        return this;
+      if (FB) {
+        try {
+          FB.logout(function() {
+              callback();
+          });
+        } catch (e) {
+          console.log("logout error: ", e);
+          callback();
+        }
+      }
+      return this;
     }
 
     // Gets the App Id for debug vs production mode
