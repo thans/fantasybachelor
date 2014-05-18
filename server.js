@@ -85,4 +85,3 @@ function errorFunction(res) {
 function getPort() {
     return process.env.PORT || 8000;
 }
-
