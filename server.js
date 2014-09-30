@@ -19,7 +19,7 @@ app.get('/', function(req, res) {
 
 app.post('/loginUser', function (req, res) {
     console.log('loginUser: ' + JSON.stringify(req.body));
-    database.User.login(req.body, responseFunction(res), errorFunction(res));
+    database.User.login(req.body).then(responseFunction(res)).fail(errorFunction(res));
 });
 
 app.get('/getWeeks', function (req, res) {
