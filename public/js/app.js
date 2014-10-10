@@ -56,7 +56,7 @@ function authChangeHandler(fbUser) {
                                 history.pushState({func: 'goToStatistics'}, null, '#statistics');
                             }))
                     .addItem(
-                        $('<li>Meet Andi</li>')
+                        $('<li>Meet Juan Pablo</li>')
                             .attr('data-id', 'theBach')
                             .click(function() {
                                 dropdown.setSelected('theBach');

@@ -1,10 +1,15 @@
+/**
+ * A {@link Week} models a week on the show, or more specifically a round of eliminations.
+ */
 var Database = require('../database.js');
 var moment = require('moment');
 var async = require('async');
 var _ = require('underscore');
+var Q = require('q');
 
 module.exports.Week = Database.MySQL.Model.extend({
-    tableName: 'week',
+    tableName: 'weeks',
+    hasTimestamps : true,
 
     // Relations
     scoringOpportunities: function() {
@@ -23,15 +28,28 @@ module.exports.Weeks = Database.MySQL.Collection.extend({
     model: module.exports.Week
 });
 
-module.exports.Weeks.isSelectionOpen = function(weekId, success, failure) {
+/**
+ * Determines if every user is still able to make {@link Predictions} for the given {@link Week}.
+ * @param weekId The ID of the {@link Week}
+ * @returns {Promise}
+ */
+module.exports.Weeks.isSelectionOpen = function(weekId) {
+    var deferred = Q.defer();
     new Database.Week({id: weekId})
         .fetch()
         .then(function(week) {
-            success(moment().isAfter(week.get('openDatetime')) && moment().isBefore(week.get('closeDatetime')));
-        }, failure);
+            deferred.resolve(moment().isAfter(week.get('openDatetime')) && moment().isBefore(week.get('closeDatetime')));
+        }, deferred.reject);
+    return deferred.promise;
 };
 
-module.exports.Weeks.getExtended = function(userId, success, failure) {
+/**
+ * Gets all of the data for every {@link Week} including related data such as the {@link User}'s selections.
+ * @param userId The ID of the {@link User}
+ * @returns {Promise}
+ */
+module.exports.Weeks.getExtended = function(userId) {
+    var deferred = Q.defer();
     var extendedWeeks = {};
     new Database.Weeks()
         .fetch({withRelated: ['eliminations', 'scoringOpportunities']})
@@ -68,7 +86,7 @@ module.exports.Weeks.getExtended = function(userId, success, failure) {
                     // Record selections
                     async.each(weeks.toArray(), function(week, callback) {
                         week.load({predictions: function(qb) {
-                            qb.where('prediction.user_id', '=', userId);
+                            qb.where('predictions.user_id', '=', userId);
                         }})
                             .then(function(week) {
                                 week.related('predictions').each(function(prediction) {
@@ -78,7 +96,7 @@ module.exports.Weeks.getExtended = function(userId, success, failure) {
                             }, callback)
                     }, function(err) {
                         if (err) {
-                            failure(err);
+                            deferred.reject(err);
                         } else {
 
                             extendedWeeks = _.values(extendedWeeks);
@@ -121,25 +139,36 @@ module.exports.Weeks.getExtended = function(userId, success, failure) {
                                         week.remainingContestants = remainingContestantsWithMultipliers;
                                     });
 
-                                    success(extendedWeeks);
-                                }, failure);
+                                    deferred.resolve(extendedWeeks);
+                                }, deferred.reject);
                         }
                     });
                 });
             });
-        }, failure);
+        }, deferred.reject);
+    return deferred.promise;
 };
 
-module.exports.Weeks.getCurrentWeek = function(success, failure) {
+/**
+ * Gets the {@link Week} that is currently open for {@link Predictions} or is currently airing.
+ * @returns {Promise}
+ */
+module.exports.Weeks.getCurrentWeek = function() {
+    var deferred = Q.defer();
     new Database.Weeks().fetch().then(function(weeks) {
-        success(weeks.find(function(week) {
+        deferred.resolve(weeks.find(function(week) {
             return moment().isAfter(week.get('openDatetime')) && moment().isBefore(week.get('scoresAvailableDatetime'));
         }));
-    }, failure);
+    }, deferred.reject);
+    return deferred.promise;
 };
 
-
-module.exports.Weeks.getWeeklyPredictions = function(success, failure) {
+/**
+ * Gets the number of {@link Predictions} {@link User}s made for each {@link Contestant} by {@link Week}
+ * @returns {Promise}
+ */
+module.exports.Weeks.getWeeklyPredictions = function() {
+    var deferred = Q.defer();
     new Database.Weeks().fetch({withRelated: ['scoringOpportunities']}).then(function(weeks) {
         weeks.sortBy(function(week) {
             return week.number;
@@ -171,7 +200,7 @@ module.exports.Weeks.getWeeklyPredictions = function(success, failure) {
                 }, callback);
         }, function(err) {
             if (err) {
-                failure(err);
+                deferred.reject(err);
             } else {
                 new Database.Contestants()
                     .query('where', 'id', '!=', BACH_ID)
@@ -183,9 +212,28 @@ module.exports.Weeks.getWeeklyPredictions = function(success, failure) {
                                 data: contestantsAndWeekCount[contestant.get('id')]
                             });
                         });
-                        success(finalData);
+                        deferred.resolve(finalData);
                     });
             }
         });
-    }, failure);
+    }, deferred.reject);
+    deferred.promise;
 };
+
+// Create table if it does not exist.
+var knex = Database.MySQL.knex;
+var tableName = module.exports.Week.prototype.tableName;
+knex.schema.hasTable(tableName).then(function(tableExists) {
+    if (tableExists) { return; }
+    knex.schema.createTable(tableName, function(table) {
+        table.increments('id').primary();
+        table.string('name', 255).notNullable();
+        table.integer('number').notNullable();
+        table.dateTime('openDatetime').notNullable();
+        table.dateTime('closeDatetime').notNullable();
+        table.dateTime('scoresAvailableDatetime').notNullable();
+        table.timestamps();
+    }).then(function() {
+        console.log('Created ' + tableName + ' table');
+    });
+});

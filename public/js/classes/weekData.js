@@ -20,7 +20,7 @@ var WeekData = function() {
                 return false;
             }
         });
-        return currentWeek;
+        return currentWeek || weekData[0];
     };
 
     this.getWeekById = function(id) {

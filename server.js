@@ -24,32 +24,32 @@ app.post('/loginUser', function (req, res) {
 
 app.get('/getWeeks', function (req, res) {
     console.log('getWeeks: ' + JSON.stringify(req.query));
-    database.Weeks.getExtended(req.query.userId, responseFunction(res), errorFunction(res));
+    database.Weeks.getExtended(req.query.userId).then(responseFunction(res)).fail(errorFunction(res));
 });
 
 app.get('/getContestants', function (req, res) {
     console.log('getContestants: ' + JSON.stringify(req.body));
-    database.Contestants.getAll(responseFunction(res), errorFunction(res));
+    database.Contestants.getAll().then(responseFunction(res)).fail(errorFunction(res));
 });
 
 app.post('/selectContestant', function(req, res) {
     console.log('selectContestant: ' + JSON.stringify(req.body));
-    database.Predictions.makePrediction(req.body.userId, req.body.weekId, req.body.contestantId, responseFunction(res), errorFunction(res));
+    database.Predictions.makePrediction(req.body.userId, req.body.weekId, req.body.contestantId).then(responseFunction(res)).fail(errorFunction(res));
 });
 
 app.post('/removeContestant', function(req, res) {
     console.log('removeContestant: ' + JSON.stringify(req.body));
-    database.Predictions.removePrediction(req.body.userId, req.body.weekId, req.body.contestantId, responseFunction(res), errorFunction(res));
+    database.Predictions.removePrediction(req.body.userId, req.body.weekId, req.body.contestantId).then(responseFunction(res)).fail(errorFunction(res));
 });
 
 app.get('/getStatistics', function(req, res) {
     console.log('getStatistics');
-    database.Weeks.getWeeklyPredictions(responseFunction(res), errorFunction(res));
+    database.Weeks.getWeeklyPredictions().then(responseFunction(res)).fail(errorFunction(res));
 });
 
 app.get('/getLeaderboard', function(req, res) {
     console.log('getLeaderboard');
-    database.User.getLeaderboard(responseFunction(res), errorFunction(res));
+    database.User.getLeaderboard().then(responseFunction(res)).fail(errorFunction(res));
 });
 
 new compressor.minify({
