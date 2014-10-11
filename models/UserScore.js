@@ -1,10 +1,15 @@
+/**
+ * A {@link UserScore} models the score of a {@link User}. It is separate from a {@link User} for caching purposes.
+ */
 var Database = require('../database.js');
 var moment = require('moment');
 var async = require('async');
 var _ = require('underscore');
+var Q = require('q');
 
 module.exports.UserScore = Database.MySQL.Model.extend({
     tableName: 'userScores',
+    hasTimestamps : true,
 
     // Relations
     user: function() {
@@ -16,7 +21,13 @@ module.exports.UserScores = Database.MySQL.Collection.extend({
     model: module.exports.UserScore
 });
 
-module.exports.UserScore.calculateScore = function(userId, success, failure) {
+/**
+ * Ignores the cached score, and recalculates the score from the {@link User}'s predictions.
+ * @param userId The ID of the {@link User}
+ * @returns {Promise}
+ */
+module.exports.UserScore.calculateScore = function(userId) {
+    var deferred = Q.defer();
     var extendedWeeks = {};
     new Database.Weeks()
         .fetch({withRelated: ['eliminations', 'scoringOpportunities']})
@@ -43,17 +54,17 @@ module.exports.UserScore.calculateScore = function(userId, success, failure) {
             // Record selections
             async.each(weeks, function(week, callback) {
                 week.load({predictions: function(qb) {
-                    qb.where('prediction.user_id', '=', userId);
+                    qb.where('predictions.user_id', '=', userId);
                 }})
-                    .then(function(week) {
-                        week.related('predictions').each(function(prediction) {
-                            extendedWeeks[week.id].selectedContestants.push(prediction.get('contestant_id'));
-                        });
-                        callback();
-                    }, callback)
+                .then(function(week) {
+                    week.related('predictions').each(function(prediction) {
+                        extendedWeeks[week.id].selectedContestants.push(prediction.get('contestant_id'));
+                    });
+                    callback();
+                }, callback)
             }, function(err) {
                 if (err) {
-                    failure(err);
+                    deferred.reject(err);
                 } else {
 
                     // Record eliminations
@@ -94,20 +105,27 @@ module.exports.UserScore.calculateScore = function(userId, success, failure) {
                         }
                         week.multipliers = multipliers;
                     });
-                    success(score);
+                    deferred.resolve(score);
                 }
             });
         });
-}
+    return deferred.promise;
+};
 
-module.exports.UserScore.getScore = function(userId, success, failure) {
+/**
+ * Gets the score for a {@link User} recalcuating only if the cached value is expired.
+ * @param userId The ID of the {@link User}
+ * @returns {Promise}
+ */
+module.exports.UserScore.getScore = function(userId) {
+    var deferred = Q.defer();
     new Database.UserScores()
         .query('where', 'user_id', '=', userId)
         .fetchOne()
         .then(function(userScore) {
             if (userScore === undefined || userScore === null) { // No record
-                Database.UserScore.calculateScore(userId, function(score) {
-                    Database.Weeks.getCurrentWeek(function(currentWeek) {
+                Database.UserScore.calculateScore(userId).then(function(score) {
+                    Database.Weeks.getCurrentWeek().then(function(currentWeek) {
                         var expires;
                         if (currentWeek) {
                             expires = currentWeek.get('scoresAvailableDatetime');
@@ -117,30 +135,49 @@ module.exports.UserScore.getScore = function(userId, success, failure) {
                         new Database.UserScore({
                             score: score,
                             user_id: userId,
-                            updatedTimestamp: new Date(),
-                            expiresTimestamp: expires
+                            expires_at: expires
                         }).save().then(function() {
-                                success(score);
-                            }, failure);
-                    }, failure);
-                }, failure);
-            } else if (moment().isBefore(userScore.get('expiresTimestamp'))) { // Get Cached value
-                success(userScore.get('score'));
+                            deferred.resolve(score);
+                        }, deferred.reject);
+                    }).fail(deferred.reject);
+                }).fail(deferred.reject);
+            } else if (moment().isBefore(userScore.get('expires_at'))) { // Get Cached value
+                deferred.resolve(userScore.get('score'));
             } else {
-                Database.UserScore.calculateScore(userId, function(score) { // Recalculate
-                    Database.Weeks.getCurrentWeek(function(currentWeek) {
+                Database.UserScore.calculateScore(userId).then(function(score) { // Recalculate
+                    Database.Weeks.getCurrentWeek().then(function(currentWeek) {
                         if (currentWeek) {
-                            userScore.set('expiresTimestamp', currentWeek.get('scoresAvailableDatetime'));
+                            userScore.set('expires_at', currentWeek.get('scoresAvailableDatetime'));
                         } else {
-                            userScore.set('expiresTimestamp', moment().add('weeks', 1).valueOf());
+                            userScore.set('expires_at', moment().add('weeks', 1).valueOf());
                         }
                         userScore.set('score', score);
-                        userScore.set('updatedTimestamp', new Date());
                         userScore.save().then(function() {
-                            success(score);
-                        }, failure);
-                    }, failure);
-                }, failure);
+                            deferred.resolve(score);
+                        }, deferred.reject);
+                    }).fail(deferred.reject);
+                }).fail(deferred.reject);
             }
-        }, failure);
-}
+        }, deferred.reject);
+    return deferred.promise;
+};
+
+// Create table if it does not exist.
+var knex = Database.MySQL.knex;
+var tableName = module.exports.UserScore.prototype.tableName;
+knex.schema.hasTable(tableName).then(function(tableExists) {
+    if (tableExists) { return; }
+    knex.schema.createTable(tableName, function(table) {
+        table.increments('id').primary();
+        table.integer('score').notNullable();
+        table.dateTime('expires_at').notNullable();
+        table.integer('user_id')
+            .unsigned()
+            .references('id')
+            .inTable('users')
+            .notNullable();
+        table.timestamps();
+    }).then(function() {
+        console.log('Created ' + tableName + ' table');
+    });
+});
