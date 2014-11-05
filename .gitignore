@@ -19,7 +19,6 @@ compiler.jar
 
 war/WEB-INF/deploy/*
 compiler.jar
-public/js/app.min.js
 node_modules/*
 
 *.zip
@@ -27,3 +26,7 @@ node_modules/*
 
 .idea
 *.iml
+
+.rebooted
+bower_components/
+build/
