@@ -1,0 +1,26 @@
+{
+  "name": "FantasyBachelor",
+  "version": "0.0.0",
+  "homepage": "https://github.com/thans/fantasybachelor",
+  "authors": [
+    "Mitchell Loeppky <mitchell@loeppky.com>",
+    "Tore Hanssen <tk.hanssen@gmail.com>"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "sly": "~1.2.6",
+    "underscore": "~1.7.0",
+    "lodash": "~2.4.1",
+    "moment": "~2.8.3",
+    "highcharts-ng": "~0.0.7",
+    "angular": "~1.2.26"
+  }
+}
