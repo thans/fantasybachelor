@@ -1,0 +1,10 @@
+<div id="footer" ng-class="{hidden : !appLoaded}">
+    <div class="user" ng-mouseover="hover = true" ng-mouseleave="hover = false">
+        <img ng-src="{{profilePic}}" class="circle" />
+        <h1 class="alias">{{alias}}</h1>
+    </div>
+    <div class="spacer">|</div>
+    <div class="league">global</div>
+    <div menu-circle text="logout" name="logout" hover="hover" ng-click="logout()"></div>
+    <div menu-circle text="screen name" name="changeAlias" hover="hover" ng-click="changeAlias()"></div>
+</div>

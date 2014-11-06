@@ -26,6 +26,11 @@ app.post('/loginUser', function (req, res) {
     database.User.login(req.body).then(responseFunction(res)).fail(errorFunction(res));
 });
 
+app.post('/setAlias', function (req, res) {
+    console.log('setAlias: ' + JSON.stringify(req.body));
+    database.User.setAlias(req.body.userId, req.body.alias).then(responseFunction(res)).fail(errorFunction(res));
+});
+
 app.get('/getWeeks', function (req, res) {
     console.log('getWeeks: ' + JSON.stringify(req.query));
     database.Weeks.getExtended(req.query.userId).then(responseFunction(res)).fail(errorFunction(res));

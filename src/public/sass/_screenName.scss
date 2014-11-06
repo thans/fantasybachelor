@@ -1,0 +1,19 @@
+#screenName {
+  @include centered();
+
+  .input {
+    > * {
+      vertical-align: bottom;
+      margin-left: 12px;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+
+  .errorMessage {
+    left: -27px;
+    top: 2px;
+  }
+}
