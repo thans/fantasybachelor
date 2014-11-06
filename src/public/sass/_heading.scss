@@ -1,0 +1,30 @@
+#heading {
+  position: absolute;
+  top: 0;
+  text-align: center;
+  width: 100%;
+  transition: all .5s ease;
+  transition-delay: 1s;
+
+  &.hidden {
+    top: -100px;
+  }
+
+  > * {
+    vertical-align: middle;
+    display: inline-block;
+  }
+
+  ul {
+    padding: 0;
+
+    li {
+      display: inline-block;
+      margin-left: 12px;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+}

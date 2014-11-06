@@ -1,38 +1,18 @@
-$loginTitleTop: 60px;
-$loginTitleLeft: 250px;
-
-$loginFacebookHeight: 60px;
-$loginFacebookWidth: 315px;
-$loginFacebookBottom: 20px;
-$loginFacebookLeft: $loginTitleLeft;
-$loginFacebookUrl: $imagesDir + "facebookLogin.png";
-
-$loginHeight: $roseHeight;
-$loginWidth: 750px;
-$loginMarginTop: 200px;
-
 #login {
-  position: relative;
-  margin: $loginMarginTop auto 0 auto;
-  @include size($loginWidth, $loginHeight);
-  border-bottom:  1px solid $lightGray;
+  position: absolute;
+  top: 50%;
+  margin-top: -100px;
+  text-align: center;
+  width: 100%;
 
-  .rose {
-    @include backgroundImage($roseUrl, $roseWidth, $roseHeight);
-  }
+  .button {
+    display: inline-block;
+    margin-left: 36px;
 
-  .title {
-    @include fontStyleHeading1();
-    @include absolute($loginTitleTop, $loginTitleLeft);
-  }
-
-  .loginWithFacebook {
-    @include backgroundImage($loginFacebookUrl, $loginFacebookWidth, $loginFacebookHeight);
-    @include absoluteBottom($loginFacebookBottom, $loginFacebookLeft);
-    cursor: pointer;
-
-    &.disabled {
-      opacity: .5;
+    &:first-child {
+      margin-left: 0;
     }
+
+    @include hoverable();
   }
 }
