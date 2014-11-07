@@ -65,7 +65,6 @@ app.factory('facebookFactory', ['$rootScope', '$q', 'EVENTS', 'FACEBOOK', functi
 
         FB.api('/me', {fields: 'first_name,last_name,id,email,picture'},
             function(data) {
-            console.log(data);
             var userData = {
                 firstName : data.first_name,
                 lastName : data.last_name,
