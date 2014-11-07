@@ -12,5 +12,17 @@ app.factory('backendFactory', ['$http', function($http) {
         });
     };
 
+    backendFactory.loadContestants = function() {
+        return $http.get('/getContestants');
+    };
+
+    backendFactory.loadWeeks = function(userId) {
+        return $http.get('/getWeeks', {
+            params : {
+                userId : userId
+            }
+        });
+    };
+
     return backendFactory;
 }]);
