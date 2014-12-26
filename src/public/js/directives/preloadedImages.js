@@ -1,19 +1,24 @@
 app.directive('preloadedImages', ['EVENTS', 'STATIC_IMAGES', 'contestantFactory', function(EVENTS, STATIC_IMAGES, contestantFactory) {
     return {
-        controller : function($scope) {
+        controller : ['$scope', function($scope) {
             $scope.images = [];
 
             _.each(STATIC_IMAGES, function(image) {
                 $scope.images.push({
                     src : image,
                     loaded : false,
-                    type : 'static',
+                    type : 'static'
                 })
             });
 
-            var pushContestantImage = function(size, codename) {
+            var pushContestantImages = function(codename) {
                 $scope.images.push({
-                    src : 'images/contestants' + size + '/' + codename + size + '.png',
+                    src : 'images/contestants/' + codename + '.png',
+                    type : 'contestant',
+                    loaded : false
+                });
+                $scope.images.push({
+                    src : 'images/contestants/heads/' + codename + 'Head.png',
                     type : 'contestant',
                     loaded : false
                 });
@@ -22,9 +27,7 @@ app.directive('preloadedImages', ['EVENTS', 'STATIC_IMAGES', 'contestantFactory'
             $scope.$on(EVENTS.CONTESTANTS.LOADED, function() {
                 if (!contestantFactory.contestants) { return; }
                 _.each(contestantFactory.contestants, function(contestant) {
-                    pushContestantImage('Small', contestant.codename);
-                    pushContestantImage('Medium', contestant.codename);
-                    pushContestantImage('Large', contestant.codename);
+                    pushContestantImages(contestant.codename);
                 });
             });
 
@@ -42,7 +45,7 @@ app.directive('preloadedImages', ['EVENTS', 'STATIC_IMAGES', 'contestantFactory'
 
             watchForImageType('contestant', EVENTS.IMAGES.CONTESTANTS_LOADED);
             watchForImageType('static', EVENTS.IMAGES.STATIC_LOADED);
-        },
+        }],
         template : '<img ng-repeat="image in images" preloaded-image ng-src="{{image.src}}" image="image" />'
     }
 }]);

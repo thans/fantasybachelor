@@ -1,0 +1,7 @@
+@mixin marginAfter($margin) {
+  margin-right: $margin;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}

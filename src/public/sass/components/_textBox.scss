@@ -1,0 +1,27 @@
+@import 'compass/css3/appearance';
+@import 'compass/css3/box-shadow';
+@import 'compass/css3/border-radius';
+@import '../constants/fonts';
+@import '../constants/border';
+@import '../constants/colors';
+@import '../mixins/mobile';
+
+input[type=text] {
+  padding: 4px 12px;
+  font-family: inherit;
+  line-height: 1.467;
+  color: $white;
+  outline: none;
+  background: rgba(0,0,0,.08);
+  @include border-radius(6px);
+  @include box-shadow(none);
+  @include appearance(none);
+  @include largeFont();
+  @include defaultBorder();
+
+  @include mobile {
+    height: 100px;
+    padding: 8px 20px;
+    @include border-radius(15px);
+  }
+}

@@ -1,0 +1,90 @@
+@import '../constants/animation';
+@import '../constants/fonts';
+@import '../constants/colors';
+@import '../mixins/position';
+@import '../mixins/circles';
+@import '../mixins/size';
+@import '../mixins/mobile';
+@import '../mixins/hover';
+@import 'compass/css3/transition';
+@import 'compass/css3/transform';
+@import 'compass/css3/images';
+
+$footerHeight: 150px;
+$footerOffset: 15px;
+$footerHiddenOffset: -$footerHeight;
+
+#footer {
+  @include fixed(null, null, 0);
+  @include transition(all $headerFooterFadeIn ease $headerFooterFadeInDelay);
+  @include largeFont();
+  @include background-image(linear-gradient($redTransparent, $red 90%, $red));
+  @include size(100%, $footerHeight);
+  text-align: center;
+
+  &.hidden {
+    bottom: $footerHiddenOffset;
+    display: none;
+  }
+
+  .content {
+    @include absolute(null, null, $footerOffset);
+    width: 100%;
+
+    .user {
+      display: inline-block;
+      @include hoverable();
+
+      .profilePic {
+        @include circle(50px);
+
+        @include mobile {
+          @include thinCircle(75px);
+        }
+      }
+
+      .alias {
+        @include largeFont();
+        display: inline-block;
+        margin-left: 12px;
+        line-height: 30px;
+      }
+
+      > * {
+        vertical-align: middle;
+      }
+    }
+
+    .menuCircle {
+      @include absolute(null, 50%);
+      @include hoverable();
+      @include transition(all .25s ease);
+      @include transform(scale(0.0));
+      @include mediumFont();
+      padding: 20px 0;
+
+      &.hover {
+        @include transform(scale(1.0));
+      }
+
+      &.logout {
+        @include transition-delay(.1s);
+        @include textCircle(60px);
+        margin-left: 6px;
+        bottom: 45px;
+      }
+
+      &.changeAlias {
+        @include transition-delay(0s);
+        @include textCircle(80px);
+        margin-left: -90px;
+        bottom: 50px;
+      }
+    }
+
+    .league, .spacer {
+      vertical-align: middle;
+      display: inline-block;
+    }
+  }
+}

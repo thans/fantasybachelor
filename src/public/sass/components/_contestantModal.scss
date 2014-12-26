@@ -1,0 +1,127 @@
+@import 'compass/css3/transition';
+@import '../constants/colors';
+@import '../constants/fonts';
+@import '../mixins/position';
+@import '../mixins/size';
+@import '../mixins/mobile';
+
+$contestantModalCloseButtonSize: 25px;
+$contestantModalCloseButtonMobileSize: 75px;
+$contestantModalCloseButtonOffset: 25px;
+$contestantModalImageWidth: 75%;
+$contestantModalImageDividerWidth: 85%;
+$contestantModalPadding: 60px;
+
+[contestant-modal] {
+  .innerWrapper {
+    background: $white;
+    color: $offBlack;
+
+    @include desktop {
+      @include transition(opacity .5s ease);
+      @include centerHorizontal(1000px);
+      top: 200px;
+      width: 1000px;
+      padding: 20px;
+      opacity: 1;
+    }
+
+    @include mobile {
+      @include size(100%);
+      @include fixed(0%);
+      @include transition(top .5s ease);
+      padding: $contestantModalPadding;
+      overflow-y: scroll;
+    }
+
+    &.hidden {
+      @include mobile {
+        @include fixed(100%);
+      }
+
+      @include desktop {
+        pointer-events: none;
+        opacity: 0;
+      }
+    }
+
+    .close {
+      @include size($contestantModalCloseButtonSize);
+      @include absolute($contestantModalCloseButtonOffset, null, null, $contestantModalCloseButtonOffset);
+      background-size: cover;
+
+      @include mobile {
+        @include size($contestantModalCloseButtonMobileSize);
+      }
+    }
+
+    .imageWrapper {
+      @include relative();
+      text-align: center;
+      width: 100%;
+
+      @include desktop {
+        width: 300px;
+        float: right;
+        margin-left: 20px;
+      }
+
+      .fullBodyImage {
+        width: 100%;
+        display: block;
+        margin: auto;
+
+        @include mobile {
+          width: $contestantModalImageWidth;
+        }
+      }
+
+      .divider {
+        width: 100%;
+        border-top: 1px solid $offBlack;
+
+        @include mobile {
+          @include centerHorizontal($contestantModalImageDividerWidth);
+          width: $contestantModalImageDividerWidth;
+          bottom: 0;
+        }
+      }
+    }
+
+    .bioStat, .bioQuestion {
+      @include mediumFont();
+    }
+
+    .bioStat {
+      .stat {
+        font-weight: 600;
+      }
+    }
+
+    .bioQuestion {
+      padding-top: $contestantModalPadding/2;
+
+      .question {
+        font-weight: 600;
+      }
+    }
+
+    .buttonWrapper {
+      text-align: center;
+      margin-top: $contestantModalPadding;
+    }
+  }
+
+  .glass {
+    @include transition(opacity .5s ease);
+    @include size(100%);
+    @include fixed(0,0);
+    opacity: .5;
+    background: $black;
+
+    &.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+}

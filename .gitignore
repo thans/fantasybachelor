@@ -30,3 +30,4 @@ node_modules/*
 .rebooted
 bower_components/
 build/
+*.log

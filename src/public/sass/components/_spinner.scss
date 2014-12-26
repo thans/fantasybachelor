@@ -1,0 +1,40 @@
+@import '../constants/colors';
+@import '../constants/fonts';
+@import '../mixins/position';
+@import '../mixins/size';
+@import '../mixins/mobile';
+@import 'compass/css3/transform';
+@import 'compass/css3/animation';
+
+$spinnerSize: 40px;
+$spinnerOpacity: .6;
+$spinnerSpeed: 2s;
+
+.spinner {
+  @include size($spinnerSize);
+  @include relative();
+
+
+  @include mobile {
+    @include size($spinnerSize * 2);
+  }
+}
+
+.bounce1, .bounce2 {
+  border-radius: 50%;
+  background-color: $white;
+  opacity: $spinnerOpacity;
+
+  @include size(100%);
+  @include absolute(0,0);
+  @include animation(bounce $spinnerSpeed infinite ease-in-out);
+}
+
+.bounce2 {
+  @include animation-delay(-$spinnerSpeed/2);
+}
+
+@include keyframes(bounce) {
+  0%, 100% { @include transform(scale(0.0)); }
+  50% { @include transform(scale(1.0)); }
+}

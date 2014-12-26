@@ -1,4 +1,4 @@
-app.factory('authFactory', ['$rootScope', '$q', '$location', '$http', 'EVENTS', 'FACEBOOK', 'GOOGLE_PLUS', 'facebookFactory', 'googlePlusFactory', 'backendFactory', function($rootScope, $q, $location, $http, EVENTS, FACEBOOK, GOOGLE_PLUS, facebookFactory, googlePlusFactory, backendFactory) {
+app.factory('authFactory', ['$rootScope', 'EVENTS', 'FACEBOOK', 'GOOGLE_PLUS', 'facebookFactory', 'googlePlusFactory', 'backendFactory', function($rootScope, EVENTS, FACEBOOK, GOOGLE_PLUS, facebookFactory, googlePlusFactory, backendFactory) {
     var authFactory = {};
 
     $rootScope.$on(EVENTS.FACEBOOK.SDK_LOADED, function() {

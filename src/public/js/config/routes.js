@@ -11,9 +11,17 @@ app.config(['$routeProvider', 'ROUTES', function($routeProvider, ROUTES) {
             templateUrl : 'html/alias.html',
             controller : 'aliasController'
         })
+        .when(ROUTES.WEEK, {
+            templateUrl : 'html/week.html',
+            controller : 'weekController'
+        })
+        .when(ROUTES.WEEK_BASE, {
+            templateUrl : 'html/week.html',
+            controller : 'weekController'
+        })
         .otherwise({
             redirectTo : function() {
-                return '/';
+                return ROUTES.WEEK_BASE;
             }
         });
 }]);

@@ -6,14 +6,16 @@ app.factory('routeFactory', ['$rootScope', '$location', 'EVENTS', 'ROUTES', 'aut
         silentAuthFail : false,
         contestantImages : false,
         staticImages : false,
-        weeks : true
+        weeks : false
     };
 
     $rootScope.$watch(function() { return routeFactory.state; }, function(state) {
         if (state.auth && state.contestantImages && state.weeks && state.staticImages) {
             $rootScope.appLoaded = true;
+            console.log('App loaded');
         } else if (state.silentAuthFail && state.contestantImages && state.staticImages) {
             $rootScope.appLoaded = true;
+            console.log('App loaded');
         } else {
             $rootScope.appLoaded = false;
         }
@@ -26,36 +28,43 @@ app.factory('routeFactory', ['$rootScope', '$location', 'EVENTS', 'ROUTES', 'aut
     routeFactory.validators[ROUTES.TEST] = function() {
         return !!authFactory.user;
     };
+    routeFactory.validators[ROUTES.WEEK] = routeFactory.validators[ROUTES.WEEK_BASE] = function() {
+        return !!authFactory.user && !!$rootScope.weeks;
+    };
     routeFactory.validators[ROUTES.LOGIN] = function() {
         return !authFactory.user;
     };
 
     $rootScope.$on('$locationChangeStart', function(event, next, current) {
         console.log('Route changing to: ' + next);
+    });
 
-        var nextRoute = next.substring(next.indexOf('#') + 1);
+    $rootScope.$on('$routeChangeStart', function(event, next, current) {
+        if (!current) { routeFactory.goToHome(); return; }
+        if (!next.$$route) { return; }
+
+        var nextRoute = next.$$route.originalPath;
         if (routeFactory.validators[nextRoute] && routeFactory.validators[nextRoute]()) { return; }
-        if (next === current) { routeFactory.goToHome(); return; }
+        console.log('Route change cancelled');
         event.preventDefault();
     });
 
     $rootScope.$on(EVENTS.AUTHENTICATION.AUTHENTICATED, function() {
         var user = authFactory.user;
         if (!user.alias) {
-            $location.path(ROUTES.CHANGE_ALIAS);
+            routeFactory.goToChangeAlias();
             return;
         }
-        $location.path(ROUTES.TEST);
         routeFactory.state.auth = true;
     });
 
     $rootScope.$on(EVENTS.AUTHENTICATION.SILENT_AUTHENTICATION_FAILED, function() {
-        $location.path(ROUTES.LOGIN);
+        routeFactory.goToLogin();
         routeFactory.state.silentAuthFail = true;
     });
 
     $rootScope.$on(EVENTS.AUTHENTICATION.LOGGED_OUT, function() {
-        $location.path(ROUTES.LOGIN);
+        routeFactory.goToLogin();
     });
 
     $rootScope.$on(EVENTS.IMAGES.CONTESTANTS_LOADED, function() {
@@ -66,12 +75,25 @@ app.factory('routeFactory', ['$rootScope', '$location', 'EVENTS', 'ROUTES', 'aut
         routeFactory.state.staticImages = true;
     });
 
+    $rootScope.$on(EVENTS.WEEKS.LOADED, function() {
+        routeFactory.state.weeks = true;
+        routeFactory.goToWeek();
+    });
+
     routeFactory.goToChangeAlias = function() {
         $location.path(ROUTES.CHANGE_ALIAS);
     };
 
     routeFactory.goToTest = function() {
         $location.path(ROUTES.TEST);
+    };
+
+    routeFactory.goToWeek = function(weekId) {
+        $location.path(ROUTES.WEEK_BASE + (weekId || ''));
+    };
+
+    routeFactory.goToLogin = function() {
+        $location.path(ROUTES.LOGIN);
     };
 
     routeFactory.goToHome = function() {

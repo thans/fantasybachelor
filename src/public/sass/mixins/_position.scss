@@ -1,0 +1,37 @@
+@mixin position($type, $top:null, $left:null, $bottom:null, $right:null) {
+  position: $type;
+  @if $top != null {
+    top: $top;
+  }
+  @if $left != null {
+    left: $left;
+  }
+  @if $bottom != null {
+    bottom: $bottom;
+  }
+  @if $right != null {
+    right: $right;
+  }
+}
+
+@mixin absolute($top:null, $left:null, $bottom:null, $right:null) {
+  @include position(absolute, $top, $left, $bottom, $right);
+}
+
+@mixin relative($top:null, $left:null, $bottom:null, $right:null) {
+  @include position(relative, $top, $left, $bottom, $right);
+}
+
+@mixin fixed($top:null, $left:null, $bottom:null, $right:null) {
+  @include position(fixed, $top, $left, $bottom, $right);
+}
+
+@mixin centerHorizontal($width) {
+  @include absolute(null, 50%);
+  margin-left: -$width/2;
+}
+
+@mixin centerVertical($height) {
+  @include absolute(50%);
+  margin-top: -$height/2;
+}

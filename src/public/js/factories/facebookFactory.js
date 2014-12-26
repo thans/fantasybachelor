@@ -1,4 +1,4 @@
-app.factory('facebookFactory', ['$rootScope', '$q', 'EVENTS', 'FACEBOOK', function($rootScope, $q, EVENTS, FACEBOOK) {
+app.factory('facebookFactory', ['$rootScope', 'EVENTS', 'FACEBOOK', function($rootScope, EVENTS, FACEBOOK) {
     var facebookFactory = {};
 
     /**
@@ -91,7 +91,7 @@ app.factory('facebookFactory', ['$rootScope', '$q', 'EVENTS', 'FACEBOOK', functi
         } catch (e) {
             $rootScope.$broadcast(EVENTS.FACEBOOK.LOGOUT_ERROR);
         }
-        $rootScope.$apply();
+        // $rootScope.$apply();
     };
 
     window.fbAsyncInit = facebookFactory.init;

@@ -1,9 +1,12 @@
-<div id="heading" ng-class="{hidden : !appLoaded}">
-    <h1>fantasy bach</h1>
-    <img src="images/logoSmall.png" />
-    <ul>
-        <li>leagues</li>
-        <li>weeks</li>
-        <li>leaderboard</li>
-    </ul>
+<div id="heading" ng-class="{hidden : !appLoaded || !user}">
+    <div class="content">
+        <img id="menu" ng-click="showSlideOutMenu($event)" src="images/menu.png" />
+        <h1>fantasy bach</h1>
+        <img id="logo" src="images/logo.png" />
+        <ul>
+            <li>leagues</li>
+            <li>weeks</li>
+            <li>leaderboard</li>
+        </ul>
+    </div>
 </div>
