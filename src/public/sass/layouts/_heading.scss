@@ -1,0 +1,75 @@
+@import 'compass/css3/transition';
+@import 'compass/css3/images';
+@import '../constants/animation';
+@import '../constants/colors';
+@import '../mixins/size';
+@import '../mixins/position';
+@import '../mixins/mobile';
+
+$headingHeight: 150px;
+$headingOffset: 0px;
+$headingHiddenOffset: -$headingHeight;
+
+#heading {
+  @include fixed(0);
+  @include size(100%, $headingHeight);
+  @include transition(all $headerFooterFadeIn ease $headerFooterFadeInDelay);
+  @include background-image(linear-gradient($red, $red 30%, $redTransparent));
+  text-align: center;
+
+  &.hidden {
+    top: $headingHiddenOffset;
+    display: none;
+  }
+
+  .content {
+    @include absolute($headingOffset);
+    width: 100%;
+
+    > * {
+      vertical-align: middle;
+      display: inline-block;
+    }
+
+    h1 {
+      @include mobile {
+        margin: 20px 0;
+      }
+    }
+
+    #menu {
+      @include absolute(25px, 25px);
+      @include size(75px);
+
+      @include desktop {
+        display: none;
+      }
+    }
+
+    #logo {
+      @include size(50px);
+
+      @include mobile {
+        display: none;
+        @include size(75px);
+      }
+    }
+
+    ul {
+      padding: 0;
+
+      @include mobile {
+        display: none;
+      }
+
+      li {
+        display: inline-block;
+        margin-left: 12px;
+
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,5 @@
+<div class="innerWrapper" ng-click="callback(contestant, multiplier)" ng-class="{hoverable : callback}">
+    <img class="head" src="" ng-src="images/contestants/heads/{{contestant.codename || 'woman'}}Head.png" />
+    <div class="multiplier" ng-show="multiplier > 1">{{multiplier}}x</div>
+    <div class="name">{{contestant.name | lowercase}}</div>
+</div>

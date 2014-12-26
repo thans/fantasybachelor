@@ -1,0 +1,52 @@
+@import 'compass/css3/transform';
+@import 'compass/css3/transition';
+@import 'compass/css3/box-shadow';
+@import '../constants/colors';
+@import '../constants/fonts';
+@import '../mixins/size';
+@import '../mixins/position';
+
+$slideOutMenuWidth: 50%;
+$slideOutMenuTransitionDuration: .5s;
+
+div[slide-out-menu] {
+  @include translateX(0px);
+  @include transition(transform $slideOutMenuTransitionDuration ease);
+  @include size(100%);
+
+  .slideOutMenuContent {
+    @include size($slideOutMenuWidth, 100%);
+    @include absolute(0, -$slideOutMenuWidth);
+    background: url('../images/slideOutMenuTexture.png');
+    background-size: cover;
+    overflow-y: scroll;
+
+    ul {
+      padding: 0;
+      margin: 0;
+
+      li {
+        display: block;
+        padding: 30px;
+        margin: 0;
+        @include largeFont();
+      }
+    }
+  }
+
+  .slideOutMainContent {
+    @include size(100%);
+    @include absolute();
+    @include box-shadow(0px 0 40px rgba(0,0,0,.5));
+
+    .scrollable {
+      @include size(100%);
+      @include relative();
+      overflow-y: scroll;
+    }
+  }
+
+  &.active {
+    @include translateX($slideOutMenuWidth);
+  }
+}

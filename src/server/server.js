@@ -1,7 +1,6 @@
 var express = require('express');
 var path = require('path');
 var database = require('./database');
-//var compressor = require('node-minify');
 
 var app = express();
 
@@ -10,20 +9,17 @@ console.log('Running in: ' + process.env.NODE_ENV);
 app.use(express.compress());
 app.use(express.bodyParser());
 
-//app.use('/js', express.static('public/js'));
-//app.use('/css', express.static('public/css'));
-//app.use('/images', express.static('public/images'));
-//app.get('/', function(req, res) {
-//    res.sendfile('public/index.html');
-//});
-
-
 var publicPath = path.resolve(__dirname + '/../public');
-app.use(express.static(publicPath));
+app.use(express.static(publicPath, {maxAge: 0}));
 
 app.post('/loginUser', function (req, res) {
     console.log('loginUser: ' + JSON.stringify(req.body));
     database.User.login(req.body).then(responseFunction(res)).fail(errorFunction(res));
+});
+
+app.post('/setAlias', function (req, res) {
+    console.log('setAlias: ' + JSON.stringify(req.body));
+    database.User.setAlias(req.body.userId, req.body.alias).then(responseFunction(res)).fail(errorFunction(res));
 });
 
 app.get('/getWeeks', function (req, res) {

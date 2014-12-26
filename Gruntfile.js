@@ -16,8 +16,10 @@ module.exports = function(grunt) {
             js: 'build/public/js/*',
             css: 'build/public/css/*',
             sass: 'build/public/sass',
-            html: 'build/public/index.html',
-            components: 'build/components'
+            images: 'build/public/images',
+            html: ['build/public/index.html', 'build/public/html/*'],
+            components: 'build/components',
+            server: 'build/server'
         },
         copy: {
             all: {
@@ -32,6 +34,12 @@ module.exports = function(grunt) {
                         expand: true,
                         dest: 'build/public/components',
                         cwd: 'bower_components',
+                        src: ['**/*']
+                    },
+                    {
+                        expand: true,
+                        dest: 'build/public/images',
+                        cwd: 'src/public/images/compressed',
                         src: ['**/*']
                     }
                 ]
@@ -49,15 +57,37 @@ module.exports = function(grunt) {
                 src: ['**/*.scss']
             },
             html: {
-                expand: true,
-                dest: 'build/public',
-                cwd: 'src/public',
-                src: ['index.html']
+                files : [
+                    {
+                        expand: true,
+                        dest: 'build/public/html',
+                        cwd: 'src/public/html',
+                        src: ['**/*.html']
+                    },
+                    {
+                        expand: true,
+                        dest: 'build/public',
+                        cwd: 'src/public',
+                        src: ['index.html']
+                    }
+                ]
             },
             components: {
                 expand: true,
                 dest: 'build/public/components',
                 cwd: 'bower_components',
+                src: ['**/*']
+            },
+            server: {
+                expand: true,
+                dest: 'build/server',
+                cwd: 'src/server',
+                src: ['**/*']
+            },
+            images: {
+                expand: true,
+                dest: 'build/public/images',
+                cwd: 'src/public/images/compressed',
                 src: ['**/*']
             }
         },
@@ -72,6 +102,14 @@ module.exports = function(grunt) {
                 }]
             }
         },
+        compass: {
+            dist: {
+                options: {
+                    sassDir: 'build/public/sass',
+                    cssDir: 'build/public/css'
+                }
+            }
+        },
         watch: {
             js: {
                 files: ['src/public/**/*.js'],
@@ -82,20 +120,34 @@ module.exports = function(grunt) {
             },
             sass: {
                 files: ['src/public/**/*.scss'],
-                tasks: ['clean:css', 'clean:sass', 'copy:sass', 'sass'],
+                tasks: ['clean:css', 'clean:sass', 'copy:sass', 'compass'],
                 options: {
                     livereload: true
                 }
             },
             html: {
-                files: ['src/public/index.html'],
+                files: ['src/public/**/*.html'],
                 tasks: ['clean:html', 'copy:html'],
                 options: {
                     livereload: true
                 }
             },
             server: {
+                files: ['src/server/**/*'],
+                tasks: ['clean:server', 'copy:server'],
+                options: {
+                    livereload: true
+                }
+            },
+            rebooted: {
                 files: ['.rebooted'],
+                options: {
+                    livereload: true
+                }
+            },
+            images: {
+                files: ['src/public/images/**/*'],
+                tasks: ['clean:images', 'copy:images'],
                 options: {
                     livereload: true
                 }
@@ -121,6 +173,7 @@ module.exports = function(grunt) {
                 script: 'build/server/server.js',
                 options: {
                     nodeArgs: ['--debug', '--debug-brk'],
+                    watch: ['build/server/**/*'],
 
                     callback: function (nodemon) {
 
@@ -152,6 +205,7 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
@@ -161,10 +215,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-node-inspector');
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-usemin');
-    grunt.loadNpmTasks('grunt-debug-task');
     grunt.loadNpmTasks('grunt-env');
 
-    grunt.registerTask('default', ['clean:all', 'copy:all', 'sass', 'useminPrepare', 'concat', 'uglify', 'cssmin', 'usemin']);
-    grunt.registerTask('debug', ['clean:all', 'copy:all', 'sass', 'env:dev', 'concurrent:dev']);
+    grunt.registerTask('default', ['clean:all', 'copy:all', 'compass', 'useminPrepare', 'concat', 'uglify', 'cssmin', 'usemin']);
+    grunt.registerTask('debug', ['clean:all', 'copy:all', 'compass', 'env:dev', 'concurrent:dev']);
 
 };

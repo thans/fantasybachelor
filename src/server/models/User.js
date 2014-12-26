@@ -28,16 +28,20 @@ module.exports.Users = Database.MySQL.Collection.extend({
  * Creates a new user with the given user data if the user does not already exist.
  * @param userData
  * return {@link Promise} with the JSON version of the {@link User} and the user's score.
- * TODO: Add other logins https://github.com/thans/fantasybachelor/issues/7
  */
 module.exports.User.login = function(userData) {
+    var deferred = Q.defer();
+    if (!userData || !userData.firstName || !userData.lastName || !userData.service || !userData.id) {
+        deferred.reject('Missing userData');
+        return;
+    }
     userData = {
         firstName : userData.firstName,
         lastName : userData.lastName,
-        authenticationService : 'facebook',
-        authenticationServiceId : userData.fbId
+        authenticationService : userData.service,
+        authenticationServiceId : userData.id,
+        email : userData.email
     };
-    var deferred = Q.defer();
     new Database.User(userData).fetch().then(function(user) {
         if (user) { // This user exists, so get their score
             Database.UserScore.getScore(user.id).then(function(score) {
@@ -48,11 +52,35 @@ module.exports.User.login = function(userData) {
             new Database.User(userData).save().then(function(newUser) {
                 Database.UserScore.getScore(newUser.id).then(function(score) {
                     newUser.set('score', score);
-                    deferred.resolve(user.toJSON());
+                    deferred.resolve(newUser.toJSON());
                 }).fail(deferred.reject);
             });
         }
     });
+    return deferred.promise;
+};
+
+/**
+ * Sets user's alias
+ * @param userId The ID of the user to update.
+ * @param alias The new alias for the user.
+ * return {@link Promise}
+ */
+module.exports.User.setAlias = function(userId, alias) {
+    var deferred = Q.defer();
+    if (!userId || !alias) {
+        deferred.reject('Missing userId or alias');
+        return;
+    }
+    new Database.User({ id : userId }).fetch().then(function(user) {
+        if (!user) {
+            deferred.reject('User not found');
+            return;
+        }
+
+        user.set('alias', alias);
+        user.save().then(deferred.resolve, deferred.reject);
+    }, deferred.reject);
     return deferred.promise;
 };
 
@@ -90,8 +118,9 @@ knex.schema.hasTable(tableName).then(function(tableExists) {
         table.increments('id').primary();
         table.string('firstName', 63).notNullable();
         table.string('lastName', 63).notNullable();
-        table.enu('authenticationService', ['FACEBOOK', 'GOOGLE']).notNullable();
-        table.bigInteger('authenticationServiceId').notNullable();
+        table.string('email', 63).nullable();
+        table.enu('authenticationService', ['FACEBOOK', 'GOOGLE_PLUS']).notNullable();
+        table.string('authenticationServiceId', 63).notNullable();
         table.string('alias', 63).nullable();
         table.timestamps();
     }).then(function() {

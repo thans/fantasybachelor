@@ -1,0 +1,41 @@
+.menuCircleWrapper {
+  left: 50%;
+  position: absolute;
+  display: inline-block;
+  transition: all .25s ease;
+  -webkit-transform: scale(0.0);
+  padding: 20px;
+
+  &.logout {
+    margin-left: 20px;
+    bottom: 35px;
+    -webkit-transition-delay: .1s;
+    transition-delay: .1s;
+
+    .menuCircle {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  &.changeAlias {
+    margin-left: -90px;
+    bottom: 40px;
+
+    .menuCircle {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
+  &.hover {
+    -webkit-transform: scale(1.0);
+  }
+
+  .menuCircle {
+    background: white;
+    border-radius: 50%;
+    display: inline-block;
+    color: red;
+  }
+}

@@ -1,0 +1,35 @@
+@import '../mixins/size';
+@import '../mixins/mobile';
+@import '../mixins/hover';
+
+$screenNameButtonSize: 47px;
+$screenNameMobileButtonSize: 100px;
+
+#screenName {
+  @include centered();
+
+  .input {
+    > * {
+      vertical-align: bottom;
+      margin-left: 16px;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+
+  .circleButton {
+    @include size($screenNameButtonSize);
+    @include hoverable();
+
+    @include mobile {
+      @include size($screenNameMobileButtonSize);
+    }
+  }
+
+  .errorMessage {
+    left: -27px;
+    top: 2px;
+  }
+}
