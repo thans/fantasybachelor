@@ -1,0 +1,28 @@
+@import '../mixins/margin';
+@import '../mixins/position';
+@import '../mixins/size';
+@import '../mixins/hover';
+
+$loginButtonSize: 150px;
+$loginMobileButtonSize: 300px;
+
+#login {
+  @include centerVertical(500px);
+  text-align: center;
+  width: 100%;
+
+  .button {
+    display: inline-block;
+    text-align: center;
+    @include marginAfter(36px);
+
+    @include hoverable();
+
+    img {
+      @include size($loginButtonSize);
+      @include mobile {
+        @include size($loginMobileButtonSize);
+      }
+    }
+  }
+}

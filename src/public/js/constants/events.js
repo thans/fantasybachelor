@@ -28,5 +28,12 @@ app.constant('EVENTS', {
     },
     CONTESTANTS : {
         LOADED : 'contestants.loaded'
+    },
+    WEEKS : {
+        LOADED : 'weeks.loaded'
+    },
+    CONTESTANT_MODAL : {
+        SHOW : 'contestantModal.show',
+        HIDE : 'contestantModal.hide'
     }
 });

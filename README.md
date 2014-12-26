@@ -14,6 +14,14 @@ Developer Setup
 
 Follow the instructions at http://nodejs.org/ for getting started with node and npm.
 
+### Step 2: Setup SASS and Compass
+
+Install SASS and Compass using (make sure you have installed Ruby):
+
+```
+gem update --system && gem install sass && gem install compass
+```
+
 ### Step 2: Setup Bower
 
 Bower is a client side asset manager. It will automatically download the client side javascript dependencies.

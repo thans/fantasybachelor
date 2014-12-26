@@ -1,0 +1,7 @@
+@import '../constants/border';
+
+.circleButton {
+  @include defaultBorder();
+  display: inline-block;
+  border-radius: 50%;
+}

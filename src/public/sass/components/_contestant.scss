@@ -1,0 +1,42 @@
+@import '../mixins/circles';
+@import '../mixins/mobile';
+@import '../mixins/position';
+@import '../constants/fonts';
+@import '../mixins/hover';
+
+$contestantCircleSize: 100px;
+$contestantMobileCircleSize: 185px;
+$contestantMultiplierSize: 75px;
+[contestant] {
+  @include relative();
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+
+  .innerWrapper {
+    img {
+      @include circle($contestantCircleSize, $contestantMobileCircleSize);
+      pointer-events: none;
+    }
+
+    .multiplier {
+      @include thinCircle($contestantMultiplierSize);
+      @include absolute(null, null, 32px, -4px);
+      background: $yellow;
+      line-height: $contestantMultiplierSize - 7px;
+    }
+
+    .name {
+      text-align: center;
+      min-height: $mediumFont;
+
+      @include mobile {
+        min-height: $mediumMobileFont;
+      }
+    }
+
+    &.hoverable {
+      @include hoverable();
+    }
+  }
+}

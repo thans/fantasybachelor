@@ -1,4 +1,4 @@
-app.controller('aliasController', ['$scope', '$location', 'backendFactory', 'authFactory', 'routeFactory', function($scope, $location, backendFactory, authFactory, routeFactory) {
+app.controller('aliasController', ['$scope', 'backendFactory', 'authFactory', 'routeFactory', function($scope, backendFactory, authFactory, routeFactory) {
     if (!authFactory.user) {
         return;
     }
@@ -12,7 +12,7 @@ app.controller('aliasController', ['$scope', '$location', 'backendFactory', 'aut
 
         var screenName = $scope.alias;
         backendFactory.setAlias(authFactory.user.id, screenName).success(function() {
-            routeFactory.goToTest();
+            routeFactory.goToHome();
             authFactory.user.alias = screenName;
 
         });

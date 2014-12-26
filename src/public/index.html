@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="css/splash.css">
         <link rel="shortcut icon" href="images/favicon.ico" />
     </head>
-    <body ng-app="FantasyBach">
+    <body ng-app="FantasyBach" ng-strict-di block-rubber-banding>
         <div id="splash" ng-hide="appLoaded">
             <div class="spinner">
                 <div class="bounce1"></div>
@@ -19,10 +19,13 @@
         <div facebook-sdk></div>
         <div google-plus-sdk></div>
 
-        <div ng-view ng-show="appLoaded"></div>
+        <div slide-out-menu ng-show="appLoaded">
+            <div ng-view class="scrollable"></div>
 
-        <div footer></div>
-        <div heading></div>
+            <div footer></div>
+            <div heading></div>
+            <div contestant-modal></div>
+        </div>
 
         <div preloaded-images ng-hide="true"></div>
 
@@ -32,13 +35,14 @@
 
         <!-- build:js js/app.min.js -->
         <script src="components/jquery/dist/jquery.js"></script>
-        <script src="components/jquery/dist/jquery.js"></script>
+        <script src="components/fastclick/lib/fastclick.js"></script>
         <script src="components/angular/angular.js"></script>
         <script src="components/angular-route/angular-route.js"></script>
         <script src="components/lodash/dist/lodash.js"></script>
         <script src="components/moment/moment.js"></script>
         <script src="js/app.js"></script>
         <script src="js/config/routes.js"></script>
+        <script src="js/constants/contestantModalModes.js"></script>
         <script src="js/constants/events.js"></script>
         <script src="js/constants/staticImages.js"></script>
         <script src="js/constants/facebookConstants.js"></script>
@@ -46,6 +50,10 @@
         <script src="js/constants/routes.js"></script>
         <script src="js/controllers/loginController.js"></script>
         <script src="js/controllers/aliasController.js"></script>
+        <script src="js/controllers/weekController.js"></script>
+        <script src="js/directives/blockRubberBanding.js"></script>
+        <script src="js/directives/contestant.js"></script>
+        <script src="js/directives/contestantModal.js"></script>
         <script src="js/directives/facebookSdk.js"></script>
         <script src="js/directives/googlePlusSdk.js"></script>
         <script src="js/directives/menuCircle.js"></script>
@@ -53,7 +61,9 @@
         <script src="js/directives/footer.js"></script>
         <script src="js/directives/preloadedImages.js"></script>
         <script src="js/directives/preloadedImage.js"></script>
+        <script src="js/directives/slideOutMenu.js"></script>
         <script src="js/factories/contestantFactory.js"></script>
+        <script src="js/factories/weeksFactory.js"></script>
         <script src="js/factories/routeFactory.js"></script>
         <script src="js/factories/backendFactory.js"></script>
         <script src="js/factories/facebookFactory.js"></script>

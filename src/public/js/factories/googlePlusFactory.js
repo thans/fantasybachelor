@@ -1,4 +1,4 @@
-app.factory('googlePlusFactory', ['$rootScope', '$q', 'EVENTS', 'GOOGLE_PLUS', function($rootScope, $q, EVENTS, GOOGLE_PLUS) {
+app.factory('googlePlusFactory', ['$rootScope', 'EVENTS', 'GOOGLE_PLUS', function($rootScope, EVENTS, GOOGLE_PLUS) {
     var googlePlusFactory = {};
 
     /**

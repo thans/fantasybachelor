@@ -1,0 +1,27 @@
+@import '../constants/colors';
+@import '../constants/border';
+@import '../mixins/mobile';
+@import '../mixins/size';
+
+@mixin circle($size, $mobileSize:$size) {
+  @include size($size);
+  @include defaultBorder();
+  display: inline-block;
+  border-radius: 50%;
+  background-color: $white;
+  background-size: cover;
+
+  @include mobile {
+    @include size($mobileSize);
+  }
+}
+
+@mixin thinCircle($size, $mobileSize:$size) {
+  @include circle($size, $mobileSize);
+  @include defaultThinBorder();
+}
+
+@mixin textCircle($size) {
+  @include circle($size);
+  color: $red;
+}

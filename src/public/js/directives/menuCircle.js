@@ -1,6 +1,8 @@
 app.directive('menuCircle', function() {
     return {
-        template : '<div class="menuCircleWrapper {{name}}" ng-class="{hover : hover}" ng-mouseover="hover = true" ng-mouseleave="hover = false"><div class="menuCircle">{{text}}</div></div>',
+        restrict : 'A',
+        replace : true,
+        template : '<div class="menuCircle {{name}}" ng-class="{hover : hover}" ng-mouseover="hover = true" ng-mouseleave="hover = false">{{text}}</div>',
         scope : {
             hover : '='
         },
