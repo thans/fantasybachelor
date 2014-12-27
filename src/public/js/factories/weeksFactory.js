@@ -16,7 +16,7 @@ app.factory('weeksFactory', ['$rootScope', 'EVENTS', 'backendFactory', 'authFact
         });
     };
 
-    $rootScope.$on(EVENTS.AUTHENTICATION.AUTHENTICATED, function() {
+    $rootScope.$on(EVENTS.ALIAS.VALID, function() {
         backendFactory.loadWeeks(authFactory.user.id).success(function(weeksData) {
             _.each(weeksData, function(week) {
                 week.isCurrentWeek = moment().isAfter(week.openTime) && moment().isBefore(week.scoresAvailableTime);
