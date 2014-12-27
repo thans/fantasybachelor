@@ -6,11 +6,12 @@ app.factory('routeFactory', ['$rootScope', '$location', 'EVENTS', 'ROUTES', 'aut
         silentAuthFail : false,
         contestantImages : false,
         staticImages : false,
-        weeks : false
+        weeks : false,
+        alias : false
     };
 
     $rootScope.$watch(function() { return routeFactory.state; }, function(state) {
-        if (state.auth && state.contestantImages && state.weeks && state.staticImages) {
+        if (state.auth && state.contestantImages && state.staticImages && (!state.alias || state.weeks)) {
             $rootScope.appLoaded = true;
             console.log('App loaded');
         } else if (state.silentAuthFail && state.contestantImages && state.staticImages) {
@@ -50,12 +51,12 @@ app.factory('routeFactory', ['$rootScope', '$location', 'EVENTS', 'ROUTES', 'aut
     });
 
     $rootScope.$on(EVENTS.AUTHENTICATION.AUTHENTICATED, function() {
-        var user = authFactory.user;
-        if (!user.alias) {
+        routeFactory.state.auth = true;
+        if (!authFactory.user.alias) {
             routeFactory.goToChangeAlias();
             return;
         }
-        routeFactory.state.auth = true;
+        $rootScope.$broadcast(EVENTS.ALIAS.VALID);
     });
 
     $rootScope.$on(EVENTS.AUTHENTICATION.SILENT_AUTHENTICATION_FAILED, function() {
@@ -78,6 +79,10 @@ app.factory('routeFactory', ['$rootScope', '$location', 'EVENTS', 'ROUTES', 'aut
     $rootScope.$on(EVENTS.WEEKS.LOADED, function() {
         routeFactory.state.weeks = true;
         routeFactory.goToWeek();
+    });
+
+    $rootScope.$on(EVENTS.ALIAS.VALID, function() {
+        routeFactory.state.alias = true;
     });
 
     routeFactory.goToChangeAlias = function() {

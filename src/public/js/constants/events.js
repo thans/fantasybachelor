@@ -35,5 +35,8 @@ app.constant('EVENTS', {
     CONTESTANT_MODAL : {
         SHOW : 'contestantModal.show',
         HIDE : 'contestantModal.hide'
+    },
+    ALIAS : {
+        VALID : 'alias.valid'
     }
 });
