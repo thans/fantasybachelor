@@ -5,11 +5,25 @@ app.factory('googlePlusFactory', ['$rootScope', 'EVENTS', 'GOOGLE_PLUS', functio
      * Initializes the Google Plus SDK. Must be called before other functions will work.
      */
     googlePlusFactory.init = function() {
-        gapi.client.setApiKey(GOOGLE_PLUS.API_KEY);
+        gapi.client.setApiKey(googlePlusFactory.getApiKey());
 
         $rootScope.$broadcast(EVENTS.GOOGLE_PLUS.SDK_LOADED);
         $rootScope.$apply();
 
+    };
+
+    /**
+     * @returns {string} The Client Id for debug vs production mode
+     */
+    googlePlusFactory.getClientId = function() {
+        return window.location.hostname === 'localhost' ? GOOGLE_PLUS.CLIENT_ID.DEVELOPMENT : GOOGLE_PLUS.CLIENT_ID.PRODUCTION;
+    };
+
+    /**
+     * @returns {string} The API Key for debug vs production mode
+     */
+    googlePlusFactory.getApiKey = function() {
+        return window.location.hostname === 'localhost' ? GOOGLE_PLUS.API_KEY.DEVELOPMENT : GOOGLE_PLUS.API_KEY.PRODUCTION;
     };
 
     /**
@@ -30,7 +44,7 @@ app.factory('googlePlusFactory', ['$rootScope', 'EVENTS', 'GOOGLE_PLUS', functio
         if (!gapi) { return; }
 
         gapi.auth.authorize({
-            client_id: GOOGLE_PLUS.CLIENT_ID,
+            client_id: googlePlusFactory.getClientId(),
             scope: GOOGLE_PLUS.SCOPE,
             immediate: silent,
             cookie_policy: 'single_host_origin'
