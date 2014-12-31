@@ -1,8 +1,8 @@
-<div id="footer" ng-class="{hidden : !appLoaded || !user}">
+<div id="footer" ng-class="{hidden : !appLoaded || !user || !showHeaderFooter}">
     <div class="content">
         <div class="user" ng-mouseover="hover = true" ng-mouseleave="hover = false">
             <img ng-src="{{user.profilePic}}" class="profilePic" />
-            <h1 class="alias">{{user.alias}}</h1>
+            <h1 class="alias">{{user.alias || user.firstName + ' ' + user.lastName}}</h1>
         </div>
         <div class="spacer">|</div>
         <div class="league">global</div>

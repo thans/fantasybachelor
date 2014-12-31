@@ -24,7 +24,6 @@ $footerHiddenOffset: -$footerHeight;
 
   &.hidden {
     bottom: $footerHiddenOffset;
-    display: none;
   }
 
   .content {

@@ -4,6 +4,8 @@ app.constant('STATIC_IMAGES', [
     'images/logo.png',
     'images/logoSmall.png',
     'images/menu.png',
-    'images/next.png' ,
-    'images/slideOutMenuTexture.png'
+    'images/next.png',
+    'images/slideOutMenuTexture.png',
+    'images/contestants/woman.png',
+    'images/contestants/heads/womanHead.png'
 ]);
