@@ -1,4 +1,6 @@
-app.controller('loginController', ['$scope', 'facebookFactory', 'googlePlusFactory', function($scope, facebookFactory, googlePlusFactory) {
+app.controller('loginController', ['$rootScope', '$scope', 'facebookFactory', 'googlePlusFactory', function($rootScope, $scope, facebookFactory, googlePlusFactory) {
+    $rootScope.showHeaderFooter = false;
+
     $scope.loginFacebook = function() {
         facebookFactory.login();
     };

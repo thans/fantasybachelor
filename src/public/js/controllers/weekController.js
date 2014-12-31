@@ -1,6 +1,7 @@
-app.controller('weekController', ['$scope', '$routeParams', 'EVENTS', 'CONTESTANT_MODAL_MODES', 'weeksFactory', function($scope, $routeParams, EVENTS, CONTESTANT_MODAL_MODES, weeksFactory) {
+app.controller('weekController', ['$rootScope', '$scope', '$routeParams', 'EVENTS', 'CONTESTANT_MODAL_MODES', 'weeksFactory', 'backendFactory', function($rootScope, $scope, $routeParams, EVENTS, CONTESTANT_MODAL_MODES, weeksFactory, backendFactory) {
     console.log($routeParams);
 
+    $rootScope.showHeaderFooter = true;
     $scope.week = weeksFactory.getWeekById(parseInt($routeParams.weekId)) || weeksFactory.getCurrentWeek();
     $scope.selectionRange = _.range(0, $scope.week.numberOfSelections);
 
@@ -11,6 +12,7 @@ app.controller('weekController', ['$scope', '$routeParams', 'EVENTS', 'CONTESTAN
         };
         $scope.week.selectedContestants.push(contestantObject);
         $scope.week.remainingContestants = _.reject($scope.week.remainingContestants, contestantObject);
+        backendFactory.selectContestant($scope.user.id, $scope.week.id, contestant.id);
     };
 
     $scope.removeContestant = function(contestant, multiplier) {
@@ -20,6 +22,7 @@ app.controller('weekController', ['$scope', '$routeParams', 'EVENTS', 'CONTESTAN
         };
         $scope.week.selectedContestants = _.reject($scope.week.selectedContestants, contestantObject);
         $scope.week.remainingContestants.push(contestantObject);
+        backendFactory.removeContestant($scope.user.id, $scope.week.id, contestant.id);
     };
 
     $scope.selectedContestantClicked = function(contestant, multiplier) {

@@ -1,4 +1,6 @@
-app.controller('aliasController', ['$scope', 'EVENTS', 'backendFactory', 'authFactory', 'routeFactory', function($scope, EVENTS, backendFactory, authFactory, routeFactory) {
+app.controller('aliasController', ['$rootScope', '$scope', 'EVENTS', 'backendFactory', 'authFactory', 'routeFactory', function($rootScope, $scope, EVENTS, backendFactory, authFactory, routeFactory) {
+    $rootScope.showHeaderFooter = true;
+
     if (!authFactory.user) {
         return;
     }

@@ -24,5 +24,21 @@ app.factory('backendFactory', ['$http', function($http) {
         });
     };
 
+    backendFactory.selectContestant = function(userId, weekId, contestantId) {
+        return $http.post('/selectContestant', {
+            userId : userId,
+            weekId : weekId,
+            contestantId : contestantId
+        });
+    };
+
+    backendFactory.removeContestant = function(userId, weekId, contestantId) {
+        return $http.post('/removeContestant', {
+            userId : userId,
+            weekId : weekId,
+            contestantId : contestantId
+        });
+    };
+
     return backendFactory;
 }]);

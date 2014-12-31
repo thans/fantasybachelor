@@ -21,6 +21,9 @@ app.factory('weeksFactory', ['$rootScope', 'EVENTS', 'backendFactory', 'authFact
             _.each(weeksData, function(week) {
                 week.isCurrentWeek = moment().isAfter(week.openTime) && moment().isBefore(week.scoresAvailableTime);
                 week.isSelectionOpen = moment().isAfter(week.openTime) && moment().isBefore(week.closeTime);
+                _.each(week.selectedContestants, function(selectedContestant) {
+                    week.remainingContestants = _.reject(week.remainingContestants, selectedContestant);
+                });
             });
             console.log(weeksData);
             $rootScope.weeks = weeksData;

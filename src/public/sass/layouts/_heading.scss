@@ -19,7 +19,6 @@ $headingHiddenOffset: -$headingHeight;
 
   &.hidden {
     top: $headingHiddenOffset;
-    display: none;
   }
 
   .content {

@@ -122,21 +122,29 @@ module.exports.Weeks.getExtended = function(userId) {
                                     // Calculate Multipliers
                                     _.each(extendedWeeks, function(week, i) {
                                         var remainingContestantsWithMultipliers = [];
-                                        if (i === 0) {
-                                            _.each(week.remainingContestants, function(contestant) {
-                                                remainingContestantsWithMultipliers.push({id: contestant, multiplier: 1});
-                                            });
-                                        } else {
-                                            var lastWeek = extendedWeeks[i-1];
-                                            _.each(week.remainingContestants, function(contestant) {
-                                                if (_.contains(lastWeek.selectedContestants, contestant)) {
-                                                    remainingContestantsWithMultipliers.push({id: contestant, multiplier: _.find(lastWeek.remainingContestants, function(remainingContestant) { return remainingContestant.id === contestant; }).multiplier + 1});
-                                                } else {
-                                                    remainingContestantsWithMultipliers.push({id: contestant, multiplier: 1});
-                                                }
-                                            });
-                                        }
+                                        var lastWeek = extendedWeeks[i-1];
+                                        _.each(week.remainingContestants, function(contestant) {
+                                            var multiplier = 1;
+                                            if (lastWeek && _.contains(lastWeek.selectedContestants, contestant)) {
+                                                multiplier = _.findWhere(lastWeek.remainingContestants, {id: contestant}).multiplier + 1;
+                                            }
+                                            remainingContestantsWithMultipliers.push({id: contestant, multiplier: multiplier});
+                                        });
                                         week.remainingContestants = remainingContestantsWithMultipliers;
+
+                                        // Add multipliers to selectedContestants
+                                        var selectedContestantsWithMultipliers = [];
+                                        _.each(week.selectedContestants, function(contestantId) {
+                                            selectedContestantsWithMultipliers.push(_.findWhere(week.remainingContestants, {id : contestantId}));
+                                        });
+                                        week.selectedContestants = selectedContestantsWithMultipliers;
+
+                                        // Add multipliers to eliminatedContestants
+                                        var eliminatedContestantsWithMultipliers = [];
+                                        _.each(week.eliminatedContestants, function(contestantId) {
+                                            eliminatedContestantsWithMultipliers.push(_.findWhere(week.eliminatedContestants, {id : contestantId}));
+                                        });
+                                        week.eliminatedContestants = eliminatedContestantsWithMultipliers;
                                     });
 
                                     deferred.resolve(extendedWeeks);
