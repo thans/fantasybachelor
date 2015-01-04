@@ -11,6 +11,22 @@
             </div>
         </div>
     </div>
+    <div class="info" ng-show="week.isBeforeSelectionOpen">
+        <div class="remainingTime">selection not open yet</div>
+        <div class="instruction hoverable" ng-click="goToCurrentWeek()">go to current week</div>
+    </div>
+    <div class="info" ng-show="week.isSelectionOpen">
+        <div class="remainingTime">selection closes in {{week.millisToClose | countdown}}</div>
+        <div class="instruction">choose from the contestants below to fill your lineup</div>
+    </div>
+    <div class="info" ng-show="week.isShowInProgress">
+        <div class="remainingTime">scores available in {{week.millisToScoresAvailable | countdown}}</div>
+        <div class="instruction">???</div>
+    </div>
+    <div class="info" ng-show="week.isScoresAvailable">
+        <div class="remainingTime">you scored 12 points</div>
+        <div class="instruction hoverable" ng-click="goToCurrentWeek()">go to current week</div>
+    </div>
     <div id="remainingContestants">
         <h3>remaining contestants</h3>
         <div contestant contestant-id="contestant.id" multiplier="contestant.multiplier" callback="remainingContestantClicked" ng-repeat="contestant in week.remainingContestants"></div>

@@ -5,8 +5,10 @@
 @import '../constants/fonts';
 @import '../mixins/size';
 @import '../mixins/position';
+@import '../mixins/hover';
 
-$slideOutMenuWidth: 50%;
+$slideOutMenuWidth: 300px;
+$slideOutMenuWidthMobile: 50%;
 $slideOutMenuTransitionDuration: .5s;
 
 div[slide-out-menu] {
@@ -21,15 +23,28 @@ div[slide-out-menu] {
     background-size: cover;
     overflow-y: scroll;
 
+    @include mobile {
+      @include size($slideOutMenuWidthMobile, 100%);
+      @include absolute(0, -$slideOutMenuWidthMobile);
+    }
+
     ul {
       padding: 0;
       margin: 0;
 
       li {
         display: block;
-        padding: 30px;
+        padding: 10px 20px;
         margin: 0;
         @include largeFont();
+
+        @include mobile {
+          padding: 30px;
+        }
+
+        .hoverable {
+          @include hoverable();
+        }
       }
     }
   }
@@ -48,5 +63,9 @@ div[slide-out-menu] {
 
   &.active {
     @include translateX($slideOutMenuWidth);
+
+    @include mobile {
+      @include translateX($slideOutMenuWidthMobile);
+    }
   }
 }

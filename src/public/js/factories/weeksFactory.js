@@ -16,11 +16,21 @@ app.factory('weeksFactory', ['$rootScope', 'EVENTS', 'backendFactory', 'authFact
         });
     };
 
+    weeksFactory.updateWeekAttributes = function(week) {
+        week.isBeforeSelectionOpen = moment().isBefore(week.openTime);
+        week.isCurrentWeek = moment().isAfter(week.openTime) && moment().isBefore(week.scoresAvailableTime);
+        week.isSelectionOpen = moment().isAfter(week.openTime) && moment().isBefore(week.closeTime);
+        week.isShowInProgress = moment().isAfter(week.closeTime) && moment().isBefore(week.scoresAvailableTime);
+        week.isScoresAvailable = moment().isAfter(week.scoresAvailableTime);
+        week.millisToOpen = moment.duration(moment(week.openTime).diff(moment()));
+        week.millisToClose = moment.duration(moment(week.closeTime).diff(moment()));
+        week.millisToScoresAvailable = moment.duration(moment(week.scoresAvailableTime).diff(moment()));
+    };
+
     $rootScope.$on(EVENTS.ALIAS.VALID, function() {
         backendFactory.loadWeeks(authFactory.user.id).success(function(weeksData) {
             _.each(weeksData, function(week) {
-                week.isCurrentWeek = moment().isAfter(week.openTime) && moment().isBefore(week.scoresAvailableTime);
-                week.isSelectionOpen = moment().isAfter(week.openTime) && moment().isBefore(week.closeTime);
+                weeksFactory.updateWeekAttributes(week);
                 _.each(week.selectedContestants, function(selectedContestant) {
                     week.remainingContestants = _.reject(week.remainingContestants, selectedContestant);
                 });

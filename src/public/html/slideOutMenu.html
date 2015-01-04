@@ -1,17 +1,17 @@
 <div class="slideOutMenu" ng-class="{active: slideOutMenuActive}">
     <div class="slideOutMenuContent scroll">
         <ul>
-            <li ng-click="home()">home</li>
+            <li ng-click="home()"><span class="hoverable">home</span></li>
             <li>
-                <div ng-click="showWeeks = !showWeeks">weeks</div>
+                <div ng-click="showWeeks = !showWeeks"><span class="hoverable">weeks</span></div>
                 <ul ng-show="showWeeks">
-                    <li ng-repeat="week in weeks" ng-click="goToWeek(week.id)">{{week.name | lowercase}}</li>
+                    <li ng-repeat="week in weeks" ng-click="goToWeek(week.id)"><span class="hoverable">{{week.name | lowercase}}</span></li>
                 </ul>
             </li>
-            <li>leagues</li>
-            <li>leaderboard</li>
-            <li ng-click="changeAlias()">screen name</li>
-            <li ng-click="logout()">log out</li>
+            <!--<li>leagues</li>-->
+            <!--<li>leaderboard</li>-->
+            <li ng-click="changeAlias()"><span class="hoverable">screen name</span></li>
+            <li ng-click="logout()"><span class="hoverable">log out</span></li>
         </ul>
     </div>
     <div class="slideOutMainContent scroll" ng-transclude ng-click="hideSlideOutMenu()"></div>

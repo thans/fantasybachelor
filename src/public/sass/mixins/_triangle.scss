@@ -1,0 +1,10 @@
+@import 'size';
+
+@mixin triangleUp($color, $width: 5px, $height: 5px) {
+  @include size(0px);
+  border-left: $height solid transparent;
+  border-right: $height solid transparent;
+  border-bottom: $width solid $color;
+  margin-left: -$width/2;
+  margin-top: -$height;
+}

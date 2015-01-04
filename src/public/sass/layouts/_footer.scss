@@ -10,9 +10,11 @@
 @import 'compass/css3/transform';
 @import 'compass/css3/images';
 
-$footerHeight: 150px;
+$footerHeight: 85px;
+$footerHeightMobile: 150px;
 $footerOffset: 15px;
 $footerHiddenOffset: -$footerHeight;
+$footerHiddenOffsetMobile: -$footerHeightMobile;
 
 #footer {
   @include fixed(null, null, 0);
@@ -22,8 +24,16 @@ $footerHiddenOffset: -$footerHeight;
   @include size(100%, $footerHeight);
   text-align: center;
 
+  @include mobile {
+    @include size(100%, $footerHeightMobile);
+  }
+
   &.hidden {
     bottom: $footerHiddenOffset;
+
+    @include mobile {
+      bottom: $footerHiddenOffsetMobile;
+    }
   }
 
   .content {
@@ -32,7 +42,7 @@ $footerHiddenOffset: -$footerHeight;
 
     .user {
       display: inline-block;
-      @include hoverable();
+//      @include hoverable();
 
       .profilePic {
         @include circle(50px);
@@ -54,32 +64,32 @@ $footerHiddenOffset: -$footerHeight;
       }
     }
 
-    .menuCircle {
-      @include absolute(null, 50%);
-      @include hoverable();
-      @include transition(all .25s ease);
-      @include transform(scale(0.0));
-      @include mediumFont();
-      padding: 20px 0;
-
-      &.hover {
-        @include transform(scale(1.0));
-      }
-
-      &.logout {
-        @include transition-delay(.1s);
-        @include textCircle(60px);
-        margin-left: 6px;
-        bottom: 45px;
-      }
-
-      &.changeAlias {
-        @include transition-delay(0s);
-        @include textCircle(80px);
-        margin-left: -90px;
-        bottom: 50px;
-      }
-    }
+//    .menuCircle {
+//      @include absolute(null, 50%);
+//      @include hoverable();
+//      @include transition(all .25s ease);
+//      @include transform(scale(0.0));
+//      @include mediumFont();
+//      padding: 20px 0;
+//
+//      &.hover {
+//        @include transform(scale(1.0));
+//      }
+//
+//      &.logout {
+//        @include transition-delay(.1s);
+//        @include textCircle(60px);
+//        margin-left: 6px;
+//        bottom: 45px;
+//      }
+//
+//      &.changeAlias {
+//        @include transition-delay(0s);
+//        @include textCircle(80px);
+//        margin-left: -90px;
+//        bottom: 50px;
+//      }
+//    }
 
     .league, .spacer {
       vertical-align: middle;
