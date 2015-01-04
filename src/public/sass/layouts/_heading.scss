@@ -5,10 +5,13 @@
 @import '../mixins/size';
 @import '../mixins/position';
 @import '../mixins/mobile';
+@import '../mixins/hover';
 
-$headingHeight: 150px;
+$headingHeight: 85px;
+$headingHeightMobile: 150px;
 $headingOffset: 0px;
 $headingHiddenOffset: -$headingHeight;
+$headingHiddenOffsetMobile: -$headingHeightMobile;
 
 #heading {
   @include fixed(0);
@@ -17,8 +20,16 @@ $headingHiddenOffset: -$headingHeight;
   @include background-image(linear-gradient($red, $red 30%, $redTransparent));
   text-align: center;
 
+  @include mobile {
+    @include size(100%, $headingHeightMobile);
+  }
+
   &.hidden {
     top: $headingHiddenOffset;
+
+    @include mobile {
+      top: $headingHiddenOffsetMobile;
+    }
   }
 
   .content {
@@ -37,12 +48,18 @@ $headingHiddenOffset: -$headingHeight;
     }
 
     #menu {
-      @include absolute(25px, 25px);
-      @include size(75px);
+      @include absolute(20px, 20px);
+      @include size(40px);
+      @include hoverable();
 
-      @include desktop {
-        display: none;
+      @include mobile {
+        @include absolute(25px, 25px);
+        @include size(75px);
       }
+
+//      @include desktop {
+//        display: none;
+//      }
     }
 
     #logo {
@@ -62,6 +79,7 @@ $headingHiddenOffset: -$headingHeight;
       }
 
       li {
+        @include hoverable();
         display: inline-block;
         margin-left: 12px;
 

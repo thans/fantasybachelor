@@ -1,4 +1,4 @@
-app.controller('weekController', ['$rootScope', '$scope', '$routeParams', 'EVENTS', 'CONTESTANT_MODAL_MODES', 'weeksFactory', 'backendFactory', function($rootScope, $scope, $routeParams, EVENTS, CONTESTANT_MODAL_MODES, weeksFactory, backendFactory) {
+app.controller('weekController', ['$rootScope', '$scope', '$routeParams', '$interval', 'EVENTS', 'CONTESTANT_MODAL_MODES', 'weeksFactory', 'backendFactory', 'routeFactory', function($rootScope, $scope, $routeParams, $interval, EVENTS, CONTESTANT_MODAL_MODES, weeksFactory, backendFactory, routeFactory) {
     console.log($routeParams);
 
     $rootScope.showHeaderFooter = true;
@@ -60,4 +60,21 @@ app.controller('weekController', ['$rootScope', '$scope', '$routeParams', 'EVENT
             }
         })
     };
+
+    $scope.updateTimeRemaining = function() {
+        weeksFactory.updateWeekAttributes($scope.week);
+    };
+
+    $scope.timeRemainingInterval = $interval($scope.updateTimeRemaining, 1000);
+
+    $scope.$on('$destroy', function() {
+        if ($scope.timeRemainingInterval) {
+            $interval.cancel($scope.timeRemainingInterval);
+            $scope.timeRemainingInterval = undefined;
+        }
+    });
+
+    $scope.goToCurrentWeek = function() {
+        routeFactory.goToWeek();
+    }
 }]);

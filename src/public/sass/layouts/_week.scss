@@ -1,3 +1,40 @@
+@import 'compass/css3/box-shadow';
+@import 'compass/css3/border-radius';
+@import '../constants/colors';
+@import '../constants/fonts';
+@import '../mixins/hover';
+@import '../mixins/mobile';
+
 #week {
-  padding: 150px 0;
+  padding: 100px 0;
+
+  @include mobile {
+    padding-bottom: 150px;
+  }
+
+  .info {
+    @include border-radius(6px);
+    @include box-shadow(0 0 20px $shadow);
+    text-align: center;
+    background: $white;
+    color: $red;
+    width: 80%;
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 10px;
+
+    @include mobile {
+      @include border-radius(16px);
+      width: 90%;
+      max-width: 850px;
+    }
+
+    .remainingTime {
+      @include largeFont();
+    }
+
+    .hoverable {
+      @include hoverable();
+    }
+  }
 }
