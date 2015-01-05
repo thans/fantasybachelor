@@ -5,6 +5,10 @@ app.controller('weekController', ['$rootScope', '$scope', '$routeParams', '$inte
     $scope.week = weeksFactory.getWeekById(parseInt($routeParams.weekId)) || weeksFactory.getCurrentWeek();
     $scope.selectionRange = _.range(0, $scope.week.numberOfSelections);
 
+    $scope.isEliminated = function(contestant) {
+        return _.findWhere($scope.week.eliminatedContestants, contestant);
+    };
+
     $scope.selectContestant = function(contestant, multiplier) {
         var contestantObject = {
             id : contestant.id,

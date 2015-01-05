@@ -5,6 +5,8 @@ app.directive('contestant', ['contestantFactory', function(contestantFactory) {
         scope : {
             contestantId : '=',
             multiplier : '=',
+            showScore : '=',
+            eliminated : '=',
             callback : '='
         },
         controller : ['$scope', function($scope) {

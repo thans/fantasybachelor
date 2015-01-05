@@ -125,7 +125,7 @@ module.exports.Weeks.getExtended = function(userId) {
                                         var lastWeek = extendedWeeks[i-1];
                                         _.each(week.remainingContestants, function(contestant) {
                                             var multiplier = 1;
-                                            if (lastWeek && _.contains(lastWeek.selectedContestants, contestant)) {
+                                            if (lastWeek && _.findWhere(lastWeek.selectedContestants, {id: contestant})) {
                                                 multiplier = _.findWhere(lastWeek.remainingContestants, {id: contestant}).multiplier + 1;
                                             }
                                             remainingContestantsWithMultipliers.push({id: contestant, multiplier: multiplier});
@@ -142,7 +142,7 @@ module.exports.Weeks.getExtended = function(userId) {
                                         // Add multipliers to eliminatedContestants
                                         var eliminatedContestantsWithMultipliers = [];
                                         _.each(week.eliminatedContestants, function(contestantId) {
-                                            eliminatedContestantsWithMultipliers.push(_.findWhere(week.eliminatedContestants, {id : contestantId}));
+                                            eliminatedContestantsWithMultipliers.push(_.findWhere(week.remainingContestants, {id : contestantId}));
                                         });
                                         week.eliminatedContestants = eliminatedContestantsWithMultipliers;
                                     });
