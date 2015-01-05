@@ -19,9 +19,11 @@ $contestantModalPadding: 60px;
 
     @include desktop {
       @include transition(opacity .5s ease);
-      @include centerHorizontal(1000px);
-      top: 200px;
-      width: 1000px;
+      @include centerHorizontal(850px);
+      top: 10%;
+      width: 850px;
+      height: 80%;
+      overflow: auto;
       padding: 20px;
       opacity: 1;
     }
