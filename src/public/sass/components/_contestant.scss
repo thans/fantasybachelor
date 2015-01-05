@@ -3,10 +3,12 @@
 @import '../mixins/position';
 @import '../constants/fonts';
 @import '../mixins/hover';
+@import '../mixins/mobile';
 
 $contestantCircleSize: 100px;
 $contestantMobileCircleSize: 185px;
-$contestantMultiplierSize: 75px;
+$contestantMultiplierSize: 40px;
+$contestantMultiplierSizeMobile: 75px;
 [contestant] {
   @include relative();
   display: inline-block;
@@ -19,11 +21,31 @@ $contestantMultiplierSize: 75px;
       pointer-events: none;
     }
 
-    .multiplier {
+    .value-circle {
       @include thinCircle($contestantMultiplierSize);
-      @include absolute(null, null, 32px, -4px);
+      @include absolute(null, null, 22px, -4px);
+      line-height: $contestantMultiplierSize - 3px;
+
+      @include mobile {
+        @include thinCircle($contestantMultiplierSizeMobile);
+        @include absolute(null, null, 32px, -4px);
+        line-height: $contestantMultiplierSizeMobile - 7px;
+      }
+    }
+
+    .multiplier {
+      @extend .value-circle;
       background: $yellow;
-      line-height: $contestantMultiplierSize - 7px;
+    }
+
+    .score {
+      @extend .value-circle;
+      background: $green;
+    }
+
+    .eliminated {
+      @extend .value-circle;
+      background: $darkRed;
     }
 
     .name {

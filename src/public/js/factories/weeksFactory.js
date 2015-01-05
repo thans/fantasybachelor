@@ -31,8 +31,12 @@ app.factory('weeksFactory', ['$rootScope', 'EVENTS', 'backendFactory', 'authFact
         backendFactory.loadWeeks(authFactory.user.id).success(function(weeksData) {
             _.each(weeksData, function(week) {
                 weeksFactory.updateWeekAttributes(week);
+                week.score = 0;
                 _.each(week.selectedContestants, function(selectedContestant) {
                     week.remainingContestants = _.reject(week.remainingContestants, selectedContestant);
+                    if (week.isScoresAvailable && !_.findWhere(week.eliminatedContestants, selectedContestant)) {
+                        week.score += selectedContestant.multiplier;
+                    }
                 });
             });
             console.log(weeksData);

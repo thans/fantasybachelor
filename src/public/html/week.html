@@ -7,7 +7,13 @@
             </div>
             <div class="spacer"></div>
             <div class="selectionsWrapper">
-                <div contestant contestant-id="week.selectedContestants[i].id" multiplier="week.selectedContestants[i].multiplier" callback="week.selectedContestants[i] ? selectedContestantClicked : null" ng-repeat="i in selectionRange"></div>
+                <div contestant
+                     contestant-id="week.selectedContestants[i].id"
+                     multiplier="week.selectedContestants[i].multiplier"
+                     show-score="week.selectedContestants[i] && week.isScoresAvailable"
+                     eliminated="isEliminated(week.selectedContestants[i])"
+                     callback="week.selectedContestants[i] ? selectedContestantClicked : null"
+                     ng-repeat="i in selectionRange"></div>
             </div>
         </div>
     </div>
@@ -24,7 +30,13 @@
         <div class="instruction">???</div>
     </div>
     <div class="info" ng-show="week.isScoresAvailable">
-        <div class="remainingTime">you scored 12 points</div>
+        <div class="remainingTime">you scored
+            <ng-pluralize count="week.score"
+                          when="{'0': 'no points',
+                                 'one': '1 point',
+                                 'other': '{} points'}">
+            </ng-pluralize>
+        </div>
         <div class="instruction hoverable" ng-click="goToCurrentWeek()">go to current week</div>
     </div>
     <div id="remainingContestants">
