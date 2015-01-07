@@ -2,14 +2,14 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
         useminPrepare: {
-            html: 'build/public/index.html',
+            html: 'build/public/index.ejs',
             options: {
                 dest: 'build/public',
                 staging: 'build/.tmp'
             }
         },
         usemin: {
-            html: 'build/public/index.html'
+            html: 'build/public/index.ejs'
         },
         clean: {
             all: 'build',
@@ -17,7 +17,7 @@ module.exports = function(grunt) {
             css: 'build/public/css/*',
             sass: 'build/public/sass',
             images: 'build/public/images',
-            html: ['build/public/index.html', 'build/public/html/*'],
+            html: ['build/public/views/*', 'build/public/index.ejs'],
             components: 'build/components',
             server: 'build/server'
         },
@@ -60,15 +60,15 @@ module.exports = function(grunt) {
                 files : [
                     {
                         expand: true,
-                        dest: 'build/public/html',
-                        cwd: 'src/public/html',
-                        src: ['**/*.html']
+                        dest: 'build/public/views',
+                        cwd: 'src/public/views',
+                        src: ['**/*.ejs']
                     },
                     {
                         expand: true,
                         dest: 'build/public',
                         cwd: 'src/public',
-                        src: ['index.html']
+                        src: ['index.ejs']
                     }
                 ]
             },
@@ -126,7 +126,7 @@ module.exports = function(grunt) {
                 }
             },
             html: {
-                files: ['src/public/**/*.html'],
+                files: ['src/public/**/*.ejs', 'src/public/**/*.html'],
                 tasks: ['clean:html', 'copy:html'],
                 options: {
                     livereload: true

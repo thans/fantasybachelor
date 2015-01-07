@@ -3,7 +3,7 @@ app.directive('slideOutMenu', ['routeFactory', 'authFactory', function(routeFact
         restrict: 'A',
         replace: true,
         transclude: true,
-        templateUrl: 'html/slideOutMenu.html',
+        templateUrl: 'view/slideOutMenu',
         controller: ['$scope', function($scope) {
             $scope.slideOutMenuActive = false;
             $scope.showWeeks = false;
