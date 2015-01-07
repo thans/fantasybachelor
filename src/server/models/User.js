@@ -35,27 +35,31 @@ module.exports.User.login = function(userData) {
         deferred.reject('Missing userData');
         return;
     }
-    userData = {
-        firstName : userData.firstName,
-        lastName : userData.lastName,
+    new Database.User({
         authenticationService : userData.service,
-        authenticationServiceId : userData.id,
-        email : userData.email
-    };
-    new Database.User(userData).fetch().then(function(user) {
-        if (user) { // This user exists, so get their score
+        authenticationServiceId : userData.id
+    }).fetch().then(function(user) {
+        var userSaveDeferred;
+        if (user) { // This user exists, make sure info is up to date
+            user.set('firstName', userData.firstName);
+            user.set('lastName', userData.lastName);
+            user.set('email', userData.email);
+            userSaveDeferred = user.save();
+        } else { // This user is new, create a new user
+            userSaveDeferred = new Database.User({
+                firstName : userData.firstName,
+                lastName : userData.lastName,
+                authenticationService : userData.service,
+                authenticationServiceId : userData.id,
+                email : userData.email
+            }).save();
+        }
+        userSaveDeferred.then(function(user) {
             Database.UserScore.getScore(user.id).then(function(score) {
                 user.set('score', score);
                 deferred.resolve(user.toJSON());
             }).fail(deferred.reject);
-        } else { // This user is new, create a new user
-            new Database.User(userData).save().then(function(newUser) {
-                Database.UserScore.getScore(newUser.id).then(function(score) {
-                    newUser.set('score', score);
-                    deferred.resolve(newUser.toJSON());
-                }).fail(deferred.reject);
-            });
-        }
+        });
     });
     return deferred.promise;
 };
