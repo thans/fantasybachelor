@@ -1,7 +1,7 @@
 app.directive('contestant', ['contestantFactory', function(contestantFactory) {
     return {
         restrict : 'A',
-        templateUrl : 'html/contestant.html',
+        templateUrl : 'view/contestant',
         scope : {
             contestantId : '=',
             multiplier : '=',

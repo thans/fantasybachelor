@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+var ejs = require('ejs');
 var database = require('./database');
 
 var app = express();
@@ -10,6 +11,17 @@ app.use(express.compress());
 app.use(express.bodyParser());
 
 var publicPath = path.resolve(__dirname + '/../public');
+
+app.set('view engine', 'ejs');
+
+app.get('/', function(req, res) {
+    res.render(publicPath + '/index', { title: 'The index page!' })
+});
+
+app.get('/view/:view', function(req, res) {
+    res.render(publicPath + '/views/' + req.params.view, { title: 'The index page!' })
+});
+
 app.use(express.static(publicPath, {maxAge: 0}));
 
 app.post('/loginUser', function (req, res) {
