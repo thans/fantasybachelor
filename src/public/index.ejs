@@ -6,6 +6,7 @@
         <meta name="keywords" content="The Bachelor, Fantasy, Bachelor, abc, The Bachelorette, Bachelorette, Fantasy Bachelor, Fantasy Bachelorette, FantasyBach, FantasyBachelor, FantasyBachelorette, Fantasy Football">
         <link rel="stylesheet" href="css/splash.css">
         <link rel="shortcut icon" href="images/favicon.ico" />
+        <base href="/">
     </head>
     <body ng-app="FantasyBach" ng-strict-di block-rubber-banding>
         <div id="splash" ng-hide="appLoaded">
@@ -15,9 +16,6 @@
             </div>
             <div class="label">loading</div>
         </div>
-
-        <div facebook-sdk></div>
-        <div google-plus-sdk></div>
 
         <div slide-out-menu ng-show="appLoaded">
             <div ng-view class="scrollable"></div>
@@ -41,11 +39,9 @@
         <script src="components/numeral/numeral.js"></script>
         <script src="js/app.js"></script>
         <script src="js/config/routes.js"></script>
+        <script src="js/config/httpProvider.js"></script>
         <script src="js/constants/contestantModalModes.js"></script>
         <script src="js/constants/events.js"></script>
-        <script src="js/constants/staticImages.js"></script>
-        <script src="js/constants/facebookConstants.js"></script>
-        <script src="js/constants/googlePlusConstants.js"></script>
         <script src="js/constants/routes.js"></script>
         <script src="js/controllers/loginController.js"></script>
         <script src="js/controllers/aliasController.js"></script>
@@ -53,21 +49,17 @@
         <script src="js/directives/blockRubberBanding.js"></script>
         <script src="js/directives/contestant.js"></script>
         <script src="js/directives/contestantModal.js"></script>
-        <script src="js/directives/facebookSdk.js"></script>
-        <script src="js/directives/googlePlusSdk.js"></script>
         <script src="js/directives/menuCircle.js"></script>
         <script src="js/directives/heading.js"></script>
         <script src="js/directives/footer.js"></script>
-        <script src="js/directives/preloadedImages.js"></script>
-        <script src="js/directives/preloadedImage.js"></script>
         <script src="js/directives/slideOutMenu.js"></script>
         <script src="js/factories/contestantFactory.js"></script>
-        <script src="js/factories/weeksFactory.js"></script>
         <script src="js/factories/routeFactory.js"></script>
+        <script src="js/factories/routeValidatorFactory.js"></script>
         <script src="js/factories/backendFactory.js"></script>
-        <script src="js/factories/facebookFactory.js"></script>
-        <script src="js/factories/googlePlusFactory.js"></script>
-        <script src="js/factories/authFactory.js"></script>
+        <script src="js/factories/unauthorizedInterceptor.js"></script>
+        <script src="js/factories/userFactory.js"></script>
+        <script src="js/factories/weeksFactory.js"></script>
         <script src="js/filters/momentFilter.js"></script>
         <!-- endbuild -->
     </body>

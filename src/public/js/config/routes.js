@@ -4,9 +4,6 @@ app.config(['$routeProvider', 'ROUTES', function($routeProvider, ROUTES) {
             templateUrl : 'view/login',
             controller : 'loginController'
         })
-        .when(ROUTES.TEST, {
-            templateUrl : 'view/test'
-        })
         .when(ROUTES.CHANGE_ALIAS, {
             templateUrl : 'view/alias',
             controller : 'aliasController'

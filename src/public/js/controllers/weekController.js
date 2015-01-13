@@ -16,7 +16,7 @@ app.controller('weekController', ['$rootScope', '$scope', '$routeParams', '$inte
         };
         $scope.week.selectedContestants.push(contestantObject);
         $scope.week.remainingContestants = _.reject($scope.week.remainingContestants, contestantObject);
-        backendFactory.selectContestant($scope.user.id, $scope.week.id, contestant.id);
+        backendFactory.selectContestant($scope.week.id, contestant.id);
     };
 
     $scope.removeContestant = function(contestant, multiplier) {
@@ -26,7 +26,7 @@ app.controller('weekController', ['$rootScope', '$scope', '$routeParams', '$inte
         };
         $scope.week.selectedContestants = _.reject($scope.week.selectedContestants, contestantObject);
         $scope.week.remainingContestants.push(contestantObject);
-        backendFactory.removeContestant($scope.user.id, $scope.week.id, contestant.id);
+        backendFactory.removeContestant($scope.week.id, contestant.id);
     };
 
     $scope.selectedContestantClicked = function(contestant, multiplier) {
