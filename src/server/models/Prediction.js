@@ -29,11 +29,11 @@ module.exports.Predictions = Database.MySQL.Collection.extend({
  * @param contestantId The matching ID of the {@link Contestant}.
  * @returns {Promise}
  */
-module.exports.Predictions.removePrediction = function(userId, weekId, contestantId) {
+module.exports.Predictions.removePrediction = function(user, weekId, contestantId) {
     var deferred = Q.defer();
     new Database.Week({id: weekId})
         .predictions()
-        .query({where: {user_id: userId, contestant_id: contestantId}})
+        .query({where: {user_id: user.get('id'), contestant_id: contestantId}})
         .fetchOne()
         .then(function(prediction) {
             prediction.destroy().then(deferred.resolve, deferred.reject);
@@ -49,7 +49,7 @@ module.exports.Predictions.removePrediction = function(userId, weekId, contestan
  * @param contestantId The ID of the {@link Contestant}.
  * @returns {Promise}
  */
-module.exports.Predictions.makePrediction = function(userId, weekId, contestantId) {
+module.exports.Predictions.makePrediction = function(user, weekId, contestantId) {
     var deferred = Q.defer();
 
     // Verify week is open
@@ -59,20 +59,20 @@ module.exports.Predictions.makePrediction = function(userId, weekId, contestantI
         } else {
 
             // Verify contestant hasn't already been picked
-            Database.Prediction.hasBeenPredicted(userId, weekId, contestantId).then(function(hasBeenPredicted) {
+            Database.Prediction.hasBeenPredicted(user, weekId, contestantId).then(function(hasBeenPredicted) {
                 if (hasBeenPredicted) {
                     deferred.reject('Sorry, but you have already selected this contestant');
                 } else {
 
                     // Find open scoringOpportunities
-                    Database.ScoringOpportunities.getOpen(userId, weekId).then(function(scoringOpportunities) {
+                    Database.ScoringOpportunities.getOpen(user, weekId).then(function(scoringOpportunities) {
                         if (scoringOpportunities.size() == 0) {
                             deferred.reject('You can\'t make any more picks this week. Sorry.');
                         } else {
 
                             // Create new pick
                             new Database.Prediction({
-                                user_id: userId,
+                                user_id: user.get('id'),
                                 scoringOpportunity_id: scoringOpportunities.at(0).get('id'),
                                 contestant_id: contestantId
                             }).save().then(deferred.resolve, deferred.reject)
@@ -92,11 +92,11 @@ module.exports.Predictions.makePrediction = function(userId, weekId, contestantI
  * @param contestantId The ID of the {@link Contestant}.
  * @returns {Promise}
  */
-module.exports.Prediction.hasBeenPredicted = function(userId, weekId, contestantId) {
+module.exports.Prediction.hasBeenPredicted = function(user, weekId, contestantId) {
     var deferred = Q.defer();
     new Database.Week({id: weekId})
         .predictions()
-        .query({where: {user_id: userId, contestant_id: contestantId}})
+        .query({where: {user_id: user.get('id'), contestant_id: contestantId}})
         .fetchOne()
         .then(function(prediction) {
             deferred.resolve(prediction !== undefined && prediction !== null);

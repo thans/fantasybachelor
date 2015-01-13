@@ -31,13 +31,13 @@ module.exports.ScoringOpportunities = Database.MySQL.Collection.extend({
  * @param weekId The ID of the {@link Week}
  * @returns {Promise}
  */
-module.exports.ScoringOpportunities.getOpen = function(userId, weekId) {
+module.exports.ScoringOpportunities.getOpen = function(user, weekId) {
     var deferred = Q.defer();
     new Database.Week({id: weekId}).load({scoringOpportunities: function(qb) {
         qb.whereNotExists(function() {
             this.from('predictions')
                 .whereRaw('predictions.scoringOpportunity_id = scoringOpportunities.id')
-                .whereRaw('predictions.user_id = ' + userId);
+                .whereRaw('predictions.user_id = ' + user.get('id'));
         });
     }}).then(function(week) {
         deferred.resolve(week.related('scoringOpportunities'));

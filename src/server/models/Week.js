@@ -48,7 +48,7 @@ module.exports.Weeks.isSelectionOpen = function(weekId) {
  * @param userId The ID of the {@link User}
  * @returns {Promise}
  */
-module.exports.Weeks.getExtended = function(userId) {
+module.exports.Weeks.getExtended = function(user) {
     var deferred = Q.defer();
     var extendedWeeks = {};
     new Database.Weeks()
@@ -86,7 +86,7 @@ module.exports.Weeks.getExtended = function(userId) {
                     // Record selections
                     async.each(weeks.toArray(), function(week, callback) {
                         week.load({predictions: function(qb) {
-                            qb.where('predictions.user_id', '=', userId);
+                            qb.where('predictions.user_id', '=', user.get('id'));
                         }})
                             .then(function(week) {
                                 week.related('predictions').each(function(prediction) {
