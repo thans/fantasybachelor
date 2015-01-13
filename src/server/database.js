@@ -1,6 +1,7 @@
 var Bookshelf = require('bookshelf');
 var _ = require('underscore');
 var utils = require('./utils');
+var config = require('./config/config');
 BACH_ID = 33;
 
 module.exports.MySQL = module.exports.connection = Bookshelf.MySQL = Bookshelf.connection = Bookshelf.initialize({
@@ -15,19 +16,20 @@ _.each(['User', 'UserScore', 'Prediction', 'Contestant', 'BioQuestion', 'BioStat
 function getConnectionParams() {
     verifyEnv();
     return {
-        database : process.env.RDS_DATABASE,
-        host     : process.env.RDS_HOSTNAME,
-        port     : process.env.RDS_PORT,
-        user     : process.env.RDS_USERNAME,
-        password : process.env.RDS_PASSWORD,
+        database : config.DATABASE.DATABASE,
+        host     : config.DATABASE.HOSTNAME,
+        port     : config.DATABASE.PORT,
+        user     : config.DATABASE.USERNAME,
+        password : config.DATABASE.PASSWORD,
         charset  : 'utf8'
+
     }
 }
 
 function verifyEnv() {
-    utils.verifyEnvVar('RDS_DATABASE');
-    utils.verifyEnvVar('RDS_HOSTNAME');
-    utils.verifyEnvVar('RDS_PORT');
-    utils.verifyEnvVar('RDS_USERNAME');
-    utils.verifyEnvVar('RDS_PASSWORD');
+    utils.verifyEnvVar('DATABASE', 'DATABASE');
+    utils.verifyEnvVar('DATABASE', 'HOSTNAME');
+    utils.verifyEnvVar('DATABASE', 'PORT');
+    utils.verifyEnvVar('DATABASE', 'USERNAME');
+    utils.verifyEnvVar('DATABASE', 'PASSWORD');
 }
