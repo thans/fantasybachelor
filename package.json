@@ -12,6 +12,7 @@
     "knex": "0.5.4",
     "moment": "2.4.0",
     "mysql": "2.0.0-rc2",
+    "nconf": "^0.7.1",
     "node-minify": "0.8.2",
     "q": "^1.0.1",
     "underscore": "1.4.4"

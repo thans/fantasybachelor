@@ -1,11 +1,12 @@
 var express = require('express');
 var path = require('path');
 var ejs = require('ejs');
+var config = require('./config/config');
 var database = require('./database');
 
 var app = express();
 
-console.log('Running in: ' + process.env.NODE_ENV);
+console.log('Running in: ' + config.NODE_ENV);
 
 app.use(express.compress());
 app.use(express.bodyParser());
@@ -83,5 +84,5 @@ function errorFunction(res) {
 }
 
 function getPort() {
-    return process.env.PORT || 8000;
+    return config.PORT || 8000;
 }

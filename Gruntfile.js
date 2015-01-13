@@ -197,7 +197,6 @@ module.exports = function(grunt) {
                 }
             }
         },
-        env: {
             dev: {
             }
         }
