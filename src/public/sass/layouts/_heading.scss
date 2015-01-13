@@ -6,6 +6,7 @@
 @import '../mixins/position';
 @import '../mixins/mobile';
 @import '../mixins/hover';
+@import '../mixins/sprites';
 
 $headingHeight: 85px;
 $headingHeightMobile: 150px;
@@ -49,17 +50,13 @@ $headingHiddenOffsetMobile: -$headingHeightMobile;
 
     #menu {
       @include absolute(20px, 20px);
-      @include size(40px);
       @include hoverable();
+      @include sprite($icons, menu, 40px, 40px);
 
       @include mobile {
         @include absolute(25px, 25px);
-        @include size(75px);
+        @include sprite($icons, menu, 75px, 75px);
       }
-
-//      @include desktop {
-//        display: none;
-//      }
     }
 
     #logo {

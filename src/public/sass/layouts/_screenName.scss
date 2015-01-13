@@ -1,6 +1,7 @@
 @import '../mixins/size';
 @import '../mixins/mobile';
 @import '../mixins/hover';
+@import '../mixins/sprites';
 
 $screenNameButtonSize: 47px;
 $screenNameMobileButtonSize: 100px;
@@ -20,11 +21,11 @@ $screenNameMobileButtonSize: 100px;
   }
 
   .circleButton {
-    @include size($screenNameButtonSize);
     @include hoverable();
+    @include sprite($icons, next, $screenNameButtonSize);
 
     @include mobile {
-      @include size($screenNameMobileButtonSize);
+      @include sprite($icons, next, $screenNameMobileButtonSize);
     }
   }
 

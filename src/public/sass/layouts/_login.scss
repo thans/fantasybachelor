@@ -2,9 +2,10 @@
 @import '../mixins/position';
 @import '../mixins/size';
 @import '../mixins/hover';
+@import '../mixins/sprites';
 
-$loginButtonSize: 150px;
-$loginMobileButtonSize: 300px;
+$loginButtonSize: 100px;
+$loginMobileButtonSize: 150px;
 
 #login {
   @include centerVertical(500px);
@@ -12,17 +13,41 @@ $loginMobileButtonSize: 300px;
   width: 100%;
 
   .button {
-    display: inline-block;
-    text-align: center;
+    padding: 0px;
     @include marginAfter(36px);
 
     @include hoverable();
 
-    img {
-      @include size($loginButtonSize);
+    &.facebook .image {
+      @include sprite($icons, fbLogo, $loginButtonSize);
       @include mobile {
-        @include size($loginMobileButtonSize);
+        @include sprite($icons, fbLogo, $loginMobileButtonSize);
       }
+    }
+
+    &.google .image {
+      @include sprite($icons, gPlusLogo, $loginButtonSize);
+      @include mobile {
+        @include sprite($icons, gPlusLogo, $loginMobileButtonSize);
+      }
+    }
+
+    &.twitter .image {
+      @include sprite($icons, twitterLogo, $loginButtonSize);
+      @include mobile {
+        @include sprite($icons, twitterLogo, $loginMobileButtonSize);
+      }
+    }
+
+    &.reddit .image {
+      @include sprite($icons, redditLogo, $loginButtonSize);
+      @include mobile {
+        @include sprite($icons, redditLogo, $loginMobileButtonSize);
+      }
+    }
+
+    .image {
+      display: inline-block;
     }
   }
 }
