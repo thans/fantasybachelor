@@ -1,4 +1,4 @@
-app.directive('slideOutMenu', ['routeFactory', 'authFactory', function(routeFactory, authFactory) {
+app.directive('slideOutMenu', ['routeFactory', 'weeksFactory', function(routeFactory, weeksFactory) {
     return {
         restrict: 'A',
         replace: true,
@@ -7,6 +7,10 @@ app.directive('slideOutMenu', ['routeFactory', 'authFactory', function(routeFact
         controller: ['$scope', function($scope) {
             $scope.slideOutMenuActive = false;
             $scope.showWeeks = false;
+
+            $scope.$watch(function() { return weeksFactory.weeks; }, function(weeks) {
+                $scope.weeks = weeks;
+            });
 
             $scope.hideSlideOutMenu = function() {
                 $scope.slideOutMenuActive = false;
@@ -30,7 +34,7 @@ app.directive('slideOutMenu', ['routeFactory', 'authFactory', function(routeFact
 
             $scope.logout = function() {
                 $scope.hideSlideOutMenu();
-                authFactory.logout();
+                routeFactory.goToLogout();
             };
 
             $scope.goToWeek = function(weekId) {

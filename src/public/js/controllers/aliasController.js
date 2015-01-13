@@ -1,22 +1,23 @@
-app.controller('aliasController', ['$rootScope', '$scope', 'EVENTS', 'backendFactory', 'authFactory', 'routeFactory', function($rootScope, $scope, EVENTS, backendFactory, authFactory, routeFactory) {
+app.controller('aliasController', ['$rootScope', '$scope', 'EVENTS', 'backendFactory', 'userFactory', 'routeFactory', function($rootScope, $scope, EVENTS, backendFactory, userFactory, routeFactory) {
     $rootScope.showHeaderFooter = true;
 
-    if (!authFactory.user) {
-        return;
-    }
-    $scope.alias = authFactory.user.alias || authFactory.user.firstName + ' ' + authFactory.user.lastName;
+    $scope.alias = userFactory.user.displayName;
 
     $scope.setScreenName = function() {
+        $scope.errorMessage = '';
+
         if (!$scope.alias) {
             $scope.errorMessage = 'please enter a name for yourself';
             return;
         }
 
         var screenName = $scope.alias;
-        backendFactory.setAlias(authFactory.user.id, screenName).success(function() {
+        backendFactory.setAlias(screenName).success(function() {
+            userFactory.user.alias = screenName;
             routeFactory.goToHome();
-            authFactory.user.alias = screenName;
-            $scope.$emit(EVENTS.ALIAS.VALID);
+        }).error(function() {
+            $scope.errorMessage = 'something when wrong, try again';
         });
+        $scope.errorMessage = 'saving ...';
     };
 }]);

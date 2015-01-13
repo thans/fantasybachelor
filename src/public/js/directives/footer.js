@@ -1,15 +1,13 @@
-app.directive('footer', ['$location', 'authFactory', 'routeFactory', function($location, authFactory, routeFactory) {
+app.directive('footer', ['$location', 'routeFactory', 'userFactory', function($location, routeFactory, userFactory) {
     return {
         templateUrl : 'view/footer',
         controller : ['$scope', function($scope) {
-            $scope.$watchCollection(function() { return authFactory.user; }, function(user) {
+            $scope.$watchCollection(function() { return userFactory.user; }, function(user) {
                 $scope.user = user;
             });
 
-            $scope.logout = authFactory.logout;
-            $scope.changeAlias = function() {
-                routeFactory.goToChangeAlias();
-            }
+            $scope.logout = routeFactory.goToLogout;
+            $scope.changeAlias = routeFactory.goToChangeAlias;
         }]
     }
 }]);
