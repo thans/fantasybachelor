@@ -7,6 +7,7 @@
   "dependencies": {
     "async": "0.2.10",
     "bookshelf": "0.6.2",
+    "crypto": "0.0.3",
     "ejs": "^2.0.8",
     "express": "3.0.6",
     "knex": "0.5.4",
@@ -14,6 +15,12 @@
     "mysql": "2.0.0-rc2",
     "nconf": "^0.7.1",
     "node-minify": "0.8.2",
+    "passport": "^0.2.1",
+    "passport-facebook": "^1.0.3",
+    "passport-google-oauth": "^0.1.5",
+    "passport-google-oauth2": "^0.1.4",
+    "passport-reddit": "^0.2.4",
+    "passport-twitter": "^1.0.2",
     "q": "^1.0.1",
     "underscore": "1.4.4"
   },
