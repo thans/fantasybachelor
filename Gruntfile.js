@@ -15,7 +15,7 @@ module.exports = function(grunt) {
             all: 'build',
             js: 'build/public/js/*',
             css: 'build/public/css/*',
-            sass: 'build/public/sass',
+            sass: 'build/tmp/sass',
             images: 'build/public/images',
             html: ['build/public/views/*', 'build/public/index.ejs'],
             components: 'build/components',
@@ -26,8 +26,32 @@ module.exports = function(grunt) {
                 files: [
                     {
                         expand: true,
-                        dest: 'build',
-                        cwd: 'src',
+                        dest: 'build/public/js',
+                        cwd: 'src/public/js',
+                        src: ['**/*.js']
+                    },
+                    {
+                        expand: true,
+                        dest: 'build/tmp/sass',
+                        cwd: 'src/public/sass',
+                        src: ['**/*.scss']
+                    },
+                    {
+                        expand: true,
+                        dest: 'build/public/views',
+                        cwd: 'src/public/views',
+                        src: ['**/*.ejs']
+                    },
+                    {
+                        expand: true,
+                        dest: 'build/public',
+                        cwd: 'src/public',
+                        src: ['index.ejs']
+                    },
+                    {
+                        expand: true,
+                        dest: 'build/server',
+                        cwd: 'src/server',
                         src: ['**/*']
                     },
                     {
@@ -38,8 +62,8 @@ module.exports = function(grunt) {
                     },
                     {
                         expand: true,
-                        dest: 'build/public/images',
-                        cwd: 'src/public/images/compressed',
+                        dest: 'build/tmp/images',
+                        cwd: 'src/public/images/scaled',
                         src: ['**/*']
                     }
                 ]
@@ -52,7 +76,7 @@ module.exports = function(grunt) {
             },
             sass: {
                 expand: true,
-                dest: 'build/public/sass',
+                dest: 'build/tmp/sass',
                 cwd: 'src/public/sass',
                 src: ['**/*.scss']
             },
@@ -86,55 +110,47 @@ module.exports = function(grunt) {
             },
             images: {
                 expand: true,
-                dest: 'build/public/images',
-                cwd: 'src/public/images/compressed',
+                dest: 'build/tmp/images',
+                cwd: 'src/public/images/scaled',
                 src: ['**/*']
-            }
-        },
-        sass: {
-            dist: {
-                files: [{
-                    expand: true,
-                    cwd: 'build/public/sass',
-                    src: ['*.scss'],
-                    dest: 'build/public/css',
-                    ext: '.css'
-                }]
             }
         },
         compass: {
             dist: {
                 options: {
-                    sassDir: 'build/public/sass',
-                    cssDir: 'build/public/css'
+                    sassDir: 'build/tmp/sass',
+                    cssDir: 'build/public/css',
+                    imagesDir: 'build/tmp/images',
+                    httpGeneratedImagesPath: '/images',
+                    assetCacheBuster: false
                 }
             }
         },
         watch: {
             js: {
                 files: ['src/public/**/*.js'],
-                tasks: ['clean:js', 'copy:js'],
+                tasks: ['copy:js'],
                 options: {
                     livereload: true
                 }
             },
             sass: {
                 files: ['src/public/**/*.scss'],
-                tasks: ['clean:css', 'clean:sass', 'copy:sass', 'compass'],
+                tasks: ['copy:sass', 'compass', 'newer:imagemin'],
                 options: {
                     livereload: true
                 }
             },
             html: {
                 files: ['src/public/**/*.ejs', 'src/public/**/*.html'],
-                tasks: ['clean:html', 'copy:html'],
+                tasks: ['copy:html'],
                 options: {
                     livereload: true
                 }
             },
             server: {
                 files: ['src/server/**/*'],
-                tasks: ['clean:server', 'copy:server'],
+                tasks: ['copy:server'],
                 options: {
                     livereload: true
                 }
@@ -147,7 +163,7 @@ module.exports = function(grunt) {
             },
             images: {
                 files: ['src/public/images/**/*'],
-                tasks: ['clean:images', 'copy:images'],
+                tasks: ['copy:images', 'imagemin'],
                 options: {
                     livereload: true
                 }
@@ -197,7 +213,14 @@ module.exports = function(grunt) {
                 }
             }
         },
+        imagemin: {
             dev: {
+                files: [{
+                    expand: true,
+                    cwd: 'build/tmp/images',
+                    src: ['**/*.{png,jpg,gif,svg,ico}'],
+                    dest: 'build/public/images/'
+                }]
             }
         }
     });
@@ -215,8 +238,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-usemin');
     grunt.loadNpmTasks('grunt-env');
+    grunt.loadNpmTasks('grunt-contrib-imagemin');
+    grunt.loadNpmTasks('grunt-newer');
 
-    grunt.registerTask('default', ['clean:all', 'copy:all', 'compass', 'useminPrepare', 'concat', 'uglify', 'cssmin', 'usemin']);
-    grunt.registerTask('debug', ['clean:all', 'copy:all', 'compass', 'env:dev', 'concurrent:dev']);
-
+    grunt.registerTask('default', ['copy:all', 'compass', 'imagemin', 'useminPrepare', 'concat', 'uglify', 'cssmin', 'usemin']);
+    grunt.registerTask('debug', ['copy:all', 'compass', 'imagemin', 'concurrent:dev']);
+    grunt.registerTask('clean', ['clean:all']);
 };

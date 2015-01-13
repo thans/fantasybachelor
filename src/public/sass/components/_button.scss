@@ -1,5 +1,6 @@
 @import '../constants/colors';
 @import '../constants/fonts';
+@import '../mixins/hover';
 
 .button {
   display: inline-block;
@@ -7,6 +8,7 @@
   background: $red;
   font-weight: 600;
   padding: 12px 40px;
+  @include hoverable();
 
   &.disabled {
     opacity: .5;

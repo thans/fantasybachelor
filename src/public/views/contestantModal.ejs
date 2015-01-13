@@ -2,7 +2,7 @@
 <div class="innerWrapper" ng-class="{hidden: !visible}">
     <div class="content">
         <div class="imageWrapper">
-            <img class="fullBodyImage" ng-src="images/contestants/{{contestant.codename || 'woman'}}.png"/>
+            <img class="fullBodyImage" ng-src="images/contestants/{{contestant.codename || 'woman'}}.jpg"/>
             <div class="divider"></div>
         </div>
         <h1 class="name">{{contestant.name}}</h1>
@@ -17,5 +17,5 @@
             <div class="buttonLarge" ng-click="buttonClicked()" ng-class="{disabled : !enabled}">{{text}}</div>
         </div>
     </div>
-    <img class="close" ng-click="close()" src="images/close.png"/>
+    <div class="close" ng-click="close()"></div>
 </div>
