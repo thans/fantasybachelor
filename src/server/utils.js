@@ -3,10 +3,11 @@ var _ = require('underscore');
 
 exports.verifyEnvVar = function() {
     var conf = config;
-    _.each(arguments, function(argument) {
-        conf = conf[argument];
+    var args = arguments;
+    _.each(args, function(arg) {
+        conf = conf[arg];
         if (!conf) {
-            throw new Error('Please set the ' + arguments.join('.') + ' environment variable.');
+            throw new Error('Please set the ' + args.join('.') + ' environment variable.');
         }
     });
 };

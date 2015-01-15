@@ -1,16 +1,10 @@
 module.exports = function(grunt) {
 
+    var pkg = grunt.file.readJSON('package.json');
+    var config = grunt.file.readJSON('config/' + (process.env.NODE_ENV || 'development') + '.json');
     grunt.initConfig({
-        useminPrepare: {
-            html: 'build/public/index.ejs',
-            options: {
-                dest: 'build/public',
-                staging: 'build/.tmp'
-            }
-        },
-        usemin: {
-            html: 'build/public/index.ejs'
-        },
+        pkg: pkg,
+        config: config,
         clean: {
             all: 'build',
             js: 'build/public/js/*',
@@ -22,7 +16,7 @@ module.exports = function(grunt) {
             server: 'build/server'
         },
         copy: {
-            all: {
+            dev: {
                 files: [
                     {
                         expand: true,
@@ -38,15 +32,48 @@ module.exports = function(grunt) {
                     },
                     {
                         expand: true,
-                        dest: 'build/public/views',
-                        cwd: 'src/public/views',
-                        src: ['**/*.ejs']
+                        dest: 'build/server',
+                        cwd: 'src/server',
+                        src: ['**/*']
                     },
                     {
                         expand: true,
-                        dest: 'build/public',
-                        cwd: 'src/public',
-                        src: ['index.ejs']
+                        dest: 'build/server/config',
+                        cwd: 'config',
+                        src: ['**']
+                    },
+                    {
+                        expand: true,
+                        dest: 'build/server/config',
+                        src: ['package.json']
+                    },
+                    {
+                        expand: true,
+                        dest: 'build/public/components',
+                        cwd: 'bower_components',
+                        src: ['**/*']
+                    },
+                    {
+                        expand: true,
+                        dest: 'build/public/images',
+                        cwd: 'src/public/images/scaled',
+                        src: ['**/*']
+                    }
+                ]
+            },
+            prod: {
+                files: [
+                    {
+                        expand: true,
+                        dest: 'build/tmp/js',
+                        cwd: 'src/public/js',
+                        src: ['**/*.js']
+                    },
+                    {
+                        expand: true,
+                        dest: 'build/tmp/sass',
+                        cwd: 'src/public/sass',
+                        src: ['**/*.scss']
                     },
                     {
                         expand: true,
@@ -56,7 +83,18 @@ module.exports = function(grunt) {
                     },
                     {
                         expand: true,
-                        dest: 'build/public/components',
+                        dest: 'build/server/config',
+                        cwd: 'config',
+                        src: ['**']
+                    },
+                    {
+                        expand: true,
+                        dest: 'build/server/config',
+                        src: ['package.json']
+                    },
+                    {
+                        expand: true,
+                        dest: 'build/tmp/components',
                         cwd: 'bower_components',
                         src: ['**/*']
                     },
@@ -80,22 +118,6 @@ module.exports = function(grunt) {
                 cwd: 'src/public/sass',
                 src: ['**/*.scss']
             },
-            html: {
-                files : [
-                    {
-                        expand: true,
-                        dest: 'build/public/views',
-                        cwd: 'src/public/views',
-                        src: ['**/*.ejs']
-                    },
-                    {
-                        expand: true,
-                        dest: 'build/public',
-                        cwd: 'src/public',
-                        src: ['index.ejs']
-                    }
-                ]
-            },
             components: {
                 expand: true,
                 dest: 'build/public/components',
@@ -116,12 +138,21 @@ module.exports = function(grunt) {
             }
         },
         compass: {
-            dist: {
+            prod: {
+                options: {
+                    sassDir: 'build/tmp/sass',
+                    cssDir: 'build/tmp/css',
+                    imagesDir: 'build/tmp/images',
+                    httpGeneratedImagesPath: '<%= config.RESOURCES_URL %>/<%= pkg.version %>/images',
+                    assetCacheBuster: false
+                }
+            },
+            dev: {
                 options: {
                     sassDir: 'build/tmp/sass',
                     cssDir: 'build/public/css',
-                    imagesDir: 'build/tmp/images',
-                    httpGeneratedImagesPath: '/images',
+                    imagesDir: 'build/public/images',
+                    httpGeneratedImagesPath: '<%= config.RESOURCES_URL %>/<%= pkg.version %>/images',
                     assetCacheBuster: false
                 }
             }
@@ -136,7 +167,7 @@ module.exports = function(grunt) {
             },
             sass: {
                 files: ['src/public/**/*.scss'],
-                tasks: ['copy:sass', 'compass', 'newer:imagemin'],
+                tasks: ['copy:sass', 'compass:dev', 'newer:imagemin'],
                 options: {
                     livereload: true
                 }
@@ -188,6 +219,7 @@ module.exports = function(grunt) {
             dev: {
                 script: 'build/server/server.js',
                 options: {
+                    args: ['debug'],
                     nodeArgs: ['--debug', '--debug-brk'],
                     watch: ['build/server/**/*'],
 
@@ -198,7 +230,7 @@ module.exports = function(grunt) {
                             // Delay before server listens on port
                             setTimeout(function() {
                                 require('open')('http://localhost:5859/debug?port=5858');
-                                require('open')('http://localhost:8000');
+                                require('open')('http://localhost:' + config.PORT);
                             }, 1000);
                         });
 
@@ -222,6 +254,56 @@ module.exports = function(grunt) {
                     dest: 'build/public/images/'
                 }]
             }
+        },
+        concat: {
+            prod: {
+                src: grunt.file.readJSON('config/resources.json').RESOURCES.JAVASCRIPT,
+                dest: 'build/tmp/js/app.js'
+            }
+        },
+        uglify: {
+            prod: {
+                files: [{
+                    expand: true,
+                    cwd: 'build/tmp/js',
+                    src: ['app.js'],
+                    dest: 'build/public/js',
+                    ext: '.min.js'
+                }]
+            }
+        },
+        cssmin: {
+            prod: {
+                files: [{
+                    expand: true,
+                    cwd: 'build/tmp/css',
+                    src: ['*.css', '!*.min.css'],
+                    dest: 'build/public/css',
+                    ext: '.min.css'
+                }]
+            }
+        },
+        aws_s3: {
+            prod: {
+                options: {
+                    accessKeyId: '<%= config.AWS.ACCESS_KEY %>',
+                    secretAccessKey: '<%= config.AWS.ACCESS_SECRET %>',
+                    action: 'upload',
+                    bucket: 'resources.fantasybach.com',
+                    region: 'us-west-2',
+                    uploadConcurrency: 4,
+                    gzip: true,
+                    excludeFromGzip: ['*.png', '*.jpg', '*.jpeg', '*.ico', '*.gif']
+                },
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'build/public',
+                        src: ['**'],
+                        dest: '<%= pkg.version %>/'
+                    }
+                ]
+            }
         }
     });
 
@@ -240,8 +322,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-env');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-newer');
+    grunt.loadNpmTasks('grunt-aws-s3-gzip');
 
-    grunt.registerTask('default', ['copy:all', 'compass', 'imagemin', 'useminPrepare', 'concat', 'uglify', 'cssmin', 'usemin']);
-    grunt.registerTask('debug', ['copy:all', 'compass', 'imagemin', 'concurrent:dev']);
-    grunt.registerTask('clean', ['clean:all']);
+    grunt.registerTask('default', ['clean:all', 'copy:prod', 'compass:prod', 'imagemin', 'concat:prod', 'uglify:prod', 'cssmin:prod', 'aws_s3:prod']);
+    grunt.registerTask('debug', ['clean:all', 'copy:dev', 'compass:dev', 'concurrent:dev']);
 };
