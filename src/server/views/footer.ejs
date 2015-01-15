@@ -1,7 +1,11 @@
+<%
+    var resourcesUrl = config.RESOURCES_URL;
+    var version = config.PACKAGE.version;
+%>
 <div id="footer" ng-class="{hidden : !appLoaded || !user || !showHeaderFooter}">
     <div class="content">
         <div class="user" ng-mouseover="hover = true" ng-mouseleave="hover = false">
-            <img ng-src="{{user.profilePicture}}" src="/images/pixel.gif" class="profilePic" />
+            <img ng-src="{{user.profilePicture}}" src="<%= resourcesUrl %>/<%= version %>/images/pixel.gif" class="profilePic" />
             <h1 class="alias">{{user.displayName}}</h1>
         </div>
         <!--<div class="spacer">|</div>-->
