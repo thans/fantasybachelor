@@ -20,18 +20,19 @@ app.use(express.session({ secret: config.SESSION_SECRET || 'keyboard cat' }));
 auth.init();
 
 var publicPath = path.resolve(__dirname + '/../public');
+var viewPath = path.resolve(__dirname + '/views');
 
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
-    res.render(publicPath + '/index', { title: 'The index page!' })
+    res.render(viewPath + '/index', { config: config })
 });
 
 app.get('/view/:view', function(req, res) {
-    res.render(publicPath + '/views/' + req.params.view, { title: 'The index page!' })
+    res.render(viewPath + '/' + req.params.view, { config: config })
 });
 
-app.use(express.static(publicPath, {maxAge: 0}));
+app.use('/' + config.PACKAGE.version, express.static(publicPath, {maxAge: 0}));
 
 app.get('/getUser', auth.isAuthenticated, function (req, res) {
     console.log('getUser: ' + JSON.stringify(req.body));
