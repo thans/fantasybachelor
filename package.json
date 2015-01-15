@@ -1,6 +1,6 @@
 {
   "name": "FantasyBach",
-  "version": "0.0.1",
+  "version": "0.0.2-rc1",
   "scripts": {
     "start": "npm install && node node_modules/bower/bin/bower install && node node_modules/grunt-cli/bin/grunt && node build/server/server.js"
   },
