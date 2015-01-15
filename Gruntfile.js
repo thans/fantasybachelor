@@ -2,6 +2,10 @@ module.exports = function(grunt) {
 
     var pkg = grunt.file.readJSON('package.json');
     var config = grunt.file.readJSON('config/' + (process.env.NODE_ENV || 'development') + '.json');
+    var javascript = grunt.file.readJSON('config/resources.json').RESOURCES.JAVASCRIPT;
+    for (var i = 0; i < javascript.length; i++) {
+        javascript[i] = 'build/tmp/' + javascript[i];
+    }
     grunt.initConfig({
         pkg: pkg,
         config: config,
@@ -257,8 +261,8 @@ module.exports = function(grunt) {
         },
         concat: {
             prod: {
-                src: grunt.file.readJSON('config/resources.json').RESOURCES.JAVASCRIPT,
-                dest: 'build/tmp/js/app.js'
+                src: javascript,
+                dest: 'build/tmp/js/app.cat.js'
             }
         },
         uglify: {
@@ -266,7 +270,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: 'build/tmp/js',
-                    src: ['app.js'],
+                    src: ['app.cat.js'],
                     dest: 'build/public/js',
                     ext: '.min.js'
                 }]
