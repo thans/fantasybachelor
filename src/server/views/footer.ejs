@@ -1,0 +1,20 @@
+<div id="footer" ng-class="{hidden : !appLoaded || !user || !showHeaderFooter}">
+    <div class="content">
+        <div class="user" ng-mouseover="hover = true" ng-mouseleave="hover = false">
+            <img ng-src="{{user.profilePicture}}" src="/images/pixel.gif" class="profilePic" />
+            <h1 class="alias">{{user.displayName}}</h1>
+        </div>
+        <!--<div class="spacer">|</div>-->
+        <!--<div class="league">global</div>-->
+        <div class="spacer">|</div>
+        <div class="league">
+            <ng-pluralize count="user.score"
+                          when="{'0' : '0 points',
+                                 'one' : '1 point',
+                                 'other' : '{} points'}">
+            </ng-pluralize>
+        </div>
+        <!--<div menu-circle text="logout" name="logout" hover="hover" ng-click="logout()"></div>-->
+        <!--<div menu-circle text="screen name" name="changeAlias" hover="hover" ng-click="changeAlias()"></div>-->
+    </div>
+</div>

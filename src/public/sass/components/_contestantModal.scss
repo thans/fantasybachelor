@@ -4,6 +4,7 @@
 @import '../mixins/position';
 @import '../mixins/size';
 @import '../mixins/mobile';
+@import '../mixins/sprites';
 
 $contestantModalCloseButtonSize: 25px;
 $contestantModalCloseButtonMobileSize: 75px;
@@ -48,12 +49,11 @@ $contestantModalPadding: 60px;
     }
 
     .close {
-      @include size($contestantModalCloseButtonSize);
       @include absolute($contestantModalCloseButtonOffset, null, null, $contestantModalCloseButtonOffset);
-      background-size: cover;
+      @include sprite($icons, close, $contestantModalCloseButtonSize);
 
       @include mobile {
-        @include size($contestantModalCloseButtonMobileSize);
+        @include sprite($icons, close, $contestantModalCloseButtonMobileSize);
       }
     }
 

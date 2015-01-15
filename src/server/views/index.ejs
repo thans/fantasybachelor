@@ -1,0 +1,56 @@
+<%
+    var resourcesUrl = config.RESOURCES_URL;
+    var splashCss = config.RESOURCES.SPLASH_CSS;
+    var css = config.RESOURCES.CSS;
+    var javascript = config.RESOURCES.JAVASCRIPT;
+    var version = config.PACKAGE.version;
+    var isProduction = config.NODE_ENV === 'production';
+%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Fantasy Bachelor</title>
+        <meta name="description" content="Follow ABC's The Bachelorette and choose which contestants you think Andi Dorfman will give a rose to. Multipliers are available for choosing the same contestant twice in a row, so pick contestants that will make it the long haul!">
+        <meta name="keywords" content="The Bachelor, Fantasy, Bachelor, abc, The Bachelorette, Bachelorette, Fantasy Bachelor, Fantasy Bachelorette, FantasyBach, FantasyBachelor, FantasyBachelorette, Fantasy Football">
+
+        <% if (isProduction) { %>
+            <link rel="stylesheet" href="<%= resourcesUrl %>/<%= version %>/css/splash.min.css">
+        <% } else { %>
+            <% for (var i = 0; i < splashCss.length; i++) { %>
+                <link rel="stylesheet" href="<%= resourcesUrl %>/<%= version %>/<%= splashCss[i] %>">
+            <% } %>
+        <% } %>
+
+        <link rel="shortcut icon" href="images/favicon.ico" />
+        <base href="/">
+    </head>
+    <body ng-app="FantasyBach" ng-strict-di block-rubber-banding>
+        <div id="splash" ng-hide="appLoaded">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+            </div>
+            <div class="label">loading</div>
+        </div>
+
+        <div slide-out-menu ng-show="appLoaded">
+            <div ng-view class="scrollable"></div>
+
+            <div footer></div>
+            <div heading></div>
+            <div contestant-modal></div>
+        </div>
+
+        <% if (isProduction) { %>
+            <link rel="stylesheet" href="<%= resourcesUrl %>/<%= version %>/css/app.min.css">
+            <script src="<%= resourcesUrl %>/<%= version %>/js/app.min.js"></script>
+        <% } else { %>
+            <% for (i = 0; i < css.length; i++) { %>
+                <link rel="stylesheet" href="<%= resourcesUrl %>/<%= version %>/<%= css[i] %>">
+            <% } %>
+            <% for (i = 0; i < javascript.length; i++) { %>
+                <script src="<%= resourcesUrl %>/<%= version %>/<%= javascript[i] %>"></script>
+            <% } %>
+        <% } %>
+    </body>
+</html>

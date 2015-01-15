@@ -1,11 +1,11 @@
-app.controller('loginController', ['$rootScope', '$scope', 'facebookFactory', 'googlePlusFactory', function($rootScope, $scope, facebookFactory, googlePlusFactory) {
+app.controller('loginController', ['$rootScope', '$scope', '$window', 'routeFactory', function($rootScope, $scope, $window, routeFactory) {
     $rootScope.showHeaderFooter = false;
 
-    $scope.loginFacebook = function() {
-        facebookFactory.login();
-    };
+    $scope.loginFacebook = routeFactory.goToFacebookLogin;
 
-    $scope.loginGooglePlus = function() {
-        googlePlusFactory.login();
-    };
+    $scope.loginGoogle = routeFactory.goToGoogleLogin;
+
+    $scope.loginTwitter = routeFactory.goToTwitterLogin;
+
+    $scope.loginReddit = routeFactory.goToRedditLogin;
 }]);

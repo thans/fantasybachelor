@@ -6,6 +6,7 @@
 @import '../mixins/size';
 @import '../mixins/mobile';
 @import '../mixins/hover';
+@import '../mixins/sprites';
 @import 'compass/css3/transition';
 @import 'compass/css3/transform';
 @import 'compass/css3/images';
@@ -46,9 +47,13 @@ $footerHiddenOffsetMobile: -$footerHeightMobile;
 
       .profilePic {
         @include circle(50px);
+        background-color: $red;
+        @include sprite($icons, user, 50px, 50px, 2px);
 
         @include mobile {
           @include thinCircle(75px);
+          background-color: $red;
+          @include sprite($icons, user, 75px);
         }
       }
 

@@ -1,11 +1,12 @@
-app.factory('contestantFactory', ['$rootScope', 'EVENTS', 'backendFactory', function($rootScope, EVENTS, backendFactory) {
+app.factory('contestantFactory', ['$rootScope', 'backendFactory', function($rootScope, backendFactory) {
     var contestantFactory = {};
 
-    backendFactory.loadContestants().success(function(contestants) {
+    contestantFactory.promise = backendFactory.loadContestants().then(function(response) {
+        var contestants = response.data;
         contestantFactory.contestants = contestants;
         console.log(contestants);
         console.log('Contestant data loaded.');
-        $rootScope.$broadcast(EVENTS.CONTESTANTS.LOADED, contestants);
+        return contestants;
     });
 
     contestantFactory.findContestantById = function(id) {

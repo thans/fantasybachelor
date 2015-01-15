@@ -19,7 +19,7 @@ div[slide-out-menu] {
   .slideOutMenuContent {
     @include size($slideOutMenuWidth, 100%);
     @include absolute(0, -$slideOutMenuWidth);
-    background: url('../images/slideOutMenuTexture.png');
+    background: url('../images/textures/slideOutMenuTexture.jpg');
     background-size: cover;
     overflow-y: scroll;
 

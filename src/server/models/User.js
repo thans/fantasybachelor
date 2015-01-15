@@ -25,39 +25,72 @@ module.exports.Users = Database.MySQL.Collection.extend({
 });
 
 /**
+
+ */
+module.exports.User.find = function(userId) {
+    var deferred = Q.defer();
+    if (!userId) {
+        deferred.reject('Missing userId');
+        return;
+    }
+    new Database.User({
+        id : userId
+    }).fetch().then(function(user) {
+        if (!user) {
+            deferred.reject();
+            return;
+        }
+        Database.UserScore.getScore(user.get('id')).then(function(score) {
+            user.set('score', score);
+            deferred.resolve(user);
+        }).fail(deferred.reject);
+    });
+
+    return deferred.promise;
+};
+
+/**
  * Creates a new user with the given user data if the user does not already exist.
  * @param userData
  * return {@link Promise} with the JSON version of the {@link User} and the user's score.
  */
 module.exports.User.login = function(userData) {
     var deferred = Q.defer();
-    if (!userData || !userData.firstName || !userData.lastName || !userData.service || !userData.id) {
-        deferred.reject('Missing userData');
+    if (!userData.authenticationService) {
+        deferred.reject('Missing authenticationService');
+        return;
+    }
+    if (!userData.authenticationServiceId) {
+        deferred.reject('Missing authenticationServiceId');
         return;
     }
     new Database.User({
-        authenticationService : userData.service,
-        authenticationServiceId : userData.id
+        authenticationService : userData.authenticationService,
+        authenticationServiceId : userData.authenticationServiceId
     }).fetch().then(function(user) {
         var userSaveDeferred;
         if (user) { // This user exists, make sure info is up to date
             user.set('firstName', userData.firstName);
             user.set('lastName', userData.lastName);
             user.set('email', userData.email);
+            user.set('profilePicture', userData.profilePicture);
+            user.set('userName', userData.userName);
             userSaveDeferred = user.save();
         } else { // This user is new, create a new user
             userSaveDeferred = new Database.User({
                 firstName : userData.firstName,
                 lastName : userData.lastName,
-                authenticationService : userData.service,
-                authenticationServiceId : userData.id,
-                email : userData.email
+                authenticationService : userData.authenticationService,
+                authenticationServiceId : userData.authenticationServiceId,
+                email : userData.email,
+                userName : userData.userName,
+                profilePicture : userData.profilePicture
             }).save();
         }
         userSaveDeferred.then(function(user) {
             Database.UserScore.getScore(user.id).then(function(score) {
                 user.set('score', score);
-                deferred.resolve(user.toJSON());
+                deferred.resolve(user);
             }).fail(deferred.reject);
         });
     });
@@ -70,21 +103,14 @@ module.exports.User.login = function(userData) {
  * @param alias The new alias for the user.
  * return {@link Promise}
  */
-module.exports.User.setAlias = function(userId, alias) {
+module.exports.User.setAlias = function(user, alias) {
     var deferred = Q.defer();
-    if (!userId || !alias) {
-        deferred.reject('Missing userId or alias');
+    if (!user || !alias) {
+        deferred.reject('Missing user or alias');
         return;
     }
-    new Database.User({ id : userId }).fetch().then(function(user) {
-        if (!user) {
-            deferred.reject('User not found');
-            return;
-        }
-
-        user.set('alias', alias);
-        user.save().then(deferred.resolve, deferred.reject);
-    }, deferred.reject);
+    user.set('alias', alias);
+    user.save().then(deferred.resolve, deferred.reject);
     return deferred.promise;
 };
 
@@ -120,12 +146,15 @@ knex.schema.hasTable(tableName).then(function(tableExists) {
     if (tableExists) { return; }
     knex.schema.createTable(tableName, function(table) {
         table.increments('id').primary();
-        table.string('firstName', 63).notNullable();
-        table.string('lastName', 63).notNullable();
+        table.string('firstName', 63).nullable();
+        table.string('lastName', 63).nullable();
+        table.string('userName', 63).nullable();
+        table.string('profilePicture', 511).nullable();
         table.string('email', 63).nullable();
-        table.enu('authenticationService', ['FACEBOOK', 'GOOGLE_PLUS']).notNullable();
+        table.enu('authenticationService', ['FACEBOOK', 'GOOGLE_PLUS', 'TWITTER', 'REDDIT']).notNullable();
         table.string('authenticationServiceId', 63).notNullable();
         table.string('alias', 63).nullable();
+        table.integer('score').nullable();
         table.timestamps();
     }).then(function() {
         console.log('Created ' + tableName + ' table');

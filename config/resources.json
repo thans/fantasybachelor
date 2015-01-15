@@ -1,0 +1,43 @@
+{
+  "RESOURCES": {
+    "JAVASCRIPT": [
+      "components/jquery/dist/jquery.js",
+      "components/fastclick/lib/fastclick.js",
+      "components/angular/angular.js",
+      "components/angular-route/angular-route.js",
+      "components/lodash/dist/lodash.js",
+      "components/moment/moment.js",
+      "components/numeral/numeral.js",
+      "js/app.js",
+      "js/config/routes.js",
+      "js/config/httpProvider.js",
+      "js/constants/contestantModalModes.js",
+      "js/constants/events.js",
+      "js/constants/routes.js",
+      "js/controllers/loginController.js",
+      "js/controllers/aliasController.js",
+      "js/controllers/weekController.js",
+      "js/directives/blockRubberBanding.js",
+      "js/directives/contestant.js",
+      "js/directives/contestantModal.js",
+      "js/directives/menuCircle.js",
+      "js/directives/heading.js",
+      "js/directives/footer.js",
+      "js/directives/slideOutMenu.js",
+      "js/factories/contestantFactory.js",
+      "js/factories/routeFactory.js",
+      "js/factories/routeValidatorFactory.js",
+      "js/factories/backendFactory.js",
+      "js/factories/unauthorizedInterceptor.js",
+      "js/factories/userFactory.js",
+      "js/factories/weeksFactory.js",
+      "js/filters/momentFilter.js"
+    ],
+    "CSS": [
+      "css/app.css"
+    ],
+    "SPLASH_CSS": [
+      "css/splash.css"
+    ]
+  }
+}

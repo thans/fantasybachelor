@@ -1,33 +1,28 @@
-
+# Eclipse
 .classpath
-
 .project
-
 .settings
 
-gwt-unitCache
-
-target
-
-src/main/webapp
-
-war/fantasybachelor/*
-
-war/WEB-INF/classes/*
-war/WEB-INF/deploy/*
-compiler.jar
-
-war/WEB-INF/deploy/*
-compiler.jar
-node_modules/*
-
-*.zip
-*.scssc
-
+# IntelliJ
 .idea
 *.iml
 
+# sass
+.sass-cache
+*.scssc
+
+# node
+node_modules/*
+
+# build
+*.zip
 .rebooted
 bower_components/
 build/
+
+# logs
 *.log
+
+# configuration
+config/development.json
+config/production.json
