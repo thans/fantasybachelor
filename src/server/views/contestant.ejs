@@ -1,5 +1,9 @@
+<%
+    var resourcesUrl = config.RESOURCES_URL;
+    var version = config.PACKAGE.version;
+%>
 <div class="innerWrapper" ng-click="callback(contestant, multiplier)" ng-class="{hoverable : callback}">
-    <img class="head" src="" ng-src="images/contestants/heads/{{contestant.codename || 'woman'}}Head.jpg" />
+    <img class="head" src="<%= resourcesUrl %>/<%= version %>/images/pixel.gif" ng-src="<%= resourcesUrl %>/<%= version %>/images/contestants/heads/{{contestant.codename || 'woman'}}Head.jpg" />
     <div class="multiplier" ng-show="multiplier > 1">{{multiplier}}x</div>
     <div class="multiplier score" ng-show="showScore && !eliminated">+{{multiplier}}</div>
     <div class="multiplier eliminated" ng-show="showScore && eliminated">-</div>
