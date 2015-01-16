@@ -1,39 +1,47 @@
+// Express + middleware
 var express = require('express');
-var path = require('path');
+var session = require('cookie-session')
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+var compression = require('compression');
+var multer = require('multer');
+var cookieParser = require('cookie-parser');
 var ejs = require('ejs');
-global.passport = require('passport');
+
+var path = require('path');
 var config = require('./config/config');
 var auth = require('./auth/auth');
-
 var database = require('./database');
 
-global.app = express();
+console.log('Starting app in: ' + config.NODE_ENV);
 
-console.log('Running in: ' + config.NODE_ENV);
+// Create app
+var app = express();
 
-app.use(express.compress());
-app.use(express.bodyParser());
-app.use(express.methodOverride());
-app.use(express.cookieParser());
-app.use(express.session({ secret: config.SESSION_SECRET || 'keyboard cat' }));
-
-auth.init();
-
-var publicPath = path.resolve(__dirname + '/../public');
-var viewPath = path.resolve(__dirname + '/views');
-
+app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
+// Configure middleware
+app.use(compression());
+app.use(bodyParser.json());
+app.use(multer());
+app.use(methodOverride());
+app.use(cookieParser());
+app.use(session({ secret: config.SESSION_SECRET || 'keyboard cat' }));
+app.use(auth.middleware());
+
+// Setup static route
+app.use('/' + config.PACKAGE.version, express.static(__dirname + '/../public', {maxAge: 0}));
+
+// Setup views
 app.get('/', function(req, res) {
-    res.render(viewPath + '/index', { config: config })
+    res.render('index', { config: config })
 });
-
 app.get('/view/:view', function(req, res) {
-    res.render(viewPath + '/' + req.params.view, { config: config })
+    res.render(req.params.view, { config: config })
 });
 
-app.use('/' + config.PACKAGE.version, express.static(publicPath, {maxAge: 0}));
-
+// Setup api endpoints
 app.get('/getUser', auth.isAuthenticated, function (req, res) {
     console.log('getUser: ' + JSON.stringify(req.body));
     res.send(req.user);
@@ -75,8 +83,8 @@ app.get('/getLeaderboard', auth.isAuthenticated, function(req, res) {
 });
 
 // Start listening for requests
-app.listen(getPort());
-console.log('Listening on port ' + getPort());
+app.listen(config.PORT);
+console.log('Listening on port ' + config.PORT);
 
 function responseFunction(res) {
     return function(data) {
@@ -89,8 +97,4 @@ function errorFunction(res) {
         console.log(err);
         res && res.send('Something went wrong:\n' + err, 500);
     }
-}
-
-function getPort() {
-    return config.PORT || 8000;
 }
