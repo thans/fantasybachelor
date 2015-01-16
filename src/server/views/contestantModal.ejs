@@ -1,8 +1,12 @@
+<%
+    var resourcesUrl = config.RESOURCES_URL;
+    var version = config.PACKAGE.version;
+%>
 <div class="glass" ng-click="close()" ng-class="{hidden: !visible}"></div>
 <div class="innerWrapper" ng-class="{hidden: !visible}">
     <div class="content">
         <div class="imageWrapper">
-            <img class="fullBodyImage" ng-src="images/contestants/{{contestant.codename || 'woman'}}.jpg"/>
+            <img class="fullBodyImage" src="<%= resourcesUrl %>/<%= version %>/images/pixel.gif" ng-src="<%= resourcesUrl %>/<%= version %>/images/contestants/{{contestant.codename || 'woman'}}.jpg"/>
             <div class="divider"></div>
         </div>
         <h1 class="name">{{contestant.name}}</h1>
