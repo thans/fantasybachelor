@@ -297,7 +297,10 @@ module.exports = function(grunt) {
                     region: 'us-west-2',
                     uploadConcurrency: 4,
                     gzip: true,
-                    excludeFromGzip: ['*.png', '*.jpg', '*.jpeg', '*.ico', '*.gif']
+                    excludeFromGzip: ['*.png', '*.jpg', '*.jpeg', '*.ico', '*.gif'],
+                    params: {
+                        CacheControl: 'public, max-age=86400'
+                    }
                 },
                 files: [
                     {
