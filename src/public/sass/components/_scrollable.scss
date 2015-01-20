@@ -1,0 +1,12 @@
+@import 'compass/css3/box-sizing';
+@import '../mixins/size';
+
+.scrollWrapper {
+  @include size(100%);
+  overflow: hidden;
+
+  .scroll {
+    @include size(calc(100% + 15px), 100%);
+    overflow: auto;
+  }
+}

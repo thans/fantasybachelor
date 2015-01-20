@@ -23,6 +23,7 @@
       "js/directives/menuCircle.js",
       "js/directives/heading.js",
       "js/directives/footer.js",
+      "js/directives/scrollable.js",
       "js/directives/slideOutMenu.js",
       "js/factories/contestantFactory.js",
       "js/factories/routeFactory.js",
