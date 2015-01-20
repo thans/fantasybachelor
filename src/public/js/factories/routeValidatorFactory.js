@@ -2,7 +2,8 @@ app.factory('routeValidatorFactory', ['$rootScope', 'ROUTES', 'routeFactory', 'u
     var routeValidatorFactory = {};
 
     routeValidatorFactory.validators = { '/' : function() { return true; }};
-    routeValidatorFactory.validators[ROUTES.CHANGE_ALIAS] = function() {
+    routeValidatorFactory.validators[ROUTES.CHANGE_ALIAS] =
+    routeValidatorFactory.validators[ROUTES.LEADERBOARD] = function() {
         return !!userFactory.user;
     };
     routeValidatorFactory.validators[ROUTES.WEEK] = routeValidatorFactory.validators[ROUTES.WEEK_BASE] = function() {

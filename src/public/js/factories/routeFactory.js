@@ -23,6 +23,10 @@ app.factory('routeFactory', ['$rootScope', '$window', '$location', 'ROUTES', fun
         $location.path('/');
     };
 
+    routeFactory.goToLeaderboard = function() {
+        $location.path(ROUTES.LEADERBOARD);
+    };
+
     routeFactory.goToFacebookLogin = function() {
         $window.location.href = ROUTES.FACEBOOK_LOGIN;
     };

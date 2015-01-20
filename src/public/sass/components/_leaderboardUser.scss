@@ -1,0 +1,58 @@
+@import 'compass/css3/flexbox';
+@import '../constants/colors';
+@import '../constants/fonts';
+@import '../mixins/size';
+@import '../mixins/circles';
+@import '../mixins/sprites';
+@import '../mixins/mobile';
+
+[leaderboard-user] {
+  @include size(450px, 75px);
+  display: block;
+  margin: 10px auto;
+
+  @include mobile {
+    @include size(800px, 120px);
+    margin: 20px auto;
+  }
+
+  .innerWrapper {
+    background-color: $darkRed;
+    padding: 12px;
+    @include size(100%);
+
+    @include display-flex();
+    @include flex-direction(row);
+    @include align-items(center);
+
+    border: 2px solid $red;
+    &.highlight {
+      border: 4px solid $white;
+    }
+
+    .rank, .score {
+      @include largeFont();
+    }
+
+    .alias {
+      font-weight: 600;
+    }
+
+    .profilePic {
+      @include circle(50px);
+      background-color: $darkRed;
+      margin: 10px;
+      @include sprite($icons, user, 50px, 50px, 2px);
+
+      @include mobile {
+        @include thinCircle(75px);
+        background-color: $darkRed;
+        @include sprite($icons, user, 75px, 75px, 4px);
+      }
+    }
+
+    .spacer {
+      @include flex(1);
+    }
+  }
+}

@@ -16,6 +16,10 @@ app.config(['$routeProvider', 'ROUTES', function($routeProvider, ROUTES) {
             templateUrl : 'view/week',
             controller : 'weekController'
         })
+        .when(ROUTES.LEADERBOARD, {
+            templateUrl : 'view/leaderboard',
+            controller : 'leaderboardController'
+        })
         .otherwise({
             redirectTo : function() {
                 return ROUTES.WEEK_BASE;

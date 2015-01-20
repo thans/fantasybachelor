@@ -126,19 +126,31 @@ module.exports = function(grunt) {
                 expand: true,
                 dest: 'build/public/components',
                 cwd: 'bower_components',
-                src: ['**/*']
+                src: ['**']
+            },
+            ejs: {
+                expand: true,
+                dest: 'build/server/views',
+                cwd: 'src/server/views',
+                src: ['**/*.ejs']
             },
             server: {
                 expand: true,
                 dest: 'build/server',
                 cwd: 'src/server',
-                src: ['**/*']
+                src: ['**', '!views/**/*.ejs']
+            },
+            config: {
+                expand: true,
+                dest: 'build/server/config',
+                cwd: 'config',
+                src: ['**']
             },
             images: {
                 expand: true,
                 dest: 'build/public/images',
                 cwd: 'src/public/images/scaled',
-                src: ['**/*']
+                src: ['**']
             }
         },
         compass: {
@@ -177,8 +189,22 @@ module.exports = function(grunt) {
                 }
             },
             server: {
-                files: ['src/server/**/*'],
+                files: ['src/server/**/*', '!src/server/views/**/*.ejs'],
                 tasks: ['copy:server'],
+                options: {
+                    livereload: true
+                }
+            },
+            ejs: {
+                files: ['src/server/views/**/*.ejs'],
+                tasks: ['copy:ejs'],
+                options: {
+                    livereload: true
+                }
+            },
+            config: {
+                files: ['config/**/*'],
+                tasks: ['copy:config'],
                 options: {
                     livereload: true
                 }

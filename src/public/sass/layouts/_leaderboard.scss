@@ -1,0 +1,21 @@
+@import '../mixins/mobile';
+
+#leaderboard {
+  text-align: center;
+  padding: 100px 0;
+
+  .divider {
+    width: 500px;
+    border-bottom: 2px solid white;
+    display: block;
+    margin: auto;
+
+    @include mobile {
+      width: 850px;
+    }
+  }
+
+  @include mobile {
+    padding-bottom: 150px;
+  }
+}

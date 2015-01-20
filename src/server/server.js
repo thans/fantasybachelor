@@ -79,7 +79,7 @@ app.get('/getStatistics', auth.isAuthenticated, function(req, res) {
 
 app.get('/getLeaderboard', auth.isAuthenticated, function(req, res) {
     console.log('getLeaderboard');
-    database.User.getLeaderboard().then(responseFunction(res)).fail(errorFunction(res));
+    database.User.getLeaderboard(req.user).then(responseFunction(res)).fail(errorFunction(res));
 });
 
 // Start listening for requests

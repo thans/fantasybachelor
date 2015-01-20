@@ -41,6 +41,11 @@ app.directive('slideOutMenu', ['routeFactory', 'weeksFactory', function(routeFac
                 $scope.hideSlideOutMenu();
                 routeFactory.goToWeek(weekId);
             };
+
+            $scope.leaderboard = function() {
+                $scope.hideSlideOutMenu();
+                routeFactory.goToLeaderboard();
+            };
         }]
     };
 }]);

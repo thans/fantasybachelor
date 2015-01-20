@@ -3,6 +3,7 @@ app.constant('ROUTES', {
     LOGIN : '/login',
     WEEK : '/week/:weekId',
     WEEK_BASE : '/week/',
+    LEADERBOARD : '/leaderboard',
     FACEBOOK_LOGIN : '/auth/facebook',
     GOOGLE_LOGIN : '/auth/google',
     TWITTER_LOGIN : '/auth/twitter',

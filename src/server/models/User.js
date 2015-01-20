@@ -118,7 +118,7 @@ module.exports.User.setAlias = function(user, alias) {
  * Calculates and responds with the scores of every {@link User}.
  * @returns {Promise}
  */
-module.exports.User.getLeaderboard = function() {
+module.exports.User.getLeaderboard = function(user) {
     var deferred = Q.defer();
     new Database.Users().fetch().then(function(users) {
         async.each(users, function(user, callback) {
@@ -130,9 +130,20 @@ module.exports.User.getLeaderboard = function() {
             if (err) {
                 deferred.reject(err);
             } else {
-                deferred.resolve(_.sortBy(users.toArray(), function(user) {
+                var usersArray = _.sortBy(users.toArray(), function(user) {
                     return -user.get('score');
-                }));
+                });
+                var userRank;
+                _.any(usersArray, function(u, index) {
+                    if (u.id === user.id) {
+                        userRank = index + 1;
+                        return true;
+                    }
+                });
+                deferred.resolve({
+                    userRank : userRank,
+                    topTenUsers : _.first(usersArray, 10)
+                });
             }
         });
     });

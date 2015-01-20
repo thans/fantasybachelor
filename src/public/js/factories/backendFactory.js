@@ -33,5 +33,9 @@ app.factory('backendFactory', ['$http', function($http) {
         });
     };
 
+    backendFactory.getLeaderboard = function() {
+        return $http.get('/getLeaderboard');
+    };
+
     return backendFactory;
 }]);
