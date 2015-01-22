@@ -1,5 +1,6 @@
 app.controller('leaderboardController', ['$rootScope', '$scope', 'backendFactory', function($rootScope, $scope, backendFactory) {
     $rootScope.showHeaderFooter = true;
+    $rootScope.pageTitle = 'leaderboard';
     $scope.loaded = false;
 
     backendFactory.getLeaderboard().then(function(response) {

@@ -3,6 +3,7 @@ app.controller('weekController', ['$rootScope', '$scope', '$routeParams', '$inte
 
     $rootScope.showHeaderFooter = true;
     $scope.week = weeksFactory.getWeekById(parseInt($routeParams.weekId)) || weeksFactory.getCurrentWeek();
+    $rootScope.pageTitle = $scope.week.name;
     $scope.selectionRange = _.range(0, $scope.week.numberOfSelections);
 
     $scope.isEliminated = function(contestant) {

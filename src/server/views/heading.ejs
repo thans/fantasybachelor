@@ -1,7 +1,7 @@
 <div id="heading" ng-class="{hidden : !appLoaded || !user || !showHeaderFooter}">
     <div class="content">
         <div id="menu" ng-click="showSlideOutMenu($event)"></div>
-        <h1>fantasy bach</h1>
+        <h1>fantasy bach<div class="page" ng-class="{hidden : !pageTitle}">{{pageTitle | lowercase}}</div></h1>
         <!--<img id="logo" src="images/logo.png" />-->
         <!--<ul>-->
             <!--<li>leagues</li>-->

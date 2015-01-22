@@ -1,5 +1,6 @@
 app.controller('aliasController', ['$rootScope', '$scope', 'EVENTS', 'backendFactory', 'userFactory', 'routeFactory', function($rootScope, $scope, EVENTS, backendFactory, userFactory, routeFactory) {
     $rootScope.showHeaderFooter = true;
+    $rootScope.pageTitle = 'screen name';
 
     $scope.alias = userFactory.user.displayName;
 
