@@ -43,12 +43,17 @@ module.exports.Weeks.isSelectionOpen = function(weekId) {
     return deferred.promise;
 };
 
+module.exports.Weeks._adjustTime = function(time, error) {
+    return moment(time).add(error, 'ms');
+};
+
 /**
  * Gets all of the data for every {@link Week} including related data such as the {@link User}'s selections.
  * @param userId The ID of the {@link User}
  * @returns {Promise}
  */
-module.exports.Weeks.getExtended = function(user) {
+module.exports.Weeks.getExtended = function(user, userNow) {
+    var userNowError = moment().diff(moment(userNow));
     var deferred = Q.defer();
     var extendedWeeks = {};
     new Database.Weeks()
@@ -64,9 +69,9 @@ module.exports.Weeks.getExtended = function(user) {
                     id: week.id,
                     name: week.get('name'),
                     number: week.get('number'),
-                    openTime: week.get('openDatetime'),
-                    closeTime: week.get('closeDatetime'),
-                    scoresAvailableTime: week.get('scoresAvailableDatetime'),
+                    openTime: module.exports.Weeks._adjustTime(week.get('openDatetime'), userNowError),
+                    closeTime: module.exports.Weeks._adjustTime(week.get('closeDatetime'), userNowError),
+                    scoresAvailableTime: module.exports.Weeks._adjustTime(week.get('scoresAvailableDatetime'), userNowError),
                     remainingContestants: [],
                     selectedContestants: [],
                     eliminatedContestants: [],

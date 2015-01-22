@@ -16,7 +16,11 @@ app.factory('backendFactory', ['$http', function($http) {
     };
 
     backendFactory.loadWeeks = function() {
-        return $http.get('/getWeeks');
+        return $http.get('/getWeeks', {
+            params: {
+                now : new Date()
+            }
+        });
     };
 
     backendFactory.selectContestant = function(weekId, contestantId) {

@@ -54,7 +54,7 @@ app.post('/setAlias', auth.isAuthenticated, function (req, res) {
 
 app.get('/getWeeks', auth.isAuthenticated, function (req, res) {
     console.log('getWeeks: ' + JSON.stringify(req.query));
-    database.Weeks.getExtended(req.user).then(responseFunction(res)).fail(errorFunction(res));
+    database.Weeks.getExtended(req.user, req.query.now).then(responseFunction(res)).fail(errorFunction(res));
 });
 
 app.get('/getContestants', auth.isAuthenticated, function (req, res) {

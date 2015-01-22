@@ -22,11 +22,13 @@
         <div class="instruction hoverable" ng-click="goToCurrentWeek()">go to current week</div>
     </div>
     <div class="info" ng-show="week.isSelectionOpen">
-        <div class="remainingTime">selection closes in {{week.millisToClose | countdown}}</div>
+        <div class="remainingTime">selection closes at 8:00 PM</div>
+        <!--<div class="remainingTime">selection closes in {{week.millisToClose | countdown}}</div>-->
         <div class="instruction">choose from the contestants below to fill your lineup</div>
     </div>
     <div class="info" ng-show="week.isShowInProgress">
-        <div class="remainingTime">scores available in {{week.millisToScoresAvailable | countdown}}</div>
+        <div class="remainingTime">scores available at 10:00 PM</div>
+        <!--<div class="remainingTime">scores available in {{week.millisToScoresAvailable | countdown}}</div>-->
         <div class="instruction">invite some friends over and watch the show</div>
     </div>
     <div class="info" ng-show="week.isScoresAvailable">

@@ -1,4 +1,4 @@
-app.factory('weeksFactory', ['$rootScope', 'backendFactory', function($rootScope, backendFactory) {
+app.factory('weeksFactory', ['$rootScope', '$window', 'backendFactory', function($rootScope, $window, backendFactory) {
     var weeksFactory = {};
 
     weeksFactory.getCurrentWeek = function() {
@@ -21,7 +21,11 @@ app.factory('weeksFactory', ['$rootScope', 'backendFactory', function($rootScope
         week.isCurrentWeek = moment().isAfter(week.openTime) && moment().isBefore(week.scoresAvailableTime);
         week.isSelectionOpen = moment().isAfter(week.openTime) && moment().isBefore(week.closeTime);
         week.isShowInProgress = moment().isAfter(week.closeTime) && moment().isBefore(week.scoresAvailableTime);
+        var oldIsScoresAvailable = week.isScoresAvailable;
         week.isScoresAvailable = moment().isAfter(week.scoresAvailableTime);
+        if (oldIsScoresAvailable !== undefined && !oldIsScoresAvailable && week.isScoresAvailable) {
+            $window.location.reload();
+        }
         week.millisToOpen = moment.duration(moment(week.openTime).diff(moment()));
         week.millisToClose = moment.duration(moment(week.closeTime).diff(moment()));
         week.millisToScoresAvailable = moment.duration(moment(week.scoresAvailableTime).diff(moment()));
