@@ -11,7 +11,8 @@ $contestantModalCloseButtonMobileSize: 75px;
 $contestantModalCloseButtonOffset: 25px;
 $contestantModalImageWidth: 75%;
 $contestantModalImageDividerWidth: 85%;
-$contestantModalPadding: 60px;
+$contestantModalPadding: 20px;
+$contestantModalPaddingMobile: 60px;
 
 [contestant-modal] {
   .innerWrapper {
@@ -23,9 +24,7 @@ $contestantModalPadding: 60px;
       @include centerHorizontal(850px);
       top: 10%;
       width: 850px;
-      height: 80%;
-      overflow: auto;
-      padding: 20px;
+      max-height: 80%;
       opacity: 1;
     }
 
@@ -33,8 +32,6 @@ $contestantModalPadding: 60px;
       @include size(100%);
       @include fixed(0%);
       @include transition(top .5s ease);
-      padding: $contestantModalPadding;
-      overflow-y: scroll;
     }
 
     &.hidden {
@@ -48,69 +45,79 @@ $contestantModalPadding: 60px;
       }
     }
 
-    .close {
-      @include absolute($contestantModalCloseButtonOffset, null, null, $contestantModalCloseButtonOffset);
-      @include sprite($icons, close, $contestantModalCloseButtonSize);
+    .content {
+      padding: $contestantModalPadding;
+      @include relative();
 
       @include mobile {
-        @include sprite($icons, close, $contestantModalCloseButtonMobileSize);
-      }
-    }
-
-    .imageWrapper {
-      @include relative();
-      text-align: center;
-      width: 100%;
-
-      @include desktop {
-        width: 300px;
-        float: right;
-        margin-left: 20px;
+        padding: $contestantModalPaddingMobile;
       }
 
-      .fullBodyImage {
-        width: 100%;
-        display: block;
-        margin: auto;
+
+      .close {
+        @include absolute($contestantModalCloseButtonOffset, null, null, $contestantModalCloseButtonOffset);
+        @include sprite($icons, close, $contestantModalCloseButtonSize);
 
         @include mobile {
-          width: $contestantModalImageWidth;
+          @include sprite($icons, close, $contestantModalCloseButtonMobileSize);
         }
       }
 
-      .divider {
+      .imageWrapper {
+        @include relative();
+        text-align: center;
         width: 100%;
-        border-top: 1px solid $offBlack;
 
-        @include mobile {
-          @include centerHorizontal($contestantModalImageDividerWidth);
-          width: $contestantModalImageDividerWidth;
-          bottom: 0;
+        @include desktop {
+          width: 300px;
+          float: right;
+          margin-left: 20px;
+        }
+
+        .fullBodyImage {
+          width: 100%;
+          display: block;
+          margin: auto;
+
+          @include mobile {
+            width: $contestantModalImageWidth;
+          }
+        }
+
+        .divider {
+          width: 100%;
+          border-top: 1px solid $offBlack;
+
+          @include mobile {
+            @include centerHorizontal($contestantModalImageDividerWidth);
+            width: $contestantModalImageDividerWidth;
+            bottom: 0;
+          }
         }
       }
-    }
 
-    .bioStat, .bioQuestion {
-      @include mediumFont();
-    }
-
-    .bioStat {
-      .stat {
-        font-weight: 600;
+      .bioStat, .bioQuestion {
+        @include mediumFont();
       }
-    }
 
-    .bioQuestion {
-      padding-top: $contestantModalPadding/2;
-
-      .question {
-        font-weight: 600;
+      .bioStat {
+        .stat {
+          font-weight: 600;
+        }
       }
-    }
 
-    .buttonWrapper {
-      text-align: center;
-      margin-top: $contestantModalPadding;
+      .bioQuestion {
+        padding-top: $contestantModalPadding/2;
+
+        .question {
+          font-weight: 600;
+        }
+      }
+
+      .buttonWrapper {
+        text-align: center;
+        margin-top: $contestantModalPadding;
+      }
     }
   }
 
