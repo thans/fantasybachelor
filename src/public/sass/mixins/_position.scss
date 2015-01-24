@@ -27,11 +27,9 @@
 }
 
 @mixin centerHorizontal($width) {
-  @include absolute(null, 50%);
-  margin-left: -$width/2;
+  @include absolute(null, calc(50% - #{$width/2}));
 }
 
 @mixin centerVertical($height) {
-  @include absolute(50%);
-  margin-top: -$height/2;
+  @include absolute(calc(50% - #{$height/2}));
 }
