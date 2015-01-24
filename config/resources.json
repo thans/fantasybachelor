@@ -4,6 +4,7 @@
       "components/fastclick/lib/fastclick.js",
       "components/angular/angular.js",
       "components/angular-route/angular-route.js",
+      "components/angular-animate/angular-animate.js",
       "components/angular-touch/angular-touch.js",
       "components/lodash/dist/lodash.js",
       "components/moment/moment.js",
