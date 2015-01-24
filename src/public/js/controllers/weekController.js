@@ -30,7 +30,7 @@ app.controller('weekController', ['$rootScope', '$scope', '$routeParams', '$inte
         backendFactory.removeContestant($scope.week.id, contestant.id);
     };
 
-    $scope.selectedContestantClicked = function(contestant, multiplier) {
+    $scope.showSelectedContestantBio = function(contestant, multiplier) {
         var mode;
         if (!$scope.week.isSelectionOpen) {
             mode = CONTESTANT_MODAL_MODES.SELECTION_CLOSED;
@@ -47,7 +47,7 @@ app.controller('weekController', ['$rootScope', '$scope', '$routeParams', '$inte
         })
     };
 
-    $scope.remainingContestantClicked = function(contestant, multiplier) {
+    $scope.showRemainingContestantBio = function(contestant, multiplier) {
         var mode;
         if (!$scope.week.isSelectionOpen) {
             mode = CONTESTANT_MODAL_MODES.SELECTION_CLOSED;

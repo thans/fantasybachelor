@@ -4,61 +4,202 @@
 @import '../constants/fonts';
 @import '../mixins/hover';
 @import '../mixins/mobile';
+@import 'compass/css3/box-shadow';
 
 $contestantCircleSize: 100px;
 $contestantMobileCircleSize: 185px;
-$contestantMultiplierSize: 40px;
-$contestantMultiplierSizeMobile: 75px;
+$contestantSubCircleSize: 40px;
+$contestantSubCircleSizeMobile: 75px;
+$contestantSubCircleTop: -10px;
+$contestantSubCircleTopMobile: -10px;
+$contestantSubCircleLeft: -10px;
+$contestantSubCircleLeftMobile: -10px;
+$contestantSubCircleRight: -10px;
+$contestantSubCircleRightMobile: -10px;
+$contestantSubCircleBottom: 14px;
+$contestantSubCircleBottomMobile: 24px;
+$contestantSubCircleZoom: 10px;
+$contestantSubCircleZoomMobile: 10px;
+$contestantSubCircleVisibleZoom: 5px;
+$contestantSubCircleVisibleZoomMobile: 5px;
+
+
 [contestant] {
   @include relative();
   display: inline-block;
   vertical-align: middle;
   text-align: center;
 
-  .innerWrapper {
-    img {
-      @include circle($contestantCircleSize, $contestantMobileCircleSize);
+  img {
+    @include circle($contestantCircleSize, $contestantMobileCircleSize);
+    @include box-shadow(0 0 10px $shadow);
+    pointer-events: none;
+  }
+
+  .subCircle {
+    @include thinCircle($contestantSubCircleSize);
+    line-height: $contestantSubCircleSize - 3px;
+    opacity: 1;
+
+    &.ng-hide {
+      opacity: 0;
       pointer-events: none;
-    }
-
-    .value-circle {
-      @include thinCircle($contestantMultiplierSize);
-      @include absolute(null, null, 22px, -4px);
-      line-height: $contestantMultiplierSize - 3px;
-
-      @include mobile {
-        @include thinCircle($contestantMultiplierSizeMobile);
-        @include absolute(null, null, 32px, -4px);
-        line-height: $contestantMultiplierSizeMobile - 7px;
-      }
-    }
-
-    .multiplier {
-      @extend .value-circle;
-      background: $yellow;
-    }
-
-    .score {
-      @extend .value-circle;
-      background: $green;
-    }
-
-    .eliminated {
-      @extend .value-circle;
-      background: $darkRed;
-    }
-
-    .name {
-      text-align: center;
-      min-height: $mediumFont;
-
-      @include mobile {
-        min-height: $mediumMobileFont;
-      }
     }
 
     &.hoverable {
       @include hoverable();
+    }
+
+    @include mobile {
+      @include thinCircle($contestantSubCircleSizeMobile);
+      line-height: $contestantSubCircleSizeMobile - 7px;
+    }
+  }
+
+  .topLeftSubCircle {
+    @extend .subCircle;
+    @include absolute($contestantSubCircleTop, $contestantSubCircleLeft);
+
+    &.ng-hide {
+      @include absolute($contestantSubCircleTop + $contestantSubCircleZoom, $contestantSubCircleLeft + $contestantSubCircleZoom);
+    }
+
+    &.visible {
+      @include absolute($contestantSubCircleTop + $contestantSubCircleVisibleZoom, $contestantSubCircleLeft + $contestantSubCircleVisibleZoom);
+    }
+
+    @include mobile {
+      @include absolute($contestantSubCircleTopMobile, $contestantSubCircleLeftMobile);
+
+      &.ng-hide-add.ng-hide-add-active {
+        @include absolute($contestantSubCircleTopMobile + $contestantSubCircleZoomMobile, $contestantSubCircleLeftMobile + $contestantSubCircleZoomMobile);
+      }
+
+      &.visible {
+        @include absolute($contestantSubCircleTopMobile + $contestantSubCircleVisibleZoomMobile, $contestantSubCircleLeftMobile + $contestantSubCircleVisibleZoomMobile);
+      }
+    }
+  }
+
+  .topRightSubCircle {
+    @extend .subCircle;
+    @include absolute($contestantSubCircleTop, null, null, $contestantSubCircleRight);
+
+    &.ng-hide  {
+      @include absolute($contestantSubCircleTop + $contestantSubCircleZoom, null, null, $contestantSubCircleRight + $contestantSubCircleZoom);
+    }
+
+    &.visible {
+      @include absolute($contestantSubCircleTop + $contestantSubCircleVisibleZoom, null, null, $contestantSubCircleRight + $contestantSubCircleVisibleZoom);
+    }
+
+    @include mobile {
+      @include absolute($contestantSubCircleTopMobile, null, null, $contestantSubCircleRightMobile);
+
+      &.ng-hide {
+        @include absolute($contestantSubCircleTopMobile + $contestantSubCircleZoomMobile, null, null, $contestantSubCircleRightMobile + $contestantSubCircleZoomMobile);
+      }
+
+      &.visible {
+        @include absolute($contestantSubCircleTopMobile + $contestantSubCircleVisibleZoomMobile, null, null, $contestantSubCircleRightMobile + $contestantSubCircleVisibleZoomMobile);
+      }
+    }
+  }
+
+  .bottomLeftSubCircle {
+    @extend .subCircle;
+    @include absolute(null, $contestantSubCircleLeft, $contestantSubCircleBottom);
+
+    &.ng-hide {
+      @include absolute(null, $contestantSubCircleLeft + $contestantSubCircleZoom, $contestantSubCircleBottom + $contestantSubCircleZoom);
+    }
+
+    &.visible {
+      @include absolute($contestantSubCircleTopMobile + $contestantSubCircleVisibleZoom, null, null, $contestantSubCircleRightMobile + $contestantSubCircleVisibleZoom);
+    }
+
+    @include mobile {
+      @include absolute(null, $contestantSubCircleLeftMobile, $contestantSubCircleBottomMobile);
+
+      &.ng-hide {
+        @include absolute(null, $contestantSubCircleLeftMobile + $contestantSubCircleZoomMobile, $contestantSubCircleBottomMobile + $contestantSubCircleZoomMobile);
+      }
+
+      &.visible {
+        @include absolute($contestantSubCircleTopMobile + $contestantSubCircleVisibleZoomMobile, null, null, $contestantSubCircleRightMobile + $contestantSubCircleVisibleZoomMobile);
+      }
+    }
+  }
+
+  .bottomRightSubCircle {
+    @extend .subCircle;
+    @include absolute(null, null, $contestantSubCircleBottom, $contestantSubCircleRight);
+
+    &.ng-hide {
+      @include absolute(null, null, $contestantSubCircleBottom + $contestantSubCircleZoom, $contestantSubCircleRight + $contestantSubCircleZoom);
+    }
+
+    &.visible {
+      @include absolute(null, null, $contestantSubCircleBottom + $contestantSubCircleVisibleZoom, $contestantSubCircleRight + $contestantSubCircleVisibleZoom);
+    }
+
+    @include mobile {
+      @include absolute(null, null, $contestantSubCircleBottomMobile, $contestantSubCircleRightMobile);
+
+      &.ng-hide {
+        @include absolute(null, null, $contestantSubCircleBottomMobile + $contestantSubCircleZoomMobile, $contestantSubCircleRightMobile + $contestantSubCircleZoomMobile);
+      }
+
+      &.visible {
+        @include absolute(null, null, $contestantSubCircleBottomMobile + $contestantSubCircleVisibleZoomMobile, $contestantSubCircleRightMobile + $contestantSubCircleVisibleZoomMobile);
+      }
+    }
+  }
+
+  .multiplier {
+    @extend .bottomRightSubCircle;
+    background: $yellow;
+  }
+
+  .score {
+    @extend .bottomRightSubCircle;
+    background: $green;
+  }
+
+  .eliminated {
+    @extend .bottomRightSubCircle;
+    background: $darkRed;
+  }
+
+  .bio {
+    @extend .bottomLeftSubCircle;
+    background: $green;
+  }
+
+  .select {
+    @extend .topRightSubCircle;
+    background: $green;
+  }
+
+  .remove {
+    @extend .topRightSubCircle;
+    background: $darkRed;
+  }
+
+  .name {
+    text-align: center;
+    min-height: $mediumFont;
+
+    @include mobile {
+      min-height: $mediumMobileFont;
+    }
+  }
+
+  &.hoverable {
+    // transition: all .25s;
+
+    &:hover, &.hover {
+      // transform: scale(1.1);
     }
   }
 }

@@ -9,10 +9,11 @@
             <div class="selectionsWrapper">
                 <div contestant
                      contestant-id="week.selectedContestants[i].id"
-                     multiplier="week.selectedContestants[i].multiplier"
-                     show-score="week.selectedContestants[i] && week.isScoresAvailable"
+                     multiplier="!week.isScoresAvailable && week.selectedContestants[i].multiplier"
+                     score="week.isScoresAvailable && week.selectedContestants[i].multiplier"
                      eliminated="isEliminated(week.selectedContestants[i])"
-                     callback="week.selectedContestants[i] ? selectedContestantClicked : null"
+                     on-bio-click="week.selectedContestants[i] ? showSelectedContestantBio : null"
+                     on-remove-click="!week.isScoresAvailable && week.selectedContestants[i] ? removeContestant : null"
                      ng-repeat="i in selectionRange"></div>
             </div>
         </div>
@@ -43,6 +44,11 @@
     </div>
     <div id="remainingContestants">
         <h3>remaining contestants</h3>
-        <div contestant contestant-id="contestant.id" multiplier="contestant.multiplier" callback="remainingContestantClicked" ng-repeat="contestant in week.remainingContestants"></div>
+        <div contestant
+             contestant-id="contestant.id"
+             multiplier="!week.isScoresAvailable && contestant.multiplier"
+             on-bio-click="showRemainingContestantBio"
+             on-select-click="!week.isScoresAvailable && week.selectedContestants.length < week.numberOfSelections && selectContestant"
+             ng-repeat="contestant in week.remainingContestants"></div>
     </div>
 </div>
