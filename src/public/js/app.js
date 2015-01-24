@@ -1,4 +1,4 @@
-var app = angular.module('FantasyBach', ['ngRoute']);
+var app = angular.module('FantasyBach', ['ngRoute', 'ngTouch']);
 
 app.run(['$rootScope', '$q', 'userFactory', 'weeksFactory', 'contestantFactory', 'routeFactory', 'routeValidatorFactory', 'unauthorizedInterceptor', function($rootScope, $q, userFactory, weeksFactory, contestantFactory, routeFactory, routeValidatorFactory, unauthorizedInterceptor) {
     $q.all([userFactory.promise, userFactory.aliasPromise, contestantFactory.promise, weeksFactory.promise]).then(function(data) {

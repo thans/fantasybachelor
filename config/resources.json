@@ -1,13 +1,12 @@
 {
   "RESOURCES": {
     "JAVASCRIPT": [
-      "components/jquery/dist/jquery.js",
       "components/fastclick/lib/fastclick.js",
       "components/angular/angular.js",
       "components/angular-route/angular-route.js",
+      "components/angular-touch/angular-touch.js",
       "components/lodash/dist/lodash.js",
       "components/moment/moment.js",
-      "components/numeral/numeral.js",
       "js/app.js",
       "js/config/routes.js",
       "js/config/httpProvider.js",
@@ -33,8 +32,7 @@
       "js/factories/backendFactory.js",
       "js/factories/unauthorizedInterceptor.js",
       "js/factories/userFactory.js",
-      "js/factories/weeksFactory.js",
-      "js/filters/momentFilter.js"
+      "js/factories/weeksFactory.js"
     ],
     "CSS": [
       "css/app.css"
