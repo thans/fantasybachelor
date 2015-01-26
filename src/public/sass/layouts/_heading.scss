@@ -45,6 +45,7 @@ $headingHiddenOffsetMobile: -$headingHeightMobile;
     h1 {
       @include mobile {
         margin: 20px 0;
+        font-size: 54px;
       }
 
       .page {
