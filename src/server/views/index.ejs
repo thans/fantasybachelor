@@ -12,6 +12,7 @@
         <title>Fantasy Bachelor</title>
         <meta name="description" content="Follow ABC's The Bachelor and choose which contestants you think Chris Soules will give a rose to. Multipliers are available for choosing the same contestant twice in a row, so pick contestants that will make it the long haul!">
         <meta name="keywords" content="The Bachelor, Fantasy, Bachelor, abc, The Bachelorette, Bachelorette, Fantasy Bachelor, Fantasy Bachelorette, FantasyBach, FantasyBachelor, FantasyBachelorette, Fantasy Football, Reality TV">
+        <meta name="viewport" content="user-scalable=no">
 
         <% if (isProduction) { %>
             <link rel="stylesheet" href="<%= resourcesUrl %>/<%= version %>/css/splash.min.css">
@@ -25,7 +26,7 @@
         <base href="/">
     </head>
     <body ng-app="FantasyBach" ng-strict-di block-rubber-banding>
-        <div id="splash" ng-hide="appLoaded">
+        <div id="splash" ng-hide="appLoaded && viewLoaded">
             <div class="spinner">
                 <div class="bounce1"></div>
                 <div class="bounce2"></div>
@@ -34,7 +35,7 @@
         </div>
 
         <div slide-out-menu ng-show="appLoaded">
-            <div ng-view class="scrollable"></div>
+            <div ng-view></div>
 
             <div footer></div>
             <div heading></div>

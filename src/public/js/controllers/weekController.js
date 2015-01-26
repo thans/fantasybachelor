@@ -2,6 +2,7 @@ app.controller('weekController', ['$rootScope', '$scope', '$routeParams', '$inte
     console.log($routeParams);
 
     $rootScope.showHeaderFooter = true;
+    $rootScope.viewLoaded = true;
     $scope.week = weeksFactory.getWeekById(parseInt($routeParams.weekId)) || weeksFactory.getCurrentWeek();
     $rootScope.pageTitle = $scope.week.name;
     $scope.selectionRange = _.range(0, $scope.week.numberOfSelections);
