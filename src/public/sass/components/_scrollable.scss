@@ -8,5 +8,6 @@
   .scroll {
     @include size(calc(100% + 15px), 100%);
     overflow-y: scroll;
+    padding-right: 15px;
   }
 }

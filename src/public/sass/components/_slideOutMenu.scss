@@ -15,6 +15,7 @@ div[slide-out-menu] {
   @include translateX(0px);
   @include transition(transform $slideOutMenuTransitionDuration ease);
   @include size(100%);
+  @include absolute(0, 0);
 
   .slideOutMenuContent {
     @include size($slideOutMenuWidth, 100%);

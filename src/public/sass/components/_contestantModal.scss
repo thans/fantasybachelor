@@ -9,7 +9,8 @@
 $contestantModalCloseButtonSize: 25px;
 $contestantModalCloseButtonMobileSize: 75px;
 $contestantModalCloseButtonOffset: 25px;
-$contestantModalImageWidth: 75%;
+$contestantModalImageWidth: 300px;
+$contestantModalImageWidthMobile: 75%;
 $contestantModalImageDividerWidth: 85%;
 $contestantModalPadding: 20px;
 $contestantModalPaddingMobile: 60px;
@@ -25,6 +26,7 @@ $contestantModalPaddingMobile: 60px;
       top: 10%;
       width: 850px;
       max-height: 80%;
+      height: 80%;
       opacity: 1;
     }
 
@@ -69,7 +71,7 @@ $contestantModalPaddingMobile: 60px;
         width: 100%;
 
         @include desktop {
-          width: 300px;
+          width: $contestantModalImageWidth;
           float: right;
           margin-left: 20px;
         }
@@ -80,7 +82,7 @@ $contestantModalPaddingMobile: 60px;
           margin: auto;
 
           @include mobile {
-            width: $contestantModalImageWidth;
+            width: $contestantModalImageWidthMobile;
           }
         }
 
@@ -93,6 +95,22 @@ $contestantModalPaddingMobile: 60px;
             width: $contestantModalImageDividerWidth;
             bottom: 0;
           }
+        }
+      }
+
+      .buttonWrapper {
+        text-align: center;
+        margin-top: $contestantModalPadding;
+
+        @include desktop() {
+          clear: both;
+          float: right;
+          width: $contestantModalImageWidth;
+          margin-left: 20px;
+        }
+
+        @include mobile() {
+          margin-top: $contestantModalPaddingMobile;
         }
       }
 
@@ -112,11 +130,6 @@ $contestantModalPaddingMobile: 60px;
         .question {
           font-weight: 600;
         }
-      }
-
-      .buttonWrapper {
-        text-align: center;
-        margin-top: $contestantModalPadding;
       }
     }
   }
