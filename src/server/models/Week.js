@@ -69,13 +69,13 @@ module.exports.Weeks.getExtended = function(user, userNow) {
                     id: week.id,
                     name: week.get('name'),
                     number: week.get('number'),
-                    openTime: module.exports.Weeks._adjustTime(week.get('openDatetime'), userNowError),
-                    closeTime: module.exports.Weeks._adjustTime(week.get('closeDatetime'), userNowError),
-                    scoresAvailableTime: module.exports.Weeks._adjustTime(week.get('scoresAvailableDatetime'), userNowError),
-                    remainingContestants: [],
+                    startVoteLocalDateTime: module.exports.Weeks._adjustTime(week.get('openDatetime'), userNowError),
+                    endVoteLocalDateTime: module.exports.Weeks._adjustTime(week.get('closeDatetime'), userNowError),
+                    roundEndLocalDateTime: module.exports.Weeks._adjustTime(week.get('scoresAvailableDatetime'), userNowError),
+                    eligibleContestantIds: [],
                     selectedContestants: [],
                     eliminatedContestants: [],
-                    numberOfSelections: week.related('scoringOpportunities').size()
+                    rosterSize: week.related('scoringOpportunities').size()
                 };
                 callback();
             }, function() {
@@ -105,22 +105,22 @@ module.exports.Weeks.getExtended = function(user, userNow) {
                         } else {
 
                             extendedWeeks = _.values(extendedWeeks);
-                            // Add all contestants to remainingContestants
+                            // Add all contestants to eligibleContestantIds
                             new Database.Contestants()
                                 .query('where', 'id', '!=', BACH_ID)
                                 .fetch()
                                 .then(function(contestants) {
                                     _.each(extendedWeeks, function(week) {
                                         contestants.each(function(contestant) {
-                                            week.remainingContestants.push(contestant.id);
+                                            week.eligibleContestantIds.push(contestant.id);
                                         });
                                     });
 
-                                    // Remove eliminated contestants from remainingContestants
+                                    // Remove eliminated contestants from eligibleContestantIds
                                     _.each(extendedWeeks, function(week) {
                                         var filtered = _.filter(_.values(extendedWeeks), function(weekCandidate) {return weekCandidate.number > week.number;});
                                         _.each(filtered, function(weekToRemoveEliminated) {
-                                            weekToRemoveEliminated.remainingContestants = _.difference(weekToRemoveEliminated.remainingContestants, week.eliminatedContestants);
+                                            weekToRemoveEliminated.eligibleContestantIds = _.difference(weekToRemoveEliminated.eligibleContestantIds, week.eliminatedContestants);
                                         });
                                     });
 
@@ -128,26 +128,26 @@ module.exports.Weeks.getExtended = function(user, userNow) {
                                     _.each(extendedWeeks, function(week, i) {
                                         var remainingContestantsWithMultipliers = [];
                                         var lastWeek = extendedWeeks[i-1];
-                                        _.each(week.remainingContestants, function(contestant) {
+                                        _.each(week.eligibleContestantIds, function(contestant) {
                                             var multiplier = 1;
                                             if (lastWeek && _.findWhere(lastWeek.selectedContestants, {id: contestant})) {
-                                                multiplier = _.findWhere(lastWeek.remainingContestants, {id: contestant}).multiplier + 1;
+                                                multiplier = _.findWhere(lastWeek.eligibleContestantIds, {id: contestant}).multiplier + 1;
                                             }
                                             remainingContestantsWithMultipliers.push({id: contestant, multiplier: multiplier});
                                         });
-                                        week.remainingContestants = remainingContestantsWithMultipliers;
+                                        week.eligibleContestantIds = remainingContestantsWithMultipliers;
 
                                         // Add multipliers to selectedContestants
                                         var selectedContestantsWithMultipliers = [];
                                         _.each(week.selectedContestants, function(contestantId) {
-                                            selectedContestantsWithMultipliers.push(_.findWhere(week.remainingContestants, {id : contestantId}));
+                                            selectedContestantsWithMultipliers.push(_.findWhere(week.eligibleContestantIds, {id : contestantId}));
                                         });
                                         week.selectedContestants = selectedContestantsWithMultipliers;
 
                                         // Add multipliers to eliminatedContestants
                                         var eliminatedContestantsWithMultipliers = [];
                                         _.each(week.eliminatedContestants, function(contestantId) {
-                                            eliminatedContestantsWithMultipliers.push(_.findWhere(week.remainingContestants, {id : contestantId}));
+                                            eliminatedContestantsWithMultipliers.push(_.findWhere(week.eligibleContestantIds, {id : contestantId}));
                                         });
                                         week.eliminatedContestants = eliminatedContestantsWithMultipliers;
                                     });
@@ -166,7 +166,7 @@ module.exports.Weeks.getExtended = function(user, userNow) {
  * Gets the {@link Week} that is currently open for {@link Predictions} or is currently airing.
  * @returns {Promise}
  */
-module.exports.Weeks.getCurrentWeek = function() {
+module.exports.Weeks.getCurrentRound = function() {
     var deferred = Q.defer();
     new Database.Weeks().fetch().then(function(weeks) {
         deferred.resolve(weeks.find(function(week) {

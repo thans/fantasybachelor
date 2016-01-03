@@ -1,0 +1,16 @@
+<%
+    var resourcesUrl = config.RESOURCES_URL;
+    var version = config.PACKAGE.version;
+%>
+<div class="glass" ng-click="close()" ng-class="{hidden: !visible}"></div>
+<div class="innerWrapper" ng-class="{hidden: !visible}">
+    <div scrollable>
+        <div class="content">
+            <h1 class="name">choose a league</h1>
+            <div class="buttonSmall" ng-click="globalClicked()">global</div>
+            <div class="buttonSmall" ng-click="leagueClicked(league)" ng-repeat="league in leagues">{{league.name | lowercase}}</div>
+            <div class="createLeague" ng-click="createLeagueClicked()">create new league</div>
+            <div class="close" ng-click="close()"></div>
+        </div>
+    </div>
+</div>

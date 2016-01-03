@@ -125,7 +125,7 @@ module.exports.UserScore.getScore = function(userId) {
         .then(function(userScore) {
             if (userScore === undefined || userScore === null) { // No record
                 Database.UserScore.calculateScore(userId).then(function(score) {
-                    Database.Weeks.getCurrentWeek().then(function(currentWeek) {
+                    Database.Weeks.getCurrentRound().then(function(currentWeek) {
                         var expires;
                         if (currentWeek) {
                             expires = currentWeek.get('scoresAvailableDatetime');
@@ -145,7 +145,7 @@ module.exports.UserScore.getScore = function(userId) {
                 deferred.resolve(userScore.get('score'));
             } else {
                 Database.UserScore.calculateScore(userId).then(function(score) { // Recalculate
-                    Database.Weeks.getCurrentWeek().then(function(currentWeek) {
+                    Database.Weeks.getCurrentRound().then(function(currentWeek) {
                         if (currentWeek) {
                             userScore.set('expires_at', currentWeek.get('scoresAvailableDatetime'));
                         } else {

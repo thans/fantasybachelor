@@ -4,7 +4,7 @@
 %>
 <div id="footer" ng-class="{hidden : !appLoaded || !user || !showHeaderFooter}">
     <div class="content">
-        <div class="user" ng-mouseover="hover = true" ng-mouseleave="hover = false">
+        <div class="user" ng-mouseover="hover = true" ng-mouseleave="hover = false" ng-click="changeNickname()">
             <img ng-src="{{user.profilePicture}}" src="<%= resourcesUrl %>/<%= version %>/images/pixel.gif" class="profilePic" />
             <h1 class="alias">{{user.displayName}}</h1>
         </div>
@@ -12,7 +12,7 @@
         <!--<div class="league">global</div>-->
         <div class="spacer">|</div>
         <div class="league">
-            <ng-pluralize count="user.score"
+            <ng-pluralize count="user.scores.score"
                           when="{'0' : '0 points',
                                  'one' : '1 point',
                                  'other' : '{} points'}">

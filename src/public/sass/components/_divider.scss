@@ -1,0 +1,52 @@
+@import '../constants/colors';
+@import '../constants/border';
+@import '../mixins/mobile';
+@import '../mixins/hover';
+@import '../mixins/sprites';
+@import '../mixins/position';
+@import 'compass/css3/transform';
+
+$dividerButtonSize: 47px;
+$dividerMobileButtonSize: 100px;
+
+.divider {
+  width: 100%;
+  text-align: center;
+  font-size: 0;
+  margin: 20px 0;
+  @include relative();
+
+  @include mobile {
+    margin: 40px 0;
+  }
+
+  .dividerLine {
+    display: inline-block;
+    width: 80%;
+    height: 2px;
+    border-bottom: $defaultThinBorder;
+
+    @include mobile {
+      border-bottom: $defaultThinBorderMobile;
+    }
+  }
+
+  .circleButton {
+    cursor: pointer;
+    @include sprite($icons, next, $dividerButtonSize, $dividerButtonSize, $borderWidth * 2);
+    @include absolute(-$dividerButtonSize / 2, calc(50% - #{$dividerButtonSize / 2}));
+    background-color: $red;
+    @include transform(rotate(-90deg));
+
+    @include mobile {
+      @include sprite($icons, next, $dividerMobileButtonSize, $dividerMobileButtonSize, $borderWidthMobile * 2);
+      @include absolute(-$dividerMobileButtonSize / 2, calc(50% - #{$dividerMobileButtonSize / 2}));
+    }
+  }
+
+  &.collapsed {
+    .circleButton {
+      @include transform(rotate(90deg));
+    }
+  }
+}

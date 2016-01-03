@@ -4,25 +4,29 @@ app.config(['$routeProvider', 'ROUTES', function($routeProvider, ROUTES) {
             templateUrl : 'view/login',
             controller : 'loginController'
         })
-        .when(ROUTES.CHANGE_ALIAS, {
-            templateUrl : 'view/alias',
-            controller : 'aliasController'
+        .when(ROUTES.CHANGE_NICKNAME, {
+            templateUrl : 'view/nickname',
+            controller : 'nicknameController'
         })
-        .when(ROUTES.WEEK, {
-            templateUrl : 'view/week',
-            controller : 'weekController'
+        .when(ROUTES.ROUND, {
+            templateUrl : 'view/round',
+            controller : 'roundController'
         })
-        .when(ROUTES.WEEK_BASE, {
-            templateUrl : 'view/week',
-            controller : 'weekController'
+        .when(ROUTES.ROUND_BASE, {
+            templateUrl : 'view/round',
+            controller : 'roundController'
         })
         .when(ROUTES.LEADERBOARD, {
             templateUrl : 'view/leaderboard',
             controller : 'leaderboardController'
         })
+        .when(ROUTES.CREATE_LEAGUE, {
+            templateUrl : 'view/createLeague',
+            controller : 'createLeagueController'
+        })
         .otherwise({
             redirectTo : function() {
-                return ROUTES.WEEK_BASE;
+                return ROUTES.ROUND_BASE;
             }
         });
 }]);

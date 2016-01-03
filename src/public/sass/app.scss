@@ -12,18 +12,22 @@
 @import 'components/menuCircle';
 @import 'components/errorMessage';
 @import 'components/leaderboardUser';
+@import 'components/leagueTable';
 @import 'layouts/login';
-@import 'layouts/screenName';
+@import 'layouts/nickname';
+@import 'layouts/createLeague';
 @import 'layouts/heading';
 @import 'layouts/footer';
-@import 'layouts/week';
+@import 'layouts/round';
 @import 'layouts/lineup';
-@import 'layouts/remainingContestants';
+@import 'layouts/eligibleContestants';
 @import 'layouts/leaderboard';
 @import 'layouts/ngView';
 @import 'components/slideOutMenu';
 @import 'components/contestant';
 @import 'components/contestantModal';
+@import 'components/leagueModal';
 @import 'components/button';
 @import 'components/scrollable';
+@import 'components/divider';
 

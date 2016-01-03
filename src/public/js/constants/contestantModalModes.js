@@ -1,18 +1,22 @@
 app.constant('CONTESTANT_MODAL_MODES', {
     CHOOSABLE : {
         text : 'choose me',
-        enabled : true
+        enabled : true,
+        singleButton : false
     },
     REMOVABLE : {
         text : 'remove me',
-        enabled : true
+        enabled : true,
+        singleButton : true
     },
     SELECTION_CLOSED : {
         text : 'selection closed',
-        enabled : false
+        enabled : false,
+        singleButton : true
     },
     SELECTION_FULL : {
         text : 'selection full',
-        enabled : false
+        enabled : false,
+        singleButton : true
     }
 });

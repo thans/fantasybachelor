@@ -1,4 +1,13 @@
 app.constant('EVENTS', {
+    FACEBOOK : {
+        SDK_LOADED : 'facebook.sdkLoaded',
+        USER_DATA : 'facebook.userData',
+        SILENT_AUTHENTICATED : 'facebook.silentAuthenticated',
+        NOT_SILENT_AUTHENTICATED : 'facebook.notSilentAuthenticated',
+        AUTHENTICATED : 'facebook.authenticated',
+        AUTHENTICATION_ERROR : 'facebook.authenticationError',
+        LOGGED_OUT : 'facebook.loggedOut'
+    },
     AUTHENTICATION : {
         AUTHENTICATED : 'authentication.authenticated',
         SILENT_AUTHENTICATION_FAILED : 'authentication.silentAuthenticationFailed',
@@ -8,17 +17,12 @@ app.constant('EVENTS', {
         CONTESTANTS_LOADED : 'images.contestantsLoaded',
         STATIC_LOADED : 'images.staticLoaded'
     },
-    CONTESTANTS : {
-        LOADED : 'contestants.loaded'
-    },
-    WEEKS : {
-        LOADED : 'weeks.loaded'
-    },
     CONTESTANT_MODAL : {
         SHOW : 'contestantModal.show',
         HIDE : 'contestantModal.hide'
     },
-    ALIAS : {
-        VALID : 'alias.valid'
+    LEAGUE_MODAL : {
+        SHOW : 'leagueModal.show',
+        HIDE : 'leagueModal.hide'
     }
 });

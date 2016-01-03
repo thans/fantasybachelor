@@ -1,36 +1,40 @@
-app.factory('userFactory', ['$rootScope', '$q', 'backendFactory', 'routeFactory', function($rootScope, $q, backendFactory, routeFactory) {
+app.factory('userFactory', ['$rootScope', '$q', 'SEASON', 'backendFactory', 'routeFactory', function($rootScope, $q, SEASON, backendFactory, routeFactory) {
     var userFactory = {};
 
-    userFactory.promise = backendFactory.getUser().then(function(response) {
-        var user = response.data;
-        user.displayName = user.alias || user.displayName || user.userName || user.firstName + ' ' + user.lastName;
-        userFactory.user = user;
-
-        console.log(user);
-        console.log('User data loaded.');
-
-        return user;
+    $rootScope.$watch(function() { return $rootScope.isAuthenticated; }, function(isAuthenticated) {
+        if (!isAuthenticated) {
+            return userFactory.user = null;
+        }
+        backendFactory.getCurrentUser({ seasonId : SEASON.CURRENT_SEASON_ID }).then(function(result) {
+            console.log(result);
+            userFactory.user = result.data;
+            $rootScope.$apply();
+        });
     });
+
+    userFactory.setNickname = function(nickname) {
+        return backendFactory.postNickname({}, { nickname : nickname }).then(function() {
+            userFactory.user.nickname = nickname;
+            $rootScope.$apply();
+            return nickname;
+        });
+    };
+
     $rootScope.$watchCollection(function() { return userFactory.user; }, function(user) {
         if (!user) { return; }
-        user.displayName = user.alias || user.displayName || user.userName || user.firstName + ' ' + user.lastName;
+        user.displayName = user.nickname || user.name;
     });
 
-    var aliasDeferred = $q.defer();
-    userFactory.promise.then(function(user) {
-        if (user.alias) {
-            aliasDeferred.resolve(user.alias);
-            return;
-        }
-        $rootScope.appLoaded = true;
-        routeFactory.goToChangeAlias();
-    }, function(err) {
-        aliasDeferred.reject(err);
+    $rootScope.$watchCollection(function() { return userFactory.user && userFactory.user.groups; }, function(groups) {
+        if (!groups) { return; }
+        userFactory.user.groupData = {};
+        _.each(groups, function(groupId) {
+            backendFactory.getGroupMembers({ seasonId : SEASON.CURRENT_SEASON_ID, id : groupId }).then(function(result) {
+                userFactory.user.groupData[groupId] = result.data;
+                $rootScope.$apply();
+            })
+        });
     });
-    $rootScope.$watch(function() { return userFactory.user && userFactory.user.alias; }, function(alias) {
-        if (alias) { aliasDeferred.resolve(userFactory.user.alias); }
-    });
-    userFactory.aliasPromise = aliasDeferred.promise;
 
     return userFactory;
 }]);

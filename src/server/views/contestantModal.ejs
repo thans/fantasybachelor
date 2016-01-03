@@ -7,14 +7,16 @@
     <div scrollable>
         <div class="content">
             <div class="imageWrapper">
-                <img class="fullBodyImage" src="<%= resourcesUrl %>/<%= version %>/images/pixel.gif" ng-src="<%= resourcesUrl %>/<%= version %>/images/contestants/{{contestant.codename || 'woman'}}.jpg"/>
-                <div class="divider"></div>
+                <img class="fullBodyImage" src="<%= resourcesUrl %>/<%= version %>/images/pixel.gif" ng-src="{{contestant.images.body || woman}}"/>
+                <div class="dividerLine"></div>
             </div>
             <div class="buttonWrapper">
-                <div class="buttonLarge" ng-click="buttonClicked()" ng-class="{disabled : !enabled}">{{text}}</div>
+                <div class="buttonLabel" ng-show="!singleButton">select role</div>
+                <div class="buttonLarge" ng-click="buttonClicked()" ng-class="{disabled : !enabled}" ng-show="singleButton">{{text}}</div>
+                <div class="buttonSmall" ng-click="roleClicked(role)" ng-class="{disabled : !role.enabled}" ng-show="!singleButton" ng-repeat="role in roles">{{role.name | lowercase}}</div>
             </div>
             <h1 class="name">{{contestant.name}}</h1>
-            <div class="bioStat" ng-repeat="bioStat in contestant.bioStatistics">
+            <div class="bioStat" ng-repeat="bioStat in contestant.bioStats">
                 <span class="stat">{{bioStat.name}}:</span> <span class="value">{{bioStat.value}}</span>
             </div>
             <div class="bioQuestion" ng-repeat="bioQuestion in contestant.bioQuestions">

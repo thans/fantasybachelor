@@ -1,4 +1,4 @@
-app.directive('slideOutMenu', ['routeFactory', 'weeksFactory', function(routeFactory, weeksFactory) {
+app.directive('slideOutMenu', ['routeFactory', 'roundsFactory', function(routeFactory, roundsFactory) {
     return {
         restrict: 'A',
         replace: true,
@@ -6,10 +6,10 @@ app.directive('slideOutMenu', ['routeFactory', 'weeksFactory', function(routeFac
         templateUrl: 'view/slideOutMenu',
         controller: ['$scope', function($scope) {
             $scope.slideOutMenuActive = false;
-            $scope.showWeeks = false;
+            $scope.showRounds = false;
 
-            $scope.$watch(function() { return weeksFactory.weeks; }, function(weeks) {
-                $scope.weeks = weeks;
+            $scope.$watch(function() { return roundsFactory.rounds; }, function(rounds) {
+                $scope.rounds = rounds;
             });
 
             $scope.hideSlideOutMenu = function() {
@@ -17,7 +17,7 @@ app.directive('slideOutMenu', ['routeFactory', 'weeksFactory', function(routeFac
             };
 
             $scope.showSlideOutMenu = function(event) {
-                $scope.showWeeks = false;
+                $scope.showRounds = false;
                 $scope.slideOutMenuActive = !$scope.slideOutMenuActive;
                 event.stopPropagation();
             };
@@ -29,7 +29,7 @@ app.directive('slideOutMenu', ['routeFactory', 'weeksFactory', function(routeFac
 
             $scope.changeAlias = function() {
                 $scope.hideSlideOutMenu();
-                routeFactory.goToChangeAlias();
+                routeFactory.goToChangeNickname();
             };
 
             $scope.logout = function() {
@@ -37,9 +37,9 @@ app.directive('slideOutMenu', ['routeFactory', 'weeksFactory', function(routeFac
                 routeFactory.goToLogout();
             };
 
-            $scope.goToWeek = function(weekId) {
+            $scope.goToRound = function(roundId) {
                 $scope.hideSlideOutMenu();
-                routeFactory.goToWeek(weekId);
+                routeFactory.goToRound(roundId);
             };
 
             $scope.leaderboard = function() {

@@ -3,10 +3,10 @@
 @import '../mixins/hover';
 @import '../mixins/sprites';
 
-$screenNameButtonSize: 47px;
-$screenNameMobileButtonSize: 100px;
+$createLeagueButtonSize: 47px;
+$createLeagueMobileButtonSize: 100px;
 
-#screenName {
+#createLeague {
   @include centered();
 
   .input {
@@ -22,10 +22,10 @@ $screenNameMobileButtonSize: 100px;
 
   .circleButton {
     @include hoverable();
-    @include sprite($icons, next, $screenNameButtonSize);
+    @include sprite($icons, next, $createLeagueButtonSize);
 
     @include mobile {
-      @include sprite($icons, next, $screenNameMobileButtonSize);
+      @include sprite($icons, next, $createLeagueMobileButtonSize);
     }
   }
 

@@ -1,12 +1,22 @@
 @import '../mixins/mobile';
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600);
 
+$smallFont: 12px;
+$smallMobileFont: 24px;
 $mediumFont: 16px;
 $mediumMobileFont: 32px;
 $largeFont: 24px;
 $largeMobileFont: 48px;
 $extraLargeFont: 32px;
 $extraLargeMobileFont: 64px;
+
+@mixin smallFont() {
+  font-size: $smallFont;
+
+  @include mobile {
+    font-size: $smallMobileFont;
+  }
+}
 
 @mixin mediumFont() {
   font-size: $mediumFont;

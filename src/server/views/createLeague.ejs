@@ -1,0 +1,15 @@
+<div id="createLeague">
+    <div class="setup" ng-show="!leagueId">
+        <h1>choose your league name</h1>
+        <div class="input">
+            <input type="text" ng-model="leagueName" maxlength="30" spellcheck="false" />
+            <div class="circleButton" ng-click="createLeague()"></div>
+        </div>
+        <div class="errorMessage">{{errorMessage}}</div>
+    </div>
+    <div class="addMembers" ng-show="leagueId">
+        <div>To add more members, please add them to this Facebook group: <a ng-href="https://facebook.com/{{leagueId}}">https://facebook.com/{{leagueId}}</a></div>
+        <div>After members join the facebook league and login to Fantasy Bach, they will be viewable in the league within 5 minutes.</div>
+        <div>Feel free to use the Facebook group to talk trash to each other!</div>
+    </div>
+</div>

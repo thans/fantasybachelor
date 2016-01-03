@@ -1,0 +1,91 @@
+<div id="round">
+    <div id="lineup">
+        <h3>your lineup</h3>
+        <div class="lineupWrapper">
+            <div class="bachelorWrapper">
+                <div contestant image="ben" multiplier="1"></div>
+            </div>
+            <div class="spacer"></div>
+            <div class="selectionsWrapper">
+                <div contestant
+                     contestant-id="picks[role.id].id"
+                     multiplier="!round.isScoresAvailable && picks[role.id].multiplier"
+                     score="round.isScoresAvailable && picks[role.id].multiplier"
+                     eliminated="picks[role.id] && isEliminated(picks[role.id])"
+                     on-bio-click="picks[role.id] ? showSelectedContestantBio : null"
+                     on-remove-click="!round.isScoresAvailable && picks[role.id] ? removeContestant : null"
+                     inactive="isFull() && !picks[role.id]"
+                     role="role"
+                     ng-repeat="role in round.availableRoles"></div>
+            </div>
+        </div>
+    </div>
+    <div class="collapse" ng-class="{collapsed : collapsed}">
+        <div class="info" ng-show="round.isBeforeSelectionOpen">
+            <div class="remainingTime">selection not open yet</div>
+            <div class="instruction hoverable" ng-click="goToCurrentRound()">go to current round</div>
+        </div>
+        <div class="info" ng-show="round.isSelectionOpen">
+            <div class="remainingTime">selection closes at 8:00 PM</div>
+            <!--<div class="remainingTime">selection closes in {{round.millisToClose | countdown}}</div>-->
+            <div class="instruction">choose from the contestants below to fill your lineup</div>
+        </div>
+        <div class="info" ng-show="round.isShowInProgress">
+            <div class="remainingTime">scores available at 10:00 PM</div>
+            <!--<div class="remainingTime">scores available in {{round.millisToScoresAvailable | countdown}}</div>-->
+            <div class="instruction">invite some friends over and watch the show</div>
+        </div>
+        <div class="info" ng-show="round.isScoresAvailable">
+            <div class="remainingTime">you scored
+                <ng-pluralize count="round.score"
+                              when="{'0': 'no points',
+                                     'one': '1 point',
+                                     'other': '{} points'}">
+                </ng-pluralize>
+            </div>
+            <div class="instruction hoverable" ng-click="goToCurrentRound()">go to current round</div>
+        </div>
+        <div id="eligibleContestants">
+            <h3>eligible contestants</h3>
+            <div contestant
+                 contestant-id="contestant.id"
+                 multiplier="!round.isScoresAvailable && contestant.multiplier"
+                 eliminated="isEliminated(contestant)"
+                 on-bio-click="showEligibleContestantBio"
+                 on-select-click="!round.isScoresAvailable && round.selectedContestants.length < round.numberOfSelections && selectContestant"
+                 ng-repeat="contestant in round.eligibleContestants"></div>
+        </div>
+    </div>
+    <div class="divider" ng-class="{collapsed : collapsed}">
+        <div class="dividerLine"></div>
+        <div class="circleButton" ng-click="collapseToggle()"></div>
+    </div>
+    <div class="leagueHeading">
+        <h2 class="title">leagues / </h2>
+        <div class="currentLeagueWrapper" ng-click="showLeagueModal()">
+            <h2 class="currentLeague">{{displayedLeague.name | lowercase}}</h2>
+            <div class="arrowDown"></div>
+        </div>
+    </div>
+    <div class="leagueTable">
+        <div class="header tableRow">
+            <div class="user tableRowItem headerCell"></div>
+            <div class="score tableRowItem headerCell"></div>
+            <div class="tableRowItem headerCell" ng-repeat="role in round.availableRoles">{{role.name | lowercase}}</div>
+        </div>
+        <div class="tableRow" ng-repeat="user in displayedLeague.users">
+            <div class="user tableRowItem">
+                <img class="profilePic" ng-src="{{user.profilePicture}}" />
+                <div class="name">{{user.nickname}}</div>
+            </div>
+            <div class="score tableRowItem">+{{user.scores[round.id]}}/{{user.scores.score}}</div>
+            <div class="tableRowItem" ng-repeat="role in round.availableRoles">
+                <div contestant
+                     contestant-id="user.picks[round.id][role.id]"
+                     mini="true"
+                     multiplier="1"></div>
+            </div>
+        </div>
+    </div>
+
+</div>

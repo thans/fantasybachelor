@@ -86,7 +86,7 @@ $contestantModalPaddingMobile: 60px;
           }
         }
 
-        .divider {
+        .dividerLine {
           width: 100%;
           border-top: 1px solid $offBlack;
 
@@ -111,6 +111,20 @@ $contestantModalPaddingMobile: 60px;
 
         @include mobile() {
           margin-top: $contestantModalPaddingMobile;
+        }
+
+        .buttonLabel {
+          @include largeFont();
+        }
+
+        .buttonSmall {
+          padding: 6px 0;
+          width: 40%;
+          margin: 12px 5%;
+
+          @include mobile() {
+              padding: 12px 0;
+          }
         }
       }
 

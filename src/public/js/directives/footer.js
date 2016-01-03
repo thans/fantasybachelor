@@ -7,7 +7,7 @@ app.directive('footer', ['$location', 'routeFactory', 'userFactory', function($l
             });
 
             $scope.logout = routeFactory.goToLogout;
-            $scope.changeAlias = routeFactory.goToChangeAlias;
+            $scope.changeNickname = routeFactory.goToChangeNickname;
         }]
     }
 }]);

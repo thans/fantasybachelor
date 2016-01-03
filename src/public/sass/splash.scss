@@ -31,6 +31,11 @@ input {
   @include user-select(initial);
 }
 
+a {
+  color: $white;
+  font-weight: 600;
+}
+
 #splash {
   margin-top: -$splashOffset;
   text-align: center;

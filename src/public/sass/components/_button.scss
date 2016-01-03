@@ -12,6 +12,7 @@
 
   &.disabled {
     opacity: .5;
+    cursor: initial;
   }
 }
 
@@ -19,4 +20,8 @@
   @extend .button;
   @include largeFont();
   padding: 20px 60px;
+}
+
+.buttonSmall {
+  @extend .button;
 }

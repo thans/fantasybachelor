@@ -29,6 +29,7 @@ $lineupMobilePadding: 36px;
     .bachelorWrapper {
       min-width: $lineupCircleSize + 2 * $lineupPadding;
       padding: $lineupPadding;
+      margin-top: $lineupPadding;
 
       @include mobile {
         min-width: $lineupMobileCircleSize + 2 * $lineupMobilePadding;
@@ -58,10 +59,12 @@ $lineupMobilePadding: 36px;
       [contestant] {
         margin-right: $lineupPadding;
         margin-bottom: $lineupPadding;
+        margin-top: $lineupPadding;
 
         @include mobile {
           margin-right: $lineupMobilePadding;
           margin-bottom: $lineupMobilePadding;
+          margin-top: $lineupMobilePadding;
         }
       }
     }

@@ -5,6 +5,7 @@
 [ng-view] {
   // @include absolute(0, 0);
   @include size(100%);
+  width: calc(100% + 15px);
   opacity: 1;
 
   &.ng-enter,

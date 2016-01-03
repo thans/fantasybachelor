@@ -2,14 +2,15 @@
     var resourcesUrl = config.RESOURCES_URL;
     var version = config.PACKAGE.version;
 %>
-<div class="innerWrapper" ng-class="{hoverable : onBioClick || onAddClick || onRemoveClick}" ng-click="onBioClick(contestant, multiplier)">
+<div class="innerWrapper" ng-class="{hoverable : onBioClick || onAddClick || onRemoveClick, inactive : inactive, mini : mini}" ng-click="onBioClick(contestant, multiplier, role)">
+    <div class="role">{{role.name | lowercase}}</div>
     <!--ng-mouseover="active = true" ng-mouseleave="active = false"-->
-    <img class="head" src="<%= resourcesUrl %>/<%= version %>/images/pixel.gif" ng-src="<%= resourcesUrl %>/<%= version %>/images/contestants/heads/{{contestant.codename || 'woman'}}Head.jpg" />
+    <img class="head" src="<%= resourcesUrl %>/<%= version %>/images/pixel.gif" ng-src="{{image || contestant.images.head || woman}}" />
     <div class="multiplier" ng-class="{visible : !active}" ng-show="multiplier > 1">{{multiplier}}x</div>
     <div class="score" ng-class="{visible : !active}" ng-show="score">+{{score}}</div>
     <!--<div class="bio hoverable" ng-class="{hidden : !active}" ng-show="onBioClick && active" ng-click="onBioClick(contestant, multiplier)">bio</div>-->
     <!--<div class="select hoverable" ng-class="{hidden : !active}" ng-show="onSelectClick && active" ng-click="onSelectClick(contestant, multiplier)">+</div>-->
     <!--<div class="remove hoverable" ng-class="{hidden : !active}" ng-show="onRemoveClick && active" ng-click="onRemoveClick(contestant, multiplier)">x</div>-->
     <div class="eliminated" ng-class="{visible : !active}" ng-show="eliminated">-</div>
-    <div class="name">{{contestant.name | lowercase}}</div>
+    <div class="name" ng-show="!mini">{{contestant.name | lowercase}}</div>
 </div>

@@ -7,7 +7,9 @@
 @import 'compass/css3/box-shadow';
 
 $contestantCircleSize: 100px;
+$contestantCircleSizeMini: 50px;
 $contestantMobileCircleSize: 185px;
+$contestantMobileCircleSizeMini: 75px;
 $contestantSubCircleSize: 40px;
 $contestantSubCircleSizeMobile: 75px;
 $contestantSubCircleTop: -10px;
@@ -22,6 +24,8 @@ $contestantSubCircleZoom: 10px;
 $contestantSubCircleZoomMobile: 10px;
 $contestantSubCircleVisibleZoom: 5px;
 $contestantSubCircleVisibleZoomMobile: 5px;
+$contestantRoleTop: -28px;
+$contestantRoleTopMobile: -52px;
 
 
 [contestant] {
@@ -34,6 +38,12 @@ $contestantSubCircleVisibleZoomMobile: 5px;
     @include circle($contestantCircleSize, $contestantMobileCircleSize);
     @include box-shadow(0 0 10px $shadow);
     pointer-events: none;
+  }
+  &.mini {
+    img {
+      @include circle($contestantCircleSizeMini, $contestantMobileCircleSizeMini);
+      vertical-align: middle;
+    }
   }
 
   .subCircle {
@@ -195,11 +205,30 @@ $contestantSubCircleVisibleZoomMobile: 5px;
     }
   }
 
+  .role {
+    text-align: center;
+    min-height: $mediumFont;
+    width: 100%;
+
+    @include absolute($contestantRoleTop);
+
+    @include mobile {
+      min-height: $mediumMobileFont;
+
+      @include absolute($contestantRoleTopMobile);
+    }
+  }
+
   &.hoverable {
+    @include hoverable();
     // transition: all .25s;
 
     &:hover, &.hover {
       // transform: scale(1.1);
     }
+  }
+
+  &.inactive {
+    opacity : .5;
   }
 }

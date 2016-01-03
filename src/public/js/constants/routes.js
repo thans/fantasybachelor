@@ -1,12 +1,9 @@
 app.constant('ROUTES', {
-    CHANGE_ALIAS : '/alias',
+    CHANGE_NICKNAME : '/nickname',
+    CREATE_LEAGUE : '/createLeague',
     LOGIN : '/login',
-    WEEK : '/week/:weekId',
-    WEEK_BASE : '/week/',
+    ROUND : '/round/:roundId',
+    ROUND_BASE : '/round/',
     LEADERBOARD : '/leaderboard',
-    FACEBOOK_LOGIN : '/auth/facebook',
-    GOOGLE_LOGIN : '/auth/google',
-    TWITTER_LOGIN : '/auth/twitter',
-    REDDIT_LOGIN : '/auth/reddit',
     LOGOUT : '/logout'
 });

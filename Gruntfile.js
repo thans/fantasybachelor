@@ -243,7 +243,7 @@ module.exports = function(grunt) {
                 script: 'build/server/server.js',
                 options: {
                     args: ['debug'],
-                    nodeArgs: ['--debug', '--debug-brk'],
+                    // nodeArgs: ['--debug', '--debug-brk'],
                     watch: ['build/server/**/*'],
 
                     callback: function (nodemon) {

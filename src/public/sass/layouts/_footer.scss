@@ -43,7 +43,7 @@ $footerHiddenOffsetMobile: -$footerHeightMobile;
 
     .user {
       display: inline-block;
-//      @include hoverable();
+      @include hoverable();
 
       .profilePic {
         @include circle(50px);

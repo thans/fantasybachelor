@@ -1,0 +1,86 @@
+@import 'compass/css3/box-shadow';
+@import 'compass/css3/border-radius';
+@import 'compass/css3/transition';
+@import 'compass/css3/transform';
+@import '../constants/colors';
+@import '../constants/fonts';
+@import '../mixins/hover';
+@import '../mixins/mobile';
+@import '../mixins/sprites';
+
+$roundMaxHeight: 1200px;
+$roundMaxHeightMobile: 2300px;
+
+#round {
+  padding: 100px 0;
+
+  @include mobile {
+    padding-bottom: 150px;
+  }
+
+  .info {
+    @include border-radius(6px);
+    @include box-shadow(0 0 20px $shadow);
+    text-align: center;
+    background: $white;
+    color: $red;
+    width: 80%;
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 10px;
+
+    @include mobile {
+      @include border-radius(16px);
+      width: 90%;
+      max-width: 850px;
+    }
+
+    .remainingTime {
+      @include largeFont();
+    }
+
+    .hoverable {
+      @include hoverable();
+    }
+  }
+
+  .collapse {
+    max-height: $roundMaxHeight;
+    overflow: hidden;
+    @include transition(max-height 1s ease);
+
+    @include mobile {
+      max-height: $roundMaxHeightMobile;
+    }
+
+    &.collapsed {
+      max-height: 0px;
+    }
+  }
+
+  .leagueHeading {
+    text-align: center;
+
+    * {
+      display: inline-block;
+    }
+
+    .currentLeagueWrapper {
+      @include hoverable();
+    }
+
+    .arrowDown {
+      @include transform(rotate(90deg));
+
+      @include desktop {
+        @include sprite($icons, next, 30px);
+        position: relative;
+        top: 8px;
+      }
+
+      @include mobile {
+        @include sprite($icons, next, 40px);
+      }
+    }
+  }
+}

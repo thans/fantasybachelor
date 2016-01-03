@@ -4,9 +4,9 @@
             <ul>
                 <li ng-click="home()"><span class="hoverable">home</span></li>
                 <li>
-                    <div ng-click="showWeeks = !showWeeks"><span class="hoverable">weeks</span></div>
-                    <ul ng-show="showWeeks">
-                        <li ng-repeat="week in weeks" ng-click="goToWeek(week.id)"><span class="hoverable">{{week.name | lowercase}}</span></li>
+                    <div ng-click="showRounds = !showRounds"><span class="hoverable">rounds</span></div>
+                    <ul ng-show="showRounds">
+                        <li ng-repeat="round in rounds" ng-click="goToRound(round.id)"><span class="hoverable">{{round.name | lowercase}}</span></li>
                     </ul>
                 </li>
                 <!--<li>leagues</li>-->
