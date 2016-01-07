@@ -4,6 +4,5 @@ app.constant('ROUTES', {
     LOGIN : '/login',
     ROUND : '/round/:roundId',
     ROUND_BASE : '/round/',
-    LEADERBOARD : '/leaderboard',
     LOGOUT : '/logout'
 });

@@ -14,7 +14,7 @@ var FantasyBachSdk = module.exports.FantasyBachSdk = function(config) {
         serviceName : 'execute-api',
         sessionToken : '',
         region : 'us-east-1',
-        defaultContentType : 'application/json',
+        defaultContentType : 'application/json; charset=UTF-8',
         defaultAcceptType : 'application/json',
         endpoint : 'https://api.fantasybach.com',
         stage : 'dev'

@@ -5,7 +5,6 @@ app.directive('contestant', ['contestantFactory', function(contestantFactory) {
         scope : {
             contestantId : '=',
             multiplier : '=',
-            score : '=',
             eliminated : '=',
             onBioClick : '=',
             onSelectClick : '=',
@@ -13,13 +12,18 @@ app.directive('contestant', ['contestantFactory', function(contestantFactory) {
             image : '=',
             role : '=',
             inactive : '=',
-            mini : '='
+            mini : '=',
+            round : '='
         },
         replace : true,
         controller : ['$scope', function($scope) {
-            console.log($scope.contestantId);
             $scope.$watch('contestantId', function() {
                 $scope.contestant = contestantFactory.findContestantById($scope.contestantId);
+
+                if (!$scope.round || !$scope.role || !$scope.contestant) { return; }
+                var roseScore = ($scope.multiplier || 1) * $scope.contestant.roses[$scope.round.id];
+                var roleScore = $scope.role.pointsPerOccurrence * ($scope.contestant.roundResults[$scope.round.id][$scope.role.id].occurrences || 0);
+                $scope.score = roseScore + roleScore;
             });
 
             $scope.woman = 'https://resources.fantasybach.com/season:NJWJTpZ8x/headShots/Woman.jpg';

@@ -1,9 +1,8 @@
-app.factory('routeValidatorFactory', ['$rootScope', 'ROUTES', 'routeFactory', 'userFactory', 'contestantFactory', 'roundsFactory', 'rolesFactory', function($rootScope, ROUTES, routeFactory, userFactory, contestantFactory, roundsFactory, rolesFactory) {
+app.factory('routeValidatorFactory', ['$rootScope', 'ROUTES', 'routeFactory', 'userFactory', 'contestantFactory', 'roundsFactory', 'rolesFactory', 'facebookFactory', function($rootScope, ROUTES, routeFactory, userFactory, contestantFactory, roundsFactory, rolesFactory, facebookFactory) {
     var routeValidatorFactory = {};
 
     routeValidatorFactory.validators = { '/' : function() { return true; }};
-    routeValidatorFactory.validators[ROUTES.CHANGE_NICKNAME] =
-    routeValidatorFactory.validators[ROUTES.LEADERBOARD] = function() {
+    routeValidatorFactory.validators[ROUTES.CHANGE_NICKNAME] = function() {
         return !!userFactory.user;
     };
     routeValidatorFactory.validators[ROUTES.ROUND] =
@@ -12,7 +11,10 @@ app.factory('routeValidatorFactory', ['$rootScope', 'ROUTES', 'routeFactory', 'u
         return !!userFactory.user && !!userFactory.user.nickname && !!contestantFactory.contestants && !!roundsFactory.rounds && !!rolesFactory.roles;
     };
     routeValidatorFactory.validators[ROUTES.LOGIN] = function() {
-        return !userFactory.user;
+        return !facebookFactory.accessToken;
+    };
+    routeValidatorFactory.validators[ROUTES.LOGOUT] = function() {
+        return facebookFactory.accessToken;
     };
 
     $rootScope.$on('$locationChangeStart', function(event, next, current) {

@@ -1,6 +1,0 @@
-<div id="leaderboard" ng-hide="!viewLoaded">
-    <!--<h2>leaderboard</h2>-->
-    <div leaderboard-user ng-repeat="u in topTen" user="u" rank="$index + 1" highlight="$index + 1 === user.rank"></div>
-    <div class="divider" ng-show="user.rank > 10"></div>
-    <div leaderboard-user ng-show="user.rank > 10" user="user" rank="user.rank" highlight="false"></div>
-</div>

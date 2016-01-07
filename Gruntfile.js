@@ -1,7 +1,21 @@
+var fs = require('fs');
+var nconf = require('nconf');
+nconf
+    .argv()
+    .env()
+    .file(__dirname + '/config/' + process.env.NODE_ENV + '.json')
+    .file('resources', __dirname + '/config/resources.json')
+    .load();
+
+// console.log(nconf.get());
+
+var config = nconf.get();
+
+config.PACKAGE = JSON.parse(fs.readFileSync(__dirname + '/package.json', 'utf8'));
+
 module.exports = function(grunt) {
 
     var pkg = grunt.file.readJSON('package.json');
-    var config = grunt.file.readJSON('config/' + (process.env.NODE_ENV || 'development') + '.json');
     var javascript = grunt.file.readJSON('config/resources.json').RESOURCES.JAVASCRIPT;
     for (var i = 0; i < javascript.length; i++) {
         javascript[i] = 'build/tmp/' + javascript[i];
@@ -306,6 +320,17 @@ module.exports = function(grunt) {
                 }]
             }
         },
+        ejs: {
+            prod : {
+                options: {
+                    config: config
+                },
+                src: ['src/**/*.ejs'],
+                dest: 'build/dist/',
+                expand: true,
+                ext: '.html'
+            }
+        },
         aws_s3: {
             prod: {
                 options: {
@@ -329,6 +354,36 @@ module.exports = function(grunt) {
                         dest: '<%= pkg.version %>/'
                     }
                 ]
+            },
+            prod2: {
+                options: {
+                    accessKeyId: '<%= config.AWS.ACCESS_KEY %>',
+                    secretAccessKey: '<%= config.AWS.ACCESS_SECRET %>',
+                    action: 'upload',
+                    bucket: 'fantasybach.com',
+                    region: 'us-west-2',
+                    uploadConcurrency: 4,
+                    gzip: true,
+                    excludeFromGzip: ['*.png', '*.jpg', '*.jpeg', '*.ico', '*.gif'],
+                    params: {
+                        CacheControl: 'public, max-age=86400'
+                    }
+                },
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'build/dist/src/server/views',
+                        src: ['**'],
+                        dest: 'view/',
+                        ext: ''
+                    },
+                    {
+                        expand: true,
+                        cwd: 'build/dist/src/server/views',
+                        src: ['index.html'],
+                        dest: ''
+                    }
+                ]
             }
         }
     });
@@ -349,7 +404,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-newer');
     grunt.loadNpmTasks('grunt-aws-s3-gzip');
+    grunt.loadNpmTasks('grunt-ejs');
 
-    grunt.registerTask('build:production', ['clean:all', 'copy:prod', 'compass:prod', 'imagemin', 'concat:prod', 'uglify:prod', 'cssmin:prod', 'aws_s3:prod']);
+    grunt.registerTask('build:production', ['clean:all', 'copy:prod', 'compass:prod', 'imagemin', 'concat:prod', 'uglify:prod', 'cssmin:prod', 'ejs:prod', 'aws_s3:prod', 'aws_s3:prod2']);
     grunt.registerTask('build:development', ['clean:all', 'copy:dev', 'compass:dev', 'concurrent:dev']);
 };

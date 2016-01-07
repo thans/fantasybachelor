@@ -12,14 +12,24 @@ $contestantMobileCircleSize: 185px;
 $contestantMobileCircleSizeMini: 75px;
 $contestantSubCircleSize: 40px;
 $contestantSubCircleSizeMobile: 75px;
+$contestantSubCircleSizeMini: 32px;
+$contestantSubCircleSizeMobileMini: 50px;
 $contestantSubCircleTop: -10px;
 $contestantSubCircleTopMobile: -10px;
+$contestantSubCircleTopMini: -8px;
+$contestantSubCircleTopMobileMini: -8px;
 $contestantSubCircleLeft: -10px;
 $contestantSubCircleLeftMobile: -10px;
+$contestantSubCircleLeftMini: -12px;
+$contestantSubCircleLeftMobileMini: -14px;
 $contestantSubCircleRight: -10px;
 $contestantSubCircleRightMobile: -10px;
+$contestantSubCircleRightMini: -12px;
+$contestantSubCircleRightMobileMini: -14px;
 $contestantSubCircleBottom: 14px;
 $contestantSubCircleBottomMobile: 24px;
+$contestantSubCircleBottomMini: -8px;
+$contestantSubCircleBottomMobileMini: -8px;
 $contestantSubCircleZoom: 10px;
 $contestantSubCircleZoomMobile: 10px;
 $contestantSubCircleVisibleZoom: 5px;
@@ -47,6 +57,7 @@ $contestantRoleTopMobile: -52px;
   }
 
   .subCircle {
+    @include smallFont();
     @include thinCircle($contestantSubCircleSize);
     line-height: $contestantSubCircleSize - 3px;
     opacity: 1;
@@ -64,6 +75,17 @@ $contestantRoleTopMobile: -52px;
       @include thinCircle($contestantSubCircleSizeMobile);
       line-height: $contestantSubCircleSizeMobile - 7px;
     }
+
+    &.mini {
+      @include tinyFont();
+      @include thinCircle($contestantSubCircleSizeMini);
+      line-height: $contestantSubCircleSizeMini - 3px;
+
+      @include mobile {
+        @include thinCircle($contestantSubCircleSizeMobileMini);
+        line-height: $contestantSubCircleSizeMobileMini - 7px;
+      }
+    }
   }
 
   .topLeftSubCircle {
@@ -78,6 +100,10 @@ $contestantRoleTopMobile: -52px;
       @include absolute($contestantSubCircleTop + $contestantSubCircleVisibleZoom, $contestantSubCircleLeft + $contestantSubCircleVisibleZoom);
     }
 
+    &.mini {
+      @include absolute($contestantSubCircleTopMini, $contestantSubCircleLeftMini);
+    }
+
     @include mobile {
       @include absolute($contestantSubCircleTopMobile, $contestantSubCircleLeftMobile);
 
@@ -87,6 +113,10 @@ $contestantRoleTopMobile: -52px;
 
       &.visible {
         @include absolute($contestantSubCircleTopMobile + $contestantSubCircleVisibleZoomMobile, $contestantSubCircleLeftMobile + $contestantSubCircleVisibleZoomMobile);
+      }
+
+      &.mini {
+        @include absolute($contestantSubCircleTopMobileMini, $contestantSubCircleLeftMobileMini);
       }
     }
   }
@@ -103,6 +133,10 @@ $contestantRoleTopMobile: -52px;
       @include absolute($contestantSubCircleTop + $contestantSubCircleVisibleZoom, null, null, $contestantSubCircleRight + $contestantSubCircleVisibleZoom);
     }
 
+    &.mini {
+      @include absolute($contestantSubCircleTopMini, null, null, $contestantSubCircleRightMini);
+    }
+
     @include mobile {
       @include absolute($contestantSubCircleTopMobile, null, null, $contestantSubCircleRightMobile);
 
@@ -110,8 +144,8 @@ $contestantRoleTopMobile: -52px;
         @include absolute($contestantSubCircleTopMobile + $contestantSubCircleZoomMobile, null, null, $contestantSubCircleRightMobile + $contestantSubCircleZoomMobile);
       }
 
-      &.visible {
-        @include absolute($contestantSubCircleTopMobile + $contestantSubCircleVisibleZoomMobile, null, null, $contestantSubCircleRightMobile + $contestantSubCircleVisibleZoomMobile);
+      &.mini {
+        @include absolute($contestantSubCircleTopMobileMini, null, null, $contestantSubCircleRightMobileMini);
       }
     }
   }
@@ -125,7 +159,11 @@ $contestantRoleTopMobile: -52px;
     }
 
     &.visible {
-      @include absolute($contestantSubCircleTopMobile + $contestantSubCircleVisibleZoom, null, null, $contestantSubCircleRightMobile + $contestantSubCircleVisibleZoom);
+      @include absolute(null, $contestantSubCircleLeftMobile + $contestantSubCircleVisibleZoom, $contestantSubCircleBottom + $contestantSubCircleVisibleZoom);
+    }
+
+    &.mini {
+      @include absolute(null, $contestantSubCircleLeftMobileMini, $contestantSubCircleBottomMini);
     }
 
     @include mobile {
@@ -136,7 +174,11 @@ $contestantRoleTopMobile: -52px;
       }
 
       &.visible {
-        @include absolute($contestantSubCircleTopMobile + $contestantSubCircleVisibleZoomMobile, null, null, $contestantSubCircleRightMobile + $contestantSubCircleVisibleZoomMobile);
+        @include absolute(null, $contestantSubCircleLeftMobile + $contestantSubCircleVisibleZoomMobile, $contestantSubCircleBottomMobile + $contestantSubCircleVisibleZoomMobile);
+      }
+
+      &.mini {
+        @include absolute(null, $contestantSubCircleLeftMobileMini, $contestantSubCircleBottomMobileMini);
       }
     }
   }
@@ -153,6 +195,10 @@ $contestantRoleTopMobile: -52px;
       @include absolute(null, null, $contestantSubCircleBottom + $contestantSubCircleVisibleZoom, $contestantSubCircleRight + $contestantSubCircleVisibleZoom);
     }
 
+    &.mini {
+      @include absolute(null, null, $contestantSubCircleBottomMini, $contestantSubCircleRightMini);
+    }
+
     @include mobile {
       @include absolute(null, null, $contestantSubCircleBottomMobile, $contestantSubCircleRightMobile);
 
@@ -163,37 +209,41 @@ $contestantRoleTopMobile: -52px;
       &.visible {
         @include absolute(null, null, $contestantSubCircleBottomMobile + $contestantSubCircleVisibleZoomMobile, $contestantSubCircleRightMobile + $contestantSubCircleVisibleZoomMobile);
       }
+
+      &.mini {
+        @include absolute(null, null, $contestantSubCircleBottomMobileMini, $contestantSubCircleRightMobileMini);
+      }
     }
   }
 
   .multiplier {
     @extend .bottomRightSubCircle;
-    background: $yellow;
+    background: $yellow !important;
   }
 
   .score {
     @extend .bottomRightSubCircle;
-    background: $green;
+    background: $green !important;
   }
 
   .eliminated {
-    @extend .bottomRightSubCircle;
-    background: $darkRed;
+    @extend .bottomLeftSubCircle;
+    background: $darkRed !important;
   }
 
   .bio {
     @extend .bottomLeftSubCircle;
-    background: $green;
+    background: $green !important;
   }
 
   .select {
     @extend .topRightSubCircle;
-    background: $green;
+    background: $green !important;
   }
 
   .remove {
     @extend .topRightSubCircle;
-    background: $darkRed;
+    background: $darkRed !important;
   }
 
   .name {

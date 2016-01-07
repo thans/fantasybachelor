@@ -25,6 +25,11 @@ app.factory('userFactory', ['$rootScope', '$q', 'SEASON', 'backendFactory', 'rou
         user.displayName = user.nickname || user.name;
     });
 
+    $rootScope.$watch(function() { return userFactory.user; }, function(user) {
+        if (!user) { return; }
+        user.displayName = user.nickname || user.name;
+    });
+
     $rootScope.$watchCollection(function() { return userFactory.user && userFactory.user.groups; }, function(groups) {
         if (!groups) { return; }
         userFactory.user.groupData = {};

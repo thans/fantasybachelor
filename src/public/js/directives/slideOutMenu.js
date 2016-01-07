@@ -27,7 +27,7 @@ app.directive('slideOutMenu', ['routeFactory', 'roundsFactory', function(routeFa
                 routeFactory.goToHome();
             };
 
-            $scope.changeAlias = function() {
+            $scope.changeNickname = function() {
                 $scope.hideSlideOutMenu();
                 routeFactory.goToChangeNickname();
             };
@@ -40,11 +40,6 @@ app.directive('slideOutMenu', ['routeFactory', 'roundsFactory', function(routeFa
             $scope.goToRound = function(roundId) {
                 $scope.hideSlideOutMenu();
                 routeFactory.goToRound(roundId);
-            };
-
-            $scope.leaderboard = function() {
-                $scope.hideSlideOutMenu();
-                routeFactory.goToLeaderboard();
             };
         }]
     };

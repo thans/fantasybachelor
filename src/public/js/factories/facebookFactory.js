@@ -39,6 +39,10 @@ app.factory('facebookFactory', ['$rootScope', 'EVENTS', 'FACEBOOK', function($ro
             if (response && response.authResponse && response.authResponse.accessToken) {
                 facebookFactory.accessToken = response.authResponse.accessToken;
             }
+
+            // Hack to resume data loading after login
+            $rootScope.appLoaded = false;
+
             $rootScope.$apply();
         }, { scope: FACEBOOK.SCOPE });
     };
@@ -64,14 +68,10 @@ app.factory('facebookFactory', ['$rootScope', 'EVENTS', 'FACEBOOK', function($ro
     facebookFactory.logout = function() {
         if (!FB) { return; }
 
-        try {
-            FB.logout(function() {
-                $rootScope.$broadcast(EVENTS.FACEBOOK.LOGGED_OUT);
-            });
-        } catch (e) {
-            $rootScope.$broadcast(EVENTS.FACEBOOK.LOGOUT_ERROR);
-        }
-        // $rootScope.$apply();
+        FB.logout(function() {
+            facebookFactory.accessToken = null;
+            $rootScope.$apply();
+        });
     };
 
     window.fbAsyncInit = facebookFactory.init;

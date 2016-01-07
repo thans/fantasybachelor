@@ -26,7 +26,7 @@ app.controller('roundController', ['$rootScope', '$scope', '$routeParams', '$int
         }
     });
 
-    $rootScope.$watch(function() { return $scope.round.eligibleContestants; }, function(eligibleContestants) {
+    $rootScope.$watchCollection(function() { return $scope.round.eligibleContestants; }, function(eligibleContestants) {
         if (!eligibleContestants) { return; }
         $scope.round.eligibleContestants = _.sortBy($scope.round.eligibleContestants, 'name');
     });
@@ -41,7 +41,8 @@ app.controller('roundController', ['$rootScope', '$scope', '$routeParams', '$int
     };
 
     $scope.isEliminated = function(contestant) {
-        return _.findWhere($scope.round.eliminatedContestants, contestant);
+        if (contestant && contestant.id) { contestant = contestant.id }
+        return _.findWhere($scope.round.eliminatedContestants, { id : contestant});
     };
 
     $scope.selectContestant = function(contestant, multiplier, role) {
@@ -132,4 +133,28 @@ app.controller('roundController', ['$rootScope', '$scope', '$routeParams', '$int
             }
         })
     };
+
+    //multipliers.roundId.contestantId = value
+    var calculateMultipliers = function(user, rounds, contestants, currentRound) {
+        var multipliers = {};
+        var roundMultipliers = {};
+        _.each(rounds, function(round, index) {
+            multipliers[round.id] = roundMultipliers;
+            if (round.isCurrentRound) { return false; }
+            var nextRoundMultipliers = {};
+
+            var roundPicks = user.picks && user.picks[round.id];
+            _.each(roundPicks, function(contestantId) {
+                var multiplier = (roundMultipliers[contestantId] || 1) + 1;
+                multiplier = Math.min(multiplier, round.maximumMultiplier);
+                nextRoundMultipliers[contestantId] = multiplier;
+            });
+
+            roundMultipliers = nextRoundMultipliers;
+        });
+        return multipliers[currentRound.id];
+    };
+
+    $scope.multipliers = calculateMultipliers(userFactory.user, roundsFactory.rounds, contestantFactory.contestants, $scope.round);
+
 }]);
