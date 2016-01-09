@@ -20,31 +20,31 @@
             </div>
         </div>
     </div>
+    <div class="info" ng-show="round.isBeforeSelectionOpen">
+        <div class="remainingTime">selection not open yet</div>
+        <div class="instruction hoverable" ng-click="goToCurrentRound()">go to current round</div>
+    </div>
+    <div class="info" ng-show="round.isSelectionOpen">
+        <div class="remainingTime">selection closes at 8:00 PM</div>
+        <!--<div class="remainingTime">selection closes in {{round.millisToClose | countdown}}</div>-->
+        <div class="instruction">choose from the contestants below to fill your lineup</div>
+    </div>
+    <div class="info" ng-show="round.isShowInProgress">
+        <div class="remainingTime">scores available at 10:00 PM</div>
+        <!--<div class="remainingTime">scores available in {{round.millisToScoresAvailable | countdown}}</div>-->
+        <div class="instruction">invite some friends over and watch the show</div>
+    </div>
+    <div class="info" ng-show="round.isScoresAvailable">
+        <div class="remainingTime">you scored
+            <ng-pluralize count="user.scores[round.id]"
+                          when="{'0': 'no points',
+                                 'one': '1 point',
+                                 'other': '{} points'}">
+            </ng-pluralize>
+        </div>
+        <div class="instruction hoverable" ng-click="goToCurrentRound()">go to current round</div>
+    </div>
     <div class="collapse" ng-class="{collapsed : collapsed}">
-        <div class="info" ng-show="round.isBeforeSelectionOpen">
-            <div class="remainingTime">selection not open yet</div>
-            <div class="instruction hoverable" ng-click="goToCurrentRound()">go to current round</div>
-        </div>
-        <div class="info" ng-show="round.isSelectionOpen">
-            <div class="remainingTime">selection closes at 8:00 PM</div>
-            <!--<div class="remainingTime">selection closes in {{round.millisToClose | countdown}}</div>-->
-            <div class="instruction">choose from the contestants below to fill your lineup</div>
-        </div>
-        <div class="info" ng-show="round.isShowInProgress">
-            <div class="remainingTime">scores available at 10:00 PM</div>
-            <!--<div class="remainingTime">scores available in {{round.millisToScoresAvailable | countdown}}</div>-->
-            <div class="instruction">invite some friends over and watch the show</div>
-        </div>
-        <div class="info" ng-show="round.isScoresAvailable">
-            <div class="remainingTime">you scored
-                <ng-pluralize count="round.score"
-                              when="{'0': 'no points',
-                                     'one': '1 point',
-                                     'other': '{} points'}">
-                </ng-pluralize>
-            </div>
-            <div class="instruction hoverable" ng-click="goToCurrentRound()">go to current round</div>
-        </div>
         <div id="eligibleContestants">
             <h3>eligible contestants</h3>
             <div contestant
