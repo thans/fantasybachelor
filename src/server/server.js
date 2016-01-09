@@ -37,7 +37,8 @@ app.use('/' + config.PACKAGE.version, express.static(__dirname + '/../public', {
 app.get('/', function(req, res) {
     res.render('index', { config: config })
 });
-app.get('/view/:view', function(req, res) {
+
+app.get('/' + config.PACKAGE.version + '/views/:view', function(req, res) {
     res.render(req.params.view, { config: config })
 });
 

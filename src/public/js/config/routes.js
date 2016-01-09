@@ -1,27 +1,27 @@
 app.config(['$routeProvider', 'ROUTES', function($routeProvider, ROUTES) {
     $routeProvider
         .when(ROUTES.LOGIN, {
-            templateUrl : 'view/login',
+            templateUrl : VIEWS_DIR + '/login',
             controller : 'loginController'
         })
         .when(ROUTES.LOGOUT, {
-            templateUrl : 'view/login',
+            templateUrl : VIEWS_DIR + '/login',
             controller : 'logoutController'
         })
         .when(ROUTES.CHANGE_NICKNAME, {
-            templateUrl : 'view/nickname',
+            templateUrl : VIEWS_DIR + '/nickname',
             controller : 'nicknameController'
         })
         .when(ROUTES.ROUND, {
-            templateUrl : 'view/round',
+            templateUrl : VIEWS_DIR + '/round',
             controller : 'roundController'
         })
         .when(ROUTES.ROUND_BASE, {
-            templateUrl : 'view/round',
+            templateUrl : VIEWS_DIR + '/round',
             controller : 'roundController'
         })
         .when(ROUTES.CREATE_LEAGUE, {
-            templateUrl : 'view/createLeague',
+            templateUrl : VIEWS_DIR + '/createLeague',
             controller : 'createLeagueController'
         })
         .otherwise({

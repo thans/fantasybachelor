@@ -325,8 +325,9 @@ module.exports = function(grunt) {
                 options: {
                     config: config
                 },
-                src: ['src/**/*.ejs'],
-                dest: 'build/dist/',
+                cwd: 'src/server/views',
+                src: ['**/*.ejs'],
+                dest: 'build/public/views',
                 expand: true,
                 ext: '.html'
             }
@@ -372,14 +373,7 @@ module.exports = function(grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: 'build/dist/src/server/views',
-                        src: ['**'],
-                        dest: 'view/',
-                        ext: ''
-                    },
-                    {
-                        expand: true,
-                        cwd: 'build/dist/src/server/views',
+                        cwd: 'build/public/views',
                         src: ['index.html'],
                         dest: ''
                     }

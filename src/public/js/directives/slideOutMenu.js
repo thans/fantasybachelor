@@ -3,7 +3,7 @@ app.directive('slideOutMenu', ['routeFactory', 'roundsFactory', function(routeFa
         restrict: 'A',
         replace: true,
         transclude: true,
-        templateUrl: 'view/slideOutMenu',
+        templateUrl: VIEWS_DIR + '/slideOutMenu',
         controller: ['$scope', function($scope) {
             $scope.slideOutMenuActive = false;
             $scope.showRounds = false;

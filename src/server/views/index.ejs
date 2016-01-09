@@ -24,6 +24,9 @@
 
         <link rel="shortcut icon" href="<%= resourcesUrl %>/<%= version %>/images/favicon.ico" />
         <base href="/">
+        <script>
+            var VIEWS_DIR = "<%= resourcesUrl %>/<%= version %>/views";
+        </script>
     </head>
     <body ng-app="FantasyBach" ng-strict-di block-rubber-banding>
         <div id="splash" ng-hide="appLoaded && viewLoaded">

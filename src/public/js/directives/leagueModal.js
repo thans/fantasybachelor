@@ -1,7 +1,7 @@
 app.directive('leagueModal', ['$rootScope', 'EVENTS', function($rootScope, EVENTS) {
     return {
         restrict : 'A',
-        templateUrl : 'view/leagueModal',
+        templateUrl : VIEWS_DIR + '/leagueModal',
         scope : {},
         controller : ['$scope', '$element', function($scope, $element) {
             $scope.visible = false;

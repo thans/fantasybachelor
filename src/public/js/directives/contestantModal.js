@@ -1,7 +1,7 @@
 app.directive('contestantModal', ['$rootScope', 'EVENTS', 'CONTESTANT_MODAL_MODES', function($rootScope, EVENTS, CONTESTANT_MODAL_MODES) {
     return {
         restrict : 'A',
-        templateUrl : 'view/contestantModal',
+        templateUrl : VIEWS_DIR + '/contestantModal',
         scope : {},
         controller : ['$scope', '$element', function($scope, $element) {
             $scope.visible = false;
