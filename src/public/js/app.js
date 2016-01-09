@@ -2,7 +2,6 @@ var app = angular.module('FantasyBach', ['ngRoute', 'ngAnimate', 'ngTouch']);
 
 app.run(['$rootScope', '$q', 'userFactory', 'roundsFactory', 'rolesFactory', 'contestantFactory', 'routeFactory', 'topUsersFactory', 'routeValidatorFactory', 'unauthorizedInterceptor', function($rootScope, $q, userFactory, roundsFactory, rolesFactory, contestantFactory, routeFactory, topUsersFactory, routeValidatorFactory, unauthorizedInterceptor) {
     $rootScope.$watch(function() {
-        console.log(roundsFactory.rounds && rolesFactory.roles && contestantFactory.contestants && userFactory.user && topUsersFactory.topUsers && userFactory.user.groupData && userFactory.user.groups && Object.keys(userFactory.user.groupData).length == userFactory.user.groups.length);
         return roundsFactory.rounds && rolesFactory.roles && contestantFactory.contestants && userFactory.user && topUsersFactory.topUsers && userFactory.user.groupData && userFactory.user.groups && Object.keys(userFactory.user.groupData).length == userFactory.user.groups.length;
     }, function(loaded) {
         if (!loaded || $rootScope.appLoaded) { return; }

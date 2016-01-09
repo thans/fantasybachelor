@@ -11,6 +11,7 @@
       "components/moment/moment.js",
       "js/backendSdk.js",
       "js/app.js",
+      "js/config/strictContextualEscaping.js",
       "js/config/routes.js",
       "js/config/httpProvider.js",
       "js/constants/contestantModalModes.js",

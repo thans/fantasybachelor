@@ -351,8 +351,15 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         cwd: 'build/public',
-                        src: ['**'],
+                        src: ['**', '!**/*.html'],
                         dest: '<%= pkg.version %>/'
+                    },
+                    {
+                        expand: true,
+                        cwd: 'build/public',
+                        src: ['**/*.html'],
+                        dest: '<%= pkg.version %>/',
+                        ext: ''
                     }
                 ]
             },
