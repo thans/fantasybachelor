@@ -6,6 +6,7 @@ app.controller('roundController', ['$rootScope', '$scope', '$routeParams', '$int
     $scope.round = roundsFactory.getRoundById($routeParams.roundId) || roundsFactory.getCurrentRound();
     $rootScope.pageTitle = $scope.round.name;
     $scope.ben = 'https://resources.fantasybach.com/season:NJWJTpZ8x/headShots/Ben.png';
+    $scope.user = userFactory.user;
 
     $scope.picks = _.object(_.map(userFactory.user.picks[$scope.round.id], function(contestantId, roleId) {
         return [roleId, contestantFactory.findContestantById(contestantId)];

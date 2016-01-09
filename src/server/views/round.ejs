@@ -79,7 +79,7 @@
                 <img class="profilePic" ng-src="{{user.profilePicture}}" />
                 <div class="name">{{user.nickname}}</div>
             </div>
-            <div class="score tableRowItem">+{{user.scores[round.id]}}/{{user.scores.score}}</div>
+            <div class="score tableRowItem">{{user.scores.score | number:1}}</div>
             <div class="tableRowItem" ng-repeat="role in round.availableRoles">
                 <div contestant
                      contestant-id="user.picks[round.id][role.id]"
