@@ -1,8 +1,8 @@
 var app = angular.module('FantasyBach', ['ngRoute', 'ngAnimate', 'ngTouch']);
 
-app.run(['$rootScope', '$q', 'userFactory', 'roundsFactory', 'rolesFactory', 'contestantFactory', 'routeFactory', 'topUsersFactory', 'routeValidatorFactory', 'unauthorizedInterceptor', function($rootScope, $q, userFactory, roundsFactory, rolesFactory, contestantFactory, routeFactory, topUsersFactory, routeValidatorFactory, unauthorizedInterceptor) {
+app.run(['$rootScope', '$q', 'userFactory', 'roundsFactory', 'rolesFactory', 'contestantFactory', 'routeFactory', 'routeValidatorFactory', 'unauthorizedInterceptor', function($rootScope, $q, userFactory, roundsFactory, rolesFactory, contestantFactory, routeFactory, routeValidatorFactory, unauthorizedInterceptor) {
     $rootScope.$watch(function() {
-        return roundsFactory.rounds && rolesFactory.roles && contestantFactory.contestants && userFactory.user && topUsersFactory.topUsers && userFactory.user.groupData && userFactory.user.groups && Object.keys(userFactory.user.groupData).length == userFactory.user.groups.length;
+        return roundsFactory.rounds && rolesFactory.roles && contestantFactory.contestants && userFactory.user && userFactory.topUsers;
     }, function(loaded) {
         if (!loaded || $rootScope.appLoaded) { return; }
         console.log('All loaded and good to go!');
@@ -18,36 +18,37 @@ app.run(function() {
     FastClick.attach(document.body);
 });
 
-app.run(['$rootScope', 'EVENTS', 'SEASON', 'facebookFactory', 'routeFactory', 'backendFactory', function($rootScope, EVENTS, SEASON, facebookFactory, routeFactory, backendFactory) {
+app.run(['$rootScope', '$interval', 'EVENTS', 'SEASON', 'facebookFactory', 'routeFactory', 'backendFactory', 'userFactory', 'contestantFactory', 'roundsFactory', 'rolesFactory', function($rootScope, $interval, EVENTS, SEASON, facebookFactory, routeFactory, backendFactory, userFactory, contestantFactory, roundsFactory, rolesFactory) {
 
     $rootScope.$watch(function() { return facebookFactory.accessToken; }, function(accessToken) {
         if (!facebookFactory.isInitialized) { return; }
         if (!accessToken) {
             return routeFactory.goToLogin();
         }
-        backendFactory.login({ token : accessToken }).then(function() {
+        backendFactory.login(accessToken).then(function() {
             $rootScope.isAuthenticated = true;
-            $rootScope.$apply();
         });
     });
 
-    (function(d){
-        // load the Facebook javascript SDK
+    $rootScope.$watch(function() { return $rootScope.isAuthenticated; }, function(isAuthenticated) {
+        if (!isAuthenticated) { return; }
+        userFactory.loadCurrentUser();
+        userFactory.loadTopUsers();
+        contestantFactory.loadContestants();
+        roundsFactory.loadRounds();
+        rolesFactory.loadRoles();
+    });
 
-        var js,
-            id = 'facebook-jssdk',
-            ref = d.getElementsByTagName('script')[0];
+    $interval(function() {
+        facebookFactory.checkAuthentication(true);
+    }, 4 * 60 * 1000);
 
-        if (d.getElementById(id)) {
-            return;
-        }
-
-        js = d.createElement('script');
-        js.id = id;
-        js.async = true;
-        js.src = "//connect.facebook.net/en_US/sdk.js";
-
-        ref.parentNode.insertBefore(js, ref);
-
-    }(document));
+    $interval(function() {
+        if (!$rootScope.isAuthenticated) { return; }
+        facebookFactory.checkAuthentication(true);
+        userFactory.loadCurrentUser();
+        userFactory.loadTopUsers();
+        contestantFactory.loadContestants();
+        roundsFactory.loadRounds();
+    }, 2 * 60 * 1000);
 }]);

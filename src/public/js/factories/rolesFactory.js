@@ -1,16 +1,12 @@
 app.factory('rolesFactory', ['$rootScope', 'SEASON', 'backendFactory', function($rootScope, SEASON, backendFactory) {
     var rolesFactory = {};
 
-    $rootScope.$watch(function() { return $rootScope.isAuthenticated; }, function(isAuthenticated) {
-        if (!isAuthenticated) {
-            return rolesFactory.roles = null;
-        }
-        backendFactory.getRoles({ seasonId : SEASON.CURRENT_SEASON_ID }).then(function(result) {
-            console.log(result);
-            rolesFactory.roles = result.data;
-            $rootScope.$apply();
+    rolesFactory.loadRoles = function() {
+        backendFactory.getRoles().then(function(roles) {
+            console.log(roles);
+            rolesFactory.roles = roles;
         });
-    });
+    };
 
     rolesFactory.findRoleById = function(id) {
         if (!rolesFactory.roles) { return; }

@@ -8,24 +8,24 @@ app.controller('createLeagueController', ['$rootScope', '$scope', 'EVENTS', 'SEA
     $scope.leagueName = $scope.defaultLeagueName;
 
     $scope.createLeague = function() {
-        $scope.errorMessage = '';
-
-        var leagueName = $scope.leagueName;
-        if (!leagueName || leagueName == $scope.defaultLeagueName) {
-            $scope.errorMessage = 'please enter a name for yourself';
-            return;
-        }
-
-        backendFactory.postGroup({ seasonId : SEASON.CURRENT_SEASON_ID }, { groupName : leagueName }).then(function(result) {
-            var leagueId = result.data;
-            $rootScope.currentLeague = leagueId;
-            userFactory.user.groups.push(leagueId);
-            $scope.leagueId = leagueId;
-            $rootScope.$apply();
-        }).catch(function() {
-            $scope.errorMessage = 'something went wrong, try again';
-            $rootScope.$apply();
-        });
-        $scope.errorMessage = 'creating ...';
+        //$scope.errorMessage = '';
+        //
+        //var leagueName = $scope.leagueName;
+        //if (!leagueName || leagueName == $scope.defaultLeagueName) {
+        //    $scope.errorMessage = 'please enter a name for yourself';
+        //    return;
+        //}
+        //
+        //backendFactory.postGroup({ seasonId : SEASON.CURRENT_SEASON_ID }, { groupName : leagueName }).then(function(result) {
+        //    var leagueId = result.data;
+        //    $rootScope.currentLeague = leagueId;
+        //    userFactory.user.groups.push(leagueId);
+        //    $scope.leagueId = leagueId;
+        //    $rootScope.$apply();
+        //}).catch(function() {
+        //    $scope.errorMessage = 'something went wrong, try again';
+        //    $rootScope.$apply();
+        //});
+        //$scope.errorMessage = 'creating ...';
     };
 }]);

@@ -1,19 +1,19 @@
-app.controller('roundController', ['$rootScope', '$scope', '$routeParams', '$interval', '$controller', 'EVENTS', 'CONTESTANT_MODAL_MODES', 'SEASON', 'roundsFactory', 'backendFactory', 'routeFactory', 'userFactory', 'contestantFactory', 'topUsersFactory', function($rootScope, $scope, $routeParams, $interval, $controller, EVENTS, CONTESTANT_MODAL_MODES, SEASON, roundsFactory, backendFactory, routeFactory, userFactory, contestantFactory, topUsersFactory) {
+app.controller('roundController', ['$rootScope', '$scope', '$routeParams', '$interval', '$controller', 'EVENTS', 'CONTESTANT_MODAL_MODES', 'SEASON', 'roundsFactory', 'backendFactory', 'routeFactory', 'userFactory', 'contestantFactory', function($rootScope, $scope, $routeParams, $interval, $controller, EVENTS, CONTESTANT_MODAL_MODES, SEASON, roundsFactory, backendFactory, routeFactory, userFactory, contestantFactory) {
     console.log($routeParams);
 
     $rootScope.showHeaderFooter = true;
     $rootScope.viewLoaded = true;
     $scope.round = roundsFactory.getRoundById($routeParams.roundId) || roundsFactory.getCurrentRound();
     $rootScope.pageTitle = $scope.round.name;
-    $scope.ben = 'https://resources.fantasybach.com/season:NJWJTpZ8x/headShots/Ben.png';
+    $scope.benImageUrl = 'https://resources.fantasybach.com/season:NJWJTpZ8x/headShots/Ben.png';
     $scope.user = userFactory.user;
 
-    $scope.picks = _.object(_.map(userFactory.user.picks[$scope.round.id], function(contestantId, roleId) {
-        return [roleId, contestantFactory.findContestantById(contestantId)];
-    }));
-
-    _.each($scope.picks, function(contestant) {
-        $scope.round.eligibleContestants = _.reject($scope.round.eligibleContestants, contestant);
+    $rootScope.$watch(function() { return $scope.user; }, function(user) {
+        if (!user) {
+            delete $scope.picks;
+            return;
+        }
+        $scope.picks = user.picks[$scope.round.id];
     });
 
     $rootScope.$watch(function() { return $rootScope.currentLeague; }, function(currentLeague) {
@@ -22,44 +22,43 @@ app.controller('roundController', ['$rootScope', '$scope', '$routeParams', '$int
             return;
         }
         $scope.displayedLeague = {
-            users : topUsersFactory.topUsers,
+            users : userFactory.topUsers,
             name : 'global'
         }
     });
 
-    $rootScope.$watchCollection(function() { return $scope.round.eligibleContestants; }, function(eligibleContestants) {
-        if (!eligibleContestants) { return; }
-        $scope.round.eligibleContestants = _.sortBy($scope.round.eligibleContestants, 'name');
-    });
+    $scope.console = console;
+
+    $scope.isPicked = function(contestantId) {
+        return _.includes($scope.picks, contestantId);
+    };
 
     $scope.isFull = function() {
         return Object.keys($scope.picks).length >= $scope.round.rosterSize;
     };
-    $scope.collapsed = $scope.isFull();
+
+    $scope.$watch(function() { return $scope.isFull(); }, function(isFull) {
+        $scope.collapsed = isFull;
+    });
 
     $scope.collapseToggle = function() {
         $scope.collapsed = !$scope.collapsed;
     };
 
-    $scope.isEliminated = function(contestant) {
-        if (contestant && contestant.id) { contestant = contestant.id }
-        return _.findWhere($scope.round.eliminatedContestants, { id : contestant});
+    $scope.isEliminated = function(contestantId) {
+        return _.findWhere($scope.round.eliminatedContestants, { id : contestantId});
     };
 
     $scope.selectContestant = function(contestant, multiplier, role) {
-        $scope.picks[role.id] = contestant;
-        $scope.round.eligibleContestants = _.reject($scope.round.eligibleContestants, contestant);
-        backendFactory.postPick({ seasonId : SEASON.CURRENT_SEASON_ID, roundId : $scope.round.id }, { contestantId : contestant.id, roleId : role.id });
-        if ($scope.isFull()) {
-            $scope.collapsed = true;
-        }
+        backendFactory.postPick($scope.round.id, contestant.id, role.id).then(function() {
+            $scope.picks[role.id] = contestant.id;
+        });
     };
 
     $scope.removeContestant = function(contestant, multiplier, role) {
-        delete $scope.picks[role.id];
-        $scope.round.eligibleContestants.push(contestant);
-        backendFactory.deletePick({ seasonId : SEASON.CURRENT_SEASON_ID, roundId : $scope.round.id }, { contestantId : contestant.id, roleId : role.id });
-        $scope.collapsed = false;
+        backendFactory.deletePick($scope.round.id, contestant.id, role.id).then(function() {
+            delete $scope.picks[role.id];
+        });
     };
 
     $scope.showSelectedContestantBio = function(contestant, multiplier, role) {
@@ -112,7 +111,7 @@ app.controller('roundController', ['$rootScope', '$scope', '$routeParams', '$int
     $scope.$on('$destroy', function() {
         if ($scope.timeRemainingInterval) {
             $interval.cancel($scope.timeRemainingInterval);
-            $scope.timeRemainingInterval = undefined;
+            delete $scope.timeRemainingInterval;
         }
     });
 
@@ -134,28 +133,5 @@ app.controller('roundController', ['$rootScope', '$scope', '$routeParams', '$int
             }
         })
     };
-
-    //multipliers.roundId.contestantId = value
-    var calculateMultipliers = function(user, rounds, contestants, currentRound) {
-        var multipliers = {};
-        var roundMultipliers = {};
-        _.each(rounds, function(round, index) {
-            multipliers[round.id] = roundMultipliers;
-            if (round.isCurrentRound) { return false; }
-            var nextRoundMultipliers = {};
-
-            var roundPicks = user.picks && user.picks[round.id];
-            _.each(roundPicks, function(contestantId) {
-                var multiplier = (roundMultipliers[contestantId] || 1) + 1;
-                multiplier = Math.min(multiplier, round.maximumMultiplier);
-                nextRoundMultipliers[contestantId] = multiplier;
-            });
-
-            roundMultipliers = nextRoundMultipliers;
-        });
-        return multipliers[currentRound.id];
-    };
-
-    $scope.multipliers = calculateMultipliers(userFactory.user, roundsFactory.rounds, contestantFactory.contestants, $scope.round);
 
 }]);

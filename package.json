@@ -1,6 +1,6 @@
 {
   "name": "FantasyBach",
-  "version": "1.1.10",
+  "version": "1.1.13",
   "repository": "https://github.com/thans/fantasybachelor.git",
   "scripts": {
     "start": "npm install && node_modules/bower/bin/bower install && node_modules/grunt-cli/bin/grunt build:production && node build/server/server.js"

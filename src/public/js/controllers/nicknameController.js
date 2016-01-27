@@ -1,4 +1,4 @@
-app.controller('nicknameController', ['$rootScope', '$scope', 'EVENTS', 'backendFactory', 'userFactory', 'routeFactory', function($rootScope, $scope, EVENTS, backendFactory, userFactory, routeFactory) {
+app.controller('nicknameController', ['$rootScope', '$scope', 'EVENTS', 'userFactory', 'routeFactory', function($rootScope, $scope, EVENTS, userFactory, routeFactory) {
     $rootScope.showHeaderFooter = true;
     $rootScope.pageTitle = 'screen name';
     $rootScope.viewLoaded = true;

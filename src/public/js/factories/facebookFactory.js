@@ -50,16 +50,19 @@ app.factory('facebookFactory', ['$rootScope', 'EVENTS', 'FACEBOOK', function($ro
     /**
      * Checks if the user is already authenticated with Facebook.
      */
-    facebookFactory.checkAuthentication = function() {
+    facebookFactory.checkAuthentication = function(force) {
         if (!FB) { return; }
 
         FB.getLoginStatus(function(response) {
             facebookFactory.accessToken = false;
             if (response && response.status == 'connected' && response.authResponse && response.authResponse.accessToken) {
                 facebookFactory.accessToken = response.authResponse.accessToken;
+                console.log(facebookFactory.accessToken);
             }
-            $rootScope.$apply();
-        });
+            if(!$rootScope.$$phase) {
+                $rootScope.$apply();
+            }
+        }, force);
     };
 
     /**

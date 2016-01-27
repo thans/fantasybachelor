@@ -3,13 +3,13 @@
         <h3>your lineup</h3>
         <div class="lineupWrapper">
             <div class="bachelorWrapper">
-                <div contestant image="ben"></div>
+                <div contestant image="benImageUrl"></div>
             </div>
             <div class="spacer"></div>
             <div class="selectionsWrapper">
                 <div contestant
-                     contestant-id="picks[role.id].id"
-                     multiplier="picks[role.id] && (multipliers[picks[role.id].id] || 1) || 0"
+                     contestant-id="picks[role.id]"
+                     multiplier="picks[role.id] && (user.multipliers[round.id][picks[role.id]] || 1) || 0"
                      eliminated="picks[role.id] && isEliminated(picks[role.id])"
                      on-bio-click="picks[role.id] ? showSelectedContestantBio : null"
                      on-remove-click="!round.isScoresAvailable && picks[role.id] ? removeContestant : null"
@@ -49,10 +49,11 @@
             <h3>eligible contestants</h3>
             <div contestant
                  contestant-id="contestant.id"
-                 multiplier="multipliers[contestant.id]"
+                 multiplier="user.multipliers[round.id][contestant.id]"
                  eliminated="isEliminated(contestant)"
                  on-bio-click="showEligibleContestantBio"
                  on-select-click="!round.isScoresAvailable && round.selectedContestants.length < round.numberOfSelections && selectContestant"
+                 ng-show="!isPicked(contestant.id)"
                  ng-repeat="contestant in round.eligibleContestants"></div>
         </div>
     </div>
@@ -77,7 +78,7 @@
         <div class="tableRow" ng-repeat="user in displayedLeague.users">
             <div class="user tableRowItem">
                 <img class="profilePic" ng-src="{{user.profilePicture}}" />
-                <div class="name">{{user.nickname}}</div>
+                <div class="name">{{user.displayName}}</div>
             </div>
             <div class="score tableRowItem">{{user.scores.score | number:1}}</div>
             <div class="tableRowItem" ng-repeat="role in round.availableRoles">

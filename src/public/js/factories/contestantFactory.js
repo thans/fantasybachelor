@@ -1,14 +1,10 @@
 app.factory('contestantFactory', ['$rootScope', 'SEASON', 'backendFactory', function($rootScope, SEASON, backendFactory) {
     var contestantFactory = {};
 
-    $rootScope.$watch(function() { return $rootScope.isAuthenticated; }, function(isAuthenticated) {
-        if (!isAuthenticated) {
-            return contestantFactory.contestants = null;
-        }
-        backendFactory.getContestants({ seasonId : SEASON.CURRENT_SEASON_ID }).then(function(result) {
-            console.log(result);
-            contestantFactory.contestants = result.data;
-            $rootScope.$apply();
+    contestantFactory.loadContestants = function() {
+        backendFactory.getContestants().then(function(contestants) {
+            console.log(contestants);
+            contestantFactory.contestants = contestants;
         });
     });
 

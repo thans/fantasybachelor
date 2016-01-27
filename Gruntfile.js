@@ -165,6 +165,10 @@ module.exports = function(grunt) {
                 dest: 'build/public/images',
                 cwd: 'src/public/images/scaled',
                 src: ['**']
+            },
+            nonGzipIndex: {
+                dest: 'build/public/views/index.nonGzip.html',
+                src: 'build/public/views/index.html'
             }
         },
         compass: {
@@ -372,7 +376,6 @@ module.exports = function(grunt) {
                     region: 'us-west-2',
                     uploadConcurrency: 4,
                     gzip: true,
-                    excludeFromGzip: ['*.png', '*.jpg', '*.jpeg', '*.ico', '*.gif'],
                     params: {
                         CacheControl: 'public, max-age=86400'
                     }
@@ -382,6 +385,28 @@ module.exports = function(grunt) {
                         expand: true,
                         cwd: 'build/public/views',
                         src: ['index.html'],
+                        dest: ''
+                    }
+                ]
+            },
+            prod3: {
+                options: {
+                    accessKeyId: '<%= config.AWS.ACCESS_KEY %>',
+                    secretAccessKey: '<%= config.AWS.ACCESS_SECRET %>',
+                    action: 'upload',
+                    bucket: 'fantasybach.com',
+                    region: 'us-west-2',
+                    uploadConcurrency: 4,
+                    gzip: false,
+                    params: {
+                        CacheControl: 'public, max-age=86400'
+                    }
+                },
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'build/public/views',
+                        src: ['index.nonGzip.html'],
                         dest: ''
                     }
                 ]
@@ -407,6 +432,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-aws-s3-gzip');
     grunt.loadNpmTasks('grunt-ejs');
 
-    grunt.registerTask('build:production', ['clean:all', 'copy:prod', 'compass:prod', 'imagemin', 'concat:prod', 'uglify:prod', 'cssmin:prod', 'ejs:prod', 'aws_s3:prod', 'aws_s3:prod2']);
+    grunt.registerTask('build:production', ['clean:all', 'copy:prod', 'compass:prod', 'imagemin', 'concat:prod', 'uglify:prod', 'cssmin:prod', 'ejs:prod', 'copy:nonGzipIndex', 'aws_s3:prod', 'aws_s3:prod2', 'aws_s3:prod3']);
     grunt.registerTask('build:development', ['clean:all', 'copy:dev', 'compass:dev', 'concurrent:dev']);
 };

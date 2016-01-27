@@ -1,21 +1,23 @@
-app.factory('userFactory', ['$rootScope', '$q', 'SEASON', 'backendFactory', 'routeFactory', function($rootScope, $q, SEASON, backendFactory, routeFactory) {
+app.factory('userFactory', ['$rootScope', 'backendFactory', 'roundsFactory', function($rootScope, backendFactory, roundsFactory) {
     var userFactory = {};
 
-    $rootScope.$watch(function() { return $rootScope.isAuthenticated; }, function(isAuthenticated) {
-        if (!isAuthenticated) {
-            return userFactory.user = null;
-        }
-        backendFactory.getCurrentUser({ seasonId : SEASON.CURRENT_SEASON_ID }).then(function(result) {
-            console.log(result);
-            userFactory.user = result.data;
-            $rootScope.$apply();
+    userFactory.loadCurrentUser = function() {
+        backendFactory.getCurrentUser().then(function(user) {
+            console.log(user);
+            userFactory.user = user;
         });
-    });
+    };
+
+    userFactory.loadTopUsers = function() {
+        backendFactory.getTopUsers().then(function(topUsers) {
+            console.log(topUsers);
+            userFactory.topUsers = topUsers;
+        });
+    };
 
     userFactory.setNickname = function(nickname) {
-        return backendFactory.postNickname({}, { nickname : nickname }).then(function() {
+        return backendFactory.postNickname(nickname).then(function() {
             userFactory.user.nickname = nickname;
-            $rootScope.$apply();
             return nickname;
         });
     };
@@ -25,21 +27,46 @@ app.factory('userFactory', ['$rootScope', '$q', 'SEASON', 'backendFactory', 'rou
         user.displayName = user.nickname || user.name;
     });
 
-    $rootScope.$watch(function() { return userFactory.user; }, function(user) {
-        if (!user) { return; }
-        user.displayName = user.nickname || user.name;
-    });
-
-    $rootScope.$watchCollection(function() { return userFactory.user && userFactory.user.groups; }, function(groups) {
-        if (!groups) { return; }
-        userFactory.user.groupData = {};
-        _.each(groups, function(groupId) {
-            backendFactory.getGroupMembers({ seasonId : SEASON.CURRENT_SEASON_ID, id : groupId }).then(function(result) {
-                userFactory.user.groupData[groupId] = result.data;
-                $rootScope.$apply();
-            })
+    $rootScope.$watchCollection(function() { return userFactory.topUsers; }, function(topUsers) {
+        if (!topUsers) { return; }
+        _.each(topUsers, function(user) {
+            user.displayName = user.nickname || user.name;
         });
     });
+
+    var calculateMultipliers = function(user, rounds) {
+        var multipliers = {};
+        var roundMultipliers = {};
+        _.each(rounds, function(round) {
+            multipliers[round.id] = roundMultipliers;
+            if (round.isCurrentRound) { return false; }
+            var nextRoundMultipliers = {};
+
+            var roundPicks = user.picks && user.picks[round.id];
+            _.each(roundPicks, function(contestantId) {
+                var multiplier = (roundMultipliers[contestantId] || 1) + 1;
+                multiplier = Math.min(multiplier, round.maximumMultiplier);
+                nextRoundMultipliers[contestantId] = multiplier;
+            });
+
+            roundMultipliers = nextRoundMultipliers;
+        });
+        return multipliers;
+    };
+
+    $rootScope.$watch(function() {
+        return {
+            user : userFactory.user,
+            topUsers : userFactory.topUsers,
+            rounds : roundsFactory.rounds
+        }
+    }, function(deps) {
+        if (!deps.user || !deps.topUsers || !deps.rounds) { return; }
+        deps.user.multipliers = calculateMultipliers(deps.user, deps.rounds);
+        _.each(deps.topUsers, function(topUser) {
+            topUser.multipliers = calculateMultipliers(deps.user, deps.rounds);
+        });
+    }, true);
 
     return userFactory;
 }]);

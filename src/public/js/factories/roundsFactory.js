@@ -1,21 +1,17 @@
-app.factory('roundsFactory', ['$rootScope', '$window', 'SEASON', 'backendFactory', 'contestantFactory', 'rolesFactory', 'userFactory', function($rootScope, $window, SEASON, backendFactory, contestantFactory, rolesFactory) {
+app.factory('roundsFactory', ['$rootScope', '$window', 'SEASON', 'backendFactory', 'contestantFactory', 'rolesFactory', function($rootScope, $window, SEASON, backendFactory, contestantFactory, rolesFactory) {
     var roundsFactory = {};
 
-    $rootScope.$watch(function() { return $rootScope.isAuthenticated; }, function(isAuthenticated) {
-        if (!isAuthenticated) {
-            return roundsFactory.rounds = null;
-        }
-        backendFactory.getRounds({ seasonId : SEASON.CURRENT_SEASON_ID }).then(function(result) {
-            console.log(result);
-            roundsFactory.rounds = result.data;
+    roundsFactory.loadRounds = function() {
+        backendFactory.getRounds().then(function(rounds) {
+            console.log(rounds);
+            roundsFactory.rounds = rounds;
             _.each(roundsFactory.rounds, function(round) {
                 roundsFactory.updateRoundAttributes(round);
             });
             roundsFactory._mapContestants();
             roundsFactory._mapRoles();
-            $rootScope.$apply();
         });
-    });
+    };
 
     roundsFactory.getCurrentRound = function() {
         return _.find(roundsFactory.rounds, {isCurrentRound : true});
@@ -65,6 +61,14 @@ app.factory('roundsFactory', ['$rootScope', '$window', 'SEASON', 'backendFactory
             });
         });
     };
+
+    $rootScope.$watch(function() { return roundsFactory.rounds; }, function(rounds) {
+        if (!rounds) { return; }
+        _.each(rounds, function(round) {
+            if (!round.eligibleContestants) { return; }
+            round.eligibleContestants = _.sortBy(round.eligibleContestants, 'name');
+        });
+    }, true);
 
     $rootScope.$watch(function() { return contestantFactory.contestants }, function() {
         roundsFactory._mapContestants();
