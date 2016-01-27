@@ -72,6 +72,7 @@ app.controller('roundController', ['$rootScope', '$scope', '$routeParams', '$int
             mode : mode,
             contestant : contestant,
             multiplier : multiplier,
+            roles : $scope.round.availableRoles,
             callback : function() {
                 $scope.removeContestant(contestant, multiplier, role);
             }
@@ -80,7 +81,7 @@ app.controller('roundController', ['$rootScope', '$scope', '$routeParams', '$int
 
     $scope.showEligibleContestantBio = function(contestant, multiplier) {
         var mode;
-        var roles;
+        var roles = $scope.round.availableRoles;
         if (!$scope.round.isSelectionOpen) {
             mode = CONTESTANT_MODAL_MODES.SELECTION_CLOSED;
         } else if (!$scope.isFull()) {

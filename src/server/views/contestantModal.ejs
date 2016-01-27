@@ -14,6 +14,15 @@
                 <div class="buttonLabel" ng-show="!singleButton">select role</div>
                 <div class="buttonLarge" ng-click="buttonClicked()" ng-class="{disabled : !enabled}" ng-show="singleButton">{{text}}</div>
                 <div class="buttonSmall" ng-click="roleClicked(role)" ng-class="{disabled : !role.enabled}" ng-show="!singleButton" ng-repeat="role in roles">{{role.name | lowercase}}</div>
+                <div class="buttonLabel">statistics</div>
+                <table>
+                    <tbody>
+                        <tr ng-repeat="role in roles">
+                            <td class="role">{{role.name | lowercase}}</td>
+                            <td class="points">{{role.pointsPerOccurrence * contestant.stats[role.id].occurrences}} pts</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <h1 class="name">{{contestant.name}}</h1>
             <div class="bioStat" ng-repeat="bioStat in contestant.bioStats">
