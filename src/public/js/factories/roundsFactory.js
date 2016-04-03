@@ -30,7 +30,7 @@ app.factory('roundsFactory', ['$rootScope', '$window', 'SEASON', 'backendFactory
 
     roundsFactory.updateRoundAttributes = function(round) {
         round.isBeforeSelectionOpen = moment().isBefore(round.startVoteLocalDateTime);
-        round.isCurrentRound = moment().isAfter(round.startVoteLocalDateTime) && moment().isBefore(round.roundEndLocalDateTime);
+        round.isCurrentRound = round.id === "round:Vk6kVRWIl"; // moment().isAfter(round.startVoteLocalDateTime) && moment().isBefore(round.roundEndLocalDateTime);
         round.isSelectionOpen = moment().isAfter(round.startVoteLocalDateTime) && moment().isBefore(round.endVoteLocalDateTime);
         round.isShowInProgress = moment().isAfter(round.endVoteLocalDateTime) && moment().isBefore(round.roundEndLocalDateTime);
         var oldIsScoresAvailable = round.isScoresAvailable;
