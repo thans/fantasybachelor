@@ -1,0 +1,115 @@
+@import '../constants/fonts';
+@import '../constants/colors';
+@import '../mixins/shadow';
+@import '../mixins/size';
+@import '../mixins/mobile';
+@import '../build/icons';
+@import './contestant';
+
+@import 'node_modules/mathsass/dist/math';
+
+$contestantWheelMargin: 12px;
+$contestantWheelMarginMobile: 2 * $contestantWheelMargin;
+
+$callToActionContestantWheelSize: 3 * $contestantSize + 2 * $contestantWheelMargin;
+$callToActionContestantWheelSizeMobile: 3 * $contestantSizeMobile + 2 * $contestantWheelMarginMobile;
+$callToActionInfoSize: 530px;
+$callToActionInfoSizeMobile: 700px;
+$callToActionPadding: 60px 20px;
+
+#callToAction {
+  padding: $callToActionPadding;
+  background-color: $darkRed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap-reverse;
+
+  @include insetBoxShadow();
+
+  .info {
+    width: $callToActionInfoSize;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    margin: 40px 0;
+
+    @include mobile() {
+      width: $callToActionInfoSizeMobile;
+      text-align: center;
+    }
+
+    .message {
+      width: 100%;
+      @include textShadow();
+      @include boldFontWeight();
+      @include extraLargeFont();
+    }
+
+    .subMessage {
+      margin: 20px 0;
+      @include textShadow();
+      @include lightFontWeight();
+      @include mediumFont();
+
+      @include mobile() {
+        margin: 60px 0;
+      }
+    }
+
+    action-button {
+      @include mobile() {
+        margin: auto;
+      }
+    }
+  }
+
+  .contestantWheel {
+    position: relative;
+    margin: 0 40px;
+
+    @include size($callToActionContestantWheelSize, $callToActionContestantWheelSize);
+    @include mobile() {
+      @include size($callToActionContestantWheelSizeMobile, $callToActionContestantWheelSizeMobile);
+    }
+
+    contestant {
+      position: absolute;
+      margin-left: - $contestantSize / 2;
+      margin-top: - $contestantSize / 2;
+
+      @include mobile() {
+        margin-left: - $contestantSizeMobile / 2;
+        margin-top: - $contestantSizeMobile / 2;
+      }
+
+      $elements: 6;
+      @for $i from 0 to $elements {
+        $angle: $i * 360deg / $elements;
+        $cosAngle: cos($angle);
+        $sinAngle: sin($angle);
+
+        &:nth-child(#{$i + 1}) {
+          top: calc(50% + #{$cosAngle * ($contestantSize + $contestantWheelMargin)});
+          left: calc(50% + #{$sinAngle * ($contestantSize + $contestantWheelMargin)});
+
+          @include mobile() {
+            top: calc(50% + #{$cosAngle * ($contestantSizeMobile + $contestantWheelMarginMobile)});
+            left: calc(50% + #{$sinAngle * ($contestantSizeMobile + $contestantWheelMarginMobile)});
+          }
+        }
+      }
+      &:nth-child(7) {
+        top: 50%;
+        left: 50%;
+      }
+    }
+
+
+  }
+
+  .container {
+    margin: auto;
+  }
+}

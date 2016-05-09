@@ -1,0 +1,80 @@
+@import '../constants/colors';
+@import '../mixins/icons';
+@import '../mixins/size';
+@import '../mixins/mobile';
+@import '../mixins/shadow';
+@import '../mixins/border';
+
+$contestantSize: 100px;
+$contestantSizeMobile: $contestantSize * 2;
+$contestantIconSize: 60px;
+$contestantIconSizeMobile: $contestantIconSize * 2;
+
+contestant {
+  @include size($contestantSize);
+  display: inline-block;
+  border-radius: 50%;
+  background-color: $white;
+  pointer-events: none;
+  overflow: hidden;
+
+  opacity: 1;
+  transition: opacity .5s;
+
+  @include boxShadow();
+  @include defaultBorder();
+
+  @include mobile() {
+    @include size($contestantSizeMobile);
+  }
+
+  &.invisible {
+    opacity: 0;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+  }
+
+  .icon {
+    @include size($contestantIconSize, null, true);
+    margin: ($contestantSize - $contestantIconSize) / 2 - $borderWidth;
+
+    @include mobile() {
+      @include size($contestantIconSizeMobile, null, true);
+      margin: ($contestantSizeMobile - $contestantIconSizeMobile) / 2 - $borderWidthMobile;
+    }
+  }
+
+  .stealerIcon {
+    @extend .icon;
+    @include icon($stealerRed);
+  }
+
+  .kisserIcon {
+    @extend .icon;
+    @include icon($kisserRed);
+  }
+
+  .loverIcon {
+    @extend .icon;
+    @include icon($loverRed);
+  }
+
+  .bleeperIcon {
+    @extend .icon;
+    @include icon($bleeperRed);
+  }
+
+  .intervieweeIcon {
+    @extend .icon;
+    @include icon($intervieweeRed);
+  }
+
+  .cryerIcon {
+    @extend .icon;
+    @include icon($cryerRed);
+  }
+}

@@ -78,3 +78,5 @@ alias fb-prod='fb-home ; export NODE_ENV=production; grunt build:production; nod
 Then you can just run ```fb-dev``` to start up the app. The grunt tasks should run and start up a browser with a debug console
 and the app homepage. After the console page loads, advance the debugger. Then when the console displays ```Listening on port 8000``` refresh the app homepage.
 Grunt will be watching for changes to any of the src files and automatically update the build directory.
+
+brew install pkg-config cairo libpng jpeg giflib

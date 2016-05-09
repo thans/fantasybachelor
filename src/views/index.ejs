@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Fantasy Bach</title>
+        <meta name="description" content="Follow ABC's The Bachelorette and compete with friends to choose which contestants you think Ben Higgins will give a rose to.">
+        <meta name="keywords" content="The Bachelor, Fantasy, Bachelor, abc, The Bachelorette, Bachelorette, Fantasy Bachelor, Fantasy Bachelorette, FantasyBach, FantasyBachelor, FantasyBachelorette, Fantasy Football, Reality TV">
+        <meta name="viewport" content="user-scalable=no">
+
+        <link rel="stylesheet" href="<%= resourcesUrl %>/css/splash.min.css">
+        <link rel="shortcut icon" href="<%= resourcesUrl %>/images/favicon.ico" />
+        <base href="/">
+        <script>
+            var VIEWS_DIR = "<%= resourcesUrl %>/views";
+        </script>
+    </head>
+    <body ng-app="FantasyBach" ng-controller="AppInitializationController as AppInitialization" ng-strict-di>
+        <div id="splash"  ng-hide="AppInitialization.initialized">
+            <div id="splash-content">
+                <div class="spinner">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                </div>
+                <div class="label">loading</div>
+            </div>
+        </div>
+
+        <div id="primaryContent">
+            <heading></heading>
+            <div ui-view></div>
+        </div>
+
+        <script defer src="<%= resourcesUrl %>/js/app.min.js"></script>
+        <script defer id="facebook-jssdk" src="https://connect.facebook.net/en_US/sdk.js"></script>
+        <async-link href="<%= resourcesUrl %>/css/app.min.css"></async-link>
+
+        <!--<link rel="stylesheet" href="<%= resourcesUrl %>/css/app.min.css">-->
+    </body>
+</html>

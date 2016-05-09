@@ -1,0 +1,117 @@
+@import '../constants/colors';
+@import '../constants/fonts';
+@import '../mixins/icons';
+@import '../mixins/size';
+@import '../mixins/mobile';
+@import '../mixins/shadow';
+@import '../mixins/border';
+@import '../mixins/position';
+
+$contestantButtonSize: 100px;
+$contestantButtonSizeMobile: $contestantButtonSize * 2;
+$contestantButtonIconSize: 60px;
+$contestantButtonIconSizeMobile: $contestantButtonIconSize * 2;
+$contestantButtonLabelHeight: 22px;
+$contestantButtonLabelHeightMobile: $contestantButtonLabelHeight * 2;
+
+contestant-button {
+  display: inline-block;
+
+  &.disabled {
+    opacity: .5;
+  }
+
+  .label {
+    text-align: center;
+    text-transform: lowercase;
+    height: $contestantButtonLabelHeight;
+
+    &.role {
+      @include boldFontWeight();
+    }
+
+    @include mobile() {
+      height: $contestantButtonLabelHeightMobile;
+    }
+  }
+
+  .circle {
+    @include relative();
+    @include size($contestantButtonSize);
+    display: inline-block;
+    border-radius: 50%;
+    z-index: 1;
+    background-color: $white;
+    pointer-events: none;
+    overflow: hidden;
+
+    @include boxShadow();
+    @include defaultBorder();
+
+    @include mobile() {
+      @include size($contestantButtonSizeMobile);
+    }
+
+    img {
+      @include absolute(0, 0);
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+
+      opacity: 1;
+      transition: opacity .1s linear;
+
+      &.loading {
+        opacity: 0;
+      }
+    }
+
+    .icon {
+      @include absolute(0, 0);
+      @include size($contestantButtonIconSize, null, true);
+      margin: ($contestantButtonSize - $contestantButtonIconSize) / 2 - $borderWidth;
+
+      @include mobile() {
+        @include size($contestantButtonIconSizeMobile, null, true);
+        margin: ($contestantButtonSizeMobile - $contestantButtonIconSizeMobile) / 2 - $borderWidthMobile;
+      }
+
+      &.stealer {
+        @extend .icon;
+        @include icon($stealerRed);
+      }
+
+      &.kisser {
+        @extend .icon;
+        @include icon($kisserRed);
+      }
+
+      &.lover {
+        @extend .icon;
+        @include icon($loverRed);
+      }
+
+      &.bleeper {
+        @extend .icon;
+        @include icon($bleeperRed);
+      }
+
+      &.interviewee {
+        @extend .icon;
+        @include icon($intervieweeRed);
+      }
+
+      &.cryer {
+        @extend .icon;
+        @include icon($cryerRed);
+      }
+
+      &.close {
+        @extend .icon;
+        @include icon($closeRed);
+        opacity: .5;
+      }
+    }
+  }
+
+}

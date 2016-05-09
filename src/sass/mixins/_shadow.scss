@@ -1,0 +1,34 @@
+@import '../constants/colors';
+@import '../mixins/mobile';
+
+$shadowXShift: 2px;
+$shadowXShiftMobile: 2 * $shadowXShift;
+$shadowYShift: 2px;
+$shadowYShiftMobile: 2 * $shadowYShift;
+$shadowBlur: 8px;
+$shadowBlurMobile: 2 * $shadowBlur;
+$shadowColor: $shadow;
+
+@mixin boxShadow() {
+  box-shadow: $shadowXShift $shadowYShift $shadowBlur $shadowColor;
+
+  @include mobile() {
+    box-shadow: $shadowXShiftMobile $shadowYShiftMobile $shadowBlurMobile $shadowColor;
+  }
+}
+
+@mixin insetBoxShadow() {
+  box-shadow: inset 0 0 $shadowBlur $shadowColor;
+
+  @include mobile() {
+    box-shadow: inset 0 0 $shadowBlurMobile $shadowColor;
+  }
+}
+
+@mixin textShadow() {
+  text-shadow: $shadowXShift $shadowYShift $shadowBlur $shadowColor;
+
+  @include mobile() {
+    text-shadow: $shadowXShiftMobile $shadowYShiftMobile $shadowBlurMobile $shadowColor;
+  }
+}

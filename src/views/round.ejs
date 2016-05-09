@@ -1,0 +1,68 @@
+<div id="round">
+    <div class="content">
+        <h1>
+            <span ng-click="round.showRoundModal()">
+                {{round.currentRound.name}}<span class="arrow arrowLarge"></span>
+            </span>
+        </h1>
+        <div class="selectionArea">
+            <!--<div class="primaryContestant">-->
+                <!--<contestant-button contestant="round.primaryContestant"></contestant-button>-->
+            <!--</div>-->
+            <h3>selected contestants</h3>
+            <div class="slotsFilled">{{round.numSelectedContestants}} of {{round.currentRound.rosterSize}} slots filled</div>
+            <div class="selectedContestants">
+                <contestant-button
+                    ng-repeat="role in round.roles"
+                    role="role"
+                    contestant="round.selectedContestants[role.id]"
+                    is-eliminated="round.isEliminated(round.selectedContestants[role.id])"
+                    ng-class="{ disabled : !round.selectedContestants[role.id] && (round.isSelectionFull) }">
+                </contestant-button>
+            </div>
+            <div class="footer">
+                <div ng-show="round.isPreSelectionOpen">selection opens on {{round.currentRound.startVoteLocalDateTime | eventTime}}</div>
+                <div ng-show="!round.isPreSelectionOpen && !round.isSelectionClosed">selection closes on {{round.currentRound.endVoteLocalDateTime | eventTime}}</div>
+                <div ng-show="round.isSelectionClosed">
+                    <div class="textGroup">
+                        <div class="primaryText">score - </div>
+                        <div class="subText"></div>
+                    </div>
+                    <div class="textGroup">
+                        <div class="primaryText">{{ round.roundScore | number : 2 }} / </div>
+                        <div class="subText">round score</div>
+                    </div>
+                    <div class="textGroup">
+                        <div class="primaryText">{{ round.totalScore | number : 2 }}</div>
+                        <div class="subText">total score</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="eligibleContestantsHeader" ng-click="round.toggleCollapsed()" ng-class="{ collapsed : (round.isSelectionFull && !round.userUncollapsed) || round.userCollapsed }">
+            <div class="divider">
+                <div class="line"></div>
+            </div>
+            <h3>
+                eligible contestants<span class="arrow arrowSmall"></span>
+            </h3>
+            <div class="divider">
+                <div class="line"></div>
+            </div>
+        </div>
+        <div class="collapsible" ng-class="{ collapsed : (round.isSelectionFull && !round.userUncollapsed) || round.userCollapsed }">
+            <div class="eligibleContestants">
+                <contestant-button
+                        ng-repeat="eligibleContestant in round.eligibleContestants"
+                        contestant="eligibleContestant"
+                        is-eliminated="round.isEliminated(eligibleContestant)">
+                </contestant-button>
+            </div>
+        </div>
+        <h3>
+            leagues<span class="arrow arrowSmall"></span>
+        </h3>
+    </div>
+</div>
+
+<round-modal></round-modal>

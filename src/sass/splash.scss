@@ -1,0 +1,58 @@
+@import 'constants/colors';
+@import 'constants/fonts';
+@import 'mixins/position';
+@import 'mixins/size';
+@import 'components/spinner';
+
+$splashOffset: 40px;
+$splashSpinnerMargin: 20px;
+
+html, body {
+  background-color: $red;
+  color: $white;
+  margin: 0;
+  padding: 0;
+  font-weight: 300;
+
+  @include size(100%);
+  @include mediumFont();
+  @include defaultFont();
+}
+
+body {
+  overflow-y: scroll;
+}
+
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+input {
+  user-select: initial;
+}
+
+a {
+  color: $white;
+  font-weight: 600;
+}
+
+#splash {
+  background-color: $red;
+  z-index: 100;
+
+  @include fixed(0, 0);
+  @include size(100%, 100%);
+
+  #splash-content {
+    margin-top: -$splashOffset;
+    text-align: center;
+    width: 100%;
+
+    @include absolute(50%);
+
+    .spinner {
+      margin: $splashSpinnerMargin auto;
+    }
+  }
+}

@@ -1,0 +1,38 @@
+@import '../constants/colors';
+@import '../constants/fonts';
+@import '../mixins/position';
+@import '../mixins/size';
+@import '../mixins/mobile';
+
+$spinnerSize: 40px;
+$spinnerOpacity: .6;
+$spinnerSpeed: 2s;
+
+.spinner {
+  @include size($spinnerSize);
+  @include relative();
+
+
+  @include mobile {
+    @include size($spinnerSize * 2);
+  }
+}
+
+.bounce1, .bounce2 {
+  border-radius: 50%;
+  background-color: $white;
+  opacity: $spinnerOpacity;
+
+  @include size(100%);
+  @include absolute(0,0);
+  animation: bounce $spinnerSpeed infinite ease-in-out;
+}
+
+.bounce2 {
+  animation-delay: -$spinnerSpeed/2;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: scale(0.0); }
+  50% { transform: scale(1.0); }
+}

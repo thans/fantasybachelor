@@ -1,0 +1,30 @@
+<div ng-show="heading.user" class="content loggedIn">
+    <div class="rose" ui-sref="welcome"></div>
+    <div class="title" ui-sref="welcome">
+        fantasy bach
+    </div>
+
+    <div class="spacer"></div>
+
+    <img ng-src="{{heading.user.profilePicture}}" class="profilePic" ng-click="heading.showCurrentUserModal()" />
+    <div class="displayName" ng-click="heading.showCurrentUserModal()">
+        {{heading.user.nickname || heading.user.name}}
+    </div>
+    <div class="divider desktopOnly"></div>
+    <div class="score desktopOnly">
+        <ng-pluralize count="heading.user.scores.score"
+                      when="{'0' : '0 points',
+                         'one' : '1 point',
+                         'other' : '{} points'}">
+        </ng-pluralize>
+    </div>
+    <div class="divider desktopOnly"></div>
+    <div class="help" ui-sref="help">
+        <div class="icon"></div>
+    </div>
+</div>
+<div ng-hide="heading.user" class="content welcome">
+    <div>fantasy bach</div>
+</div>
+
+<current-user-modal></current-user-modal>

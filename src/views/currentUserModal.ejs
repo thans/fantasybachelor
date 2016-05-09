@@ -1,0 +1,25 @@
+<div class="glass" ng-click="currentUserModal.close()" ng-class="{hidden: !currentUserModal.visible}"></div>
+<div class="modalContent" ng-class="{hidden: !currentUserModal.visible}">
+    <div class="close" ng-click="currentUserModal.close()"></div>
+    <img ng-src="{{currentUserModal.user.profilePicture}}" class="profilePic" />
+    <div class="name">{{currentUserModal.user.name}}</div>
+    <div class="nickname">{{currentUserModal.user.nickname}}</div>
+    <div class="divider"></div>
+    <div class="score">
+        <ng-pluralize count="currentUserModal.user.scores.score"
+                      when="{'0' : '0 points',
+                         'one' : '1 point',
+                         'other' : '{} points'}">
+        </ng-pluralize>
+    </div>
+    <div class="divider"></div>
+    <div class="button" ng-hide="currentUserModal.changingNickname" ng-click="currentUserModal.changeNickname()">
+        change nickname
+    </div>
+    <div class="editNickname" ng-show="currentUserModal.changingNickname">
+        <input type="text" ng-model="currentUserModal.newNickname" ng-max-length="20" value="{{currentUserModal.user.nickname}}"/>
+        <div class="button" ng-click="currentUserModal.saveNickname()">
+            save
+        </div>
+    </div>
+</div>

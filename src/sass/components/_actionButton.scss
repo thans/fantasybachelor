@@ -1,0 +1,32 @@
+@import '../mixins/size';
+@import '../mixins/mobile';
+@import '../constants/colors';
+@import '../constants/fonts';
+@import '../mixins/border';
+@import '../mixins/shadow';
+
+$actionButtonPadding: 14px 40px;
+$actionButtonPaddingMobile: 28px 80px;
+$actionButtonMargin: 20px 0;
+$actionButtonMarginMobile: 40px 0;
+
+action-button {
+  border-radius: $borderRadius;
+  padding: $actionButtonPadding;
+  margin: $actionButtonMargin;
+
+  @include mobile() {
+    border-radius: $borderRadiusMobile;
+    padding: $actionButtonPaddingMobile;
+    margin: $actionButtonMarginMobile;
+
+    @include largeFont();
+  }
+
+  background-color: $white;
+  color: $darkRed;
+  @include boldFontWeight();
+  text-align: center;
+  cursor: pointer;
+  @include boxShadow();
+}

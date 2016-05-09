@@ -1,0 +1,74 @@
+@import '../mixins/position';
+@import '../mixins/shadow';
+@import '../mixins/mobile';
+@import '../mixins/circles';
+@import '../mixins/size';
+@import '../constants/fonts';
+@import '../constants/colors';
+
+$currentUserModalProfilePicSize: 80px;
+$currentUserModalProfilePicSizeMobile: 140px;
+
+current-user-modal {
+
+  .modalContent {
+
+    .profilePic {
+      @include thinCircle($currentUserModalProfilePicSize, $currentUserModalProfilePicSizeMobile);
+      @include boxShadow();
+    }
+
+    .name {
+      @include boldFontWeight();
+    }
+
+    .nickname {
+      @include smallFont();
+    }
+
+    .score {
+      @include largeFont();
+    }
+
+    .button {
+      background-color: $red;
+      color: $white;
+      padding: 6px 0;
+      margin-top: 12px;
+
+      @include mobile() {
+        padding: 12px 0;
+        margin-top: 24px;
+      }
+    }
+
+    .editNickname {
+      display: flex;
+      margin-top: 12px;
+
+      input {
+        flex: 1;
+        width: 0;
+        padding: 4px;
+        border: 1px solid $darkGrayOpaque;
+
+        @include smallFont();
+
+        @include mobile() {
+          padding: 8px;
+        }
+      }
+
+      .button {
+        margin: 0 0 0 8px;
+        padding: 4px 12px;
+
+        @include mobile() {
+          margin: 0 0 0 16px;
+          padding: 8px 24px;
+        }
+      }
+    }
+  }
+
+}

@@ -1,0 +1,68 @@
+@import '../mixins/shadow';
+@import '../mixins/mobile';
+@import '../mixins/position';
+@import '../mixins/icons';
+@import '../mixins/size';
+@import '../constants/colors';
+@import '../constants/fonts';
+
+$modalContentWidth: 220px;
+$modalContentWidthMobile: 2 * $modalContentWidth;
+$modalContentPadding: 20px;
+$modalContentPaddingMobile: 2 * $modalContentPadding;
+$modalContentDividerMargin: 8px;
+$modalContentDividerMarginMobile: 2 * $modalContentDividerMargin;
+$modalContentCloseSize: 16px;
+$modalContentCloseSizeMobile: 2 * $modalContentCloseSize;
+$modalContentCloseOffset: 12px;
+$modalContentCloseOffsetMobile: 2 * $modalContentCloseOffset;
+
+.modalContent {
+  @include boxShadow();
+  z-index: 60;
+  max-width: 100%;
+  background-color: $white;
+  transition: opacity .5s ease;
+  opacity: 1;
+  color: $darkGray;
+  padding: $modalContentPadding;
+  width: $modalContentWidth;
+  top: $modalContentWidth;
+  @include centerHorizontal($modalContentWidth);
+
+  @include mobile() {
+    padding: $modalContentPaddingMobile;
+    width: $modalContentWidthMobile;
+    top: $modalContentWidthMobile;
+    @include centerHorizontal($modalContentWidthMobile);
+  }
+
+  .title {
+    @include boldFontWeight();
+  }
+
+  .close {
+    @include icon($closeGray);
+    @include size($modalContentCloseSize, null, true);
+    @include absolute($modalContentCloseOffset, null, null, $modalContentCloseOffset);
+
+    @include mobile() {
+      @include size($modalContentCloseSizeMobile, null, true);
+      @include absolute($modalContentCloseOffsetMobile, null, null, $modalContentCloseOffsetMobile);
+    }
+  }
+
+  .divider {
+    border-bottom: 1px solid $darkGrayOpaque;
+    margin: $modalContentDividerMargin 0;
+
+    @include mobile() {
+      margin: $modalContentDividerMarginMobile 0;
+    }
+  }
+
+  &.hidden {
+    pointer-events: none;
+    opacity: 0;
+  }
+}

@@ -1,0 +1,28 @@
+#splash.ng-hide-add, #splash.ng-hide-remove {
+  transition: opacity 0s linear;
+}
+
+#splash.ng-hide-add-active, #splash.ng-hide-remove-active
+[ui-view].ng-enter, [ui-view].ng-leave {
+  transition: opacity .5s linear;
+}
+
+#splash.ng-hide-remove,
+[ui-view].ng-enter {
+  opacity: 0;
+}
+
+#splash.ng-hide-remove-active,
+[ui-view].ng-enter-active {
+  opacity: 1;
+}
+
+#splash.ng-hide-add,
+[ui-view].ng-leave {
+  opacity: 1;
+}
+
+#splash.ng-hide-add-active,
+[ui-view].ng-leave-active {
+  opacity: 0;
+}

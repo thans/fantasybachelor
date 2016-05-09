@@ -1,0 +1,47 @@
+//@import 'compass/utilities/sprites';
+@import 'compass/css3/background-size';
+@import 'mobile';
+
+$icons-spacing: 10px;
+//@import 'icons/*.png';
+// $iconsSprite: sprite-map('icons/*.png');
+// $icons: sprite-map('icons/*.png');
+//$icons: $icons-sprites;
+
+
+@mixin sprite($map, $image, $width, $height: $width, $borderWidth: 0px) {
+  //$spriteWidth: sprite-width($map);
+  //$spriteHeight: sprite-height($map);
+  //$imageWidth: sprite-width($map, $image);
+  //$imageHeight: sprite-height($map, $image);
+  //$widthScale: ($width - $borderWidth) / $imageWidth;
+  //$heightScale: ($height - $borderWidth) / $imageHeight;
+
+  width: $width;
+  height: $height;
+  //background-image: sprite-url($map);
+  //background-position: nth(sprite-position($map, $image), 1) * $widthScale nth(sprite-position($map, $image), 2) * $heightScale;
+  //@include background-size($spriteWidth * $widthScale, $spriteHeight * $heightScale);
+}
+
+//@mixin sprite($map, $image, $width, $height, $mobileWidth: null, $mobileHeight: null) {
+//  $spritePath: sprite-path($map);
+//  $imageWidth: image-width($spritePath);
+//  $imageHeight: image-height($spritePath);
+//  $spriteWidth: image-width(sprite-file($map, $image));
+//  $spriteHeight: image-height(sprite-file($map, $image));
+//  $widthScale: $width / $imageWidth;
+//  $heightScale: $height / $imageHeight;
+//
+//  background: $map;
+//  background-position: 0 floor(nth(sprite-position($map, $image), 2) * $heightScale);
+//  @include background-size(ceil($imageWidth * $widthScale) ceil($imageHeight * $heightScale));
+//  width: $width;
+//  height: $height;
+//
+//  @if ($mobileWidth != null && $mobileHeight != null) {
+//    @include mobile {
+//      @include sprite($map, $image, $mobileWidth, $mobileHeight);
+//    }
+//  }
+//}

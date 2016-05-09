@@ -1,0 +1,14 @@
+@import '../mixins/icons';
+@import '../mixins/size';
+@import '../mixins/mobile';
+
+round-modal {
+  .modalContent {
+    .dotIcon {
+      display: inline-block;
+      margin: 0 6px 4px 0;
+      @include icon($circleGray);
+      @include size(6px, null, true);
+    }
+  }
+}

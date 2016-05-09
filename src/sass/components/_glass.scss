@@ -1,0 +1,18 @@
+@import '../mixins/size';
+@import '../mixins/position';
+@import '../constants/colors';
+
+.glass {
+  @include size(100%);
+  @include fixed(0, 0);
+
+  transition: opacity .5s ease;
+  opacity: .5;
+  background: $black;
+  z-index: 50;
+
+  &.hidden {
+    pointer-events: none;
+    opacity: 0;
+  }
+}

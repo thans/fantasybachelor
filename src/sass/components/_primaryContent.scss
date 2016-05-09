@@ -1,0 +1,14 @@
+@import '../mixins/position';
+
+#primaryContent {
+  width: 100%;
+  z-index: 1;
+
+  @include absolute(0, 0);
+
+  [ui-view] {
+    width: 100%;
+
+    @include absolute();
+  }
+}

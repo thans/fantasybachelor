@@ -1,0 +1,74 @@
+@import '../build/icons';
+@import '../mixins/mobile';
+@import '../mixins/size';
+
+$instructionsIconSize: 100px !important;
+$instructionsIconSizeMobile: 200px !important;
+
+#instructions {
+
+  .instruction {
+    max-width: 800px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px;
+
+    .iconContainer {
+      margin: 40px;
+
+      .icon {
+        @include size($instructionsIconSize);
+
+        @include mobile() {
+          @include size($instructionsIconSizeMobile);
+        }
+      }
+
+      .roseIcon {
+        @extend .icon;
+        @include inline-svg($roseStem);
+      }
+
+      .stealerIcon {
+        @extend .icon;
+        @include inline-svg($stealer);
+      }
+
+      .kisserIcon {
+        @extend .icon;
+        @include inline-svg($kisser);
+      }
+
+      .loverIcon {
+        @extend .icon;
+        @include inline-svg($lover);
+      }
+
+      .bleeperIcon {
+        @extend .icon;
+        @include inline-svg($bleeper);
+      }
+
+      .intervieweeIcon {
+        @extend .icon;
+        @include inline-svg($interviewee);
+      }
+
+      .cryerIcon {
+        @extend .icon;
+        @include inline-svg($cryer);
+      }
+    }
+
+    .descriptionContainer {
+
+      @include desktop() {
+        flex: 1;
+        min-width: 300px;
+      }
+    }
+  }
+}

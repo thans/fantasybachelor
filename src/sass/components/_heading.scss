@@ -1,0 +1,86 @@
+@import '../constants/fonts';
+@import '../mixins/icons';
+@import '../mixins/size';
+@import '../mixins/circles';
+
+heading {
+  display: block;
+  text-align: center;
+
+  .content {
+    padding: 20px;
+
+    @include mobile() {
+      padding: 40px;
+    }
+  }
+
+  .welcome {
+    @include lightFontWeight();
+    @include extraLargeFont();
+  }
+
+  .loggedIn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .rose {
+      @include icon($rose);
+      @include size(40px);
+
+      @include mobile() {
+        @include size(80px);
+      }
+    }
+
+    .title {
+      display: inline-block;
+      @include largeFont();
+      @include boldFontWeight();
+    }
+
+    .profilePic {
+      @include thinCircle(40px, 80px);
+    }
+
+    .displayName {
+      @include boldFontWeight();
+      margin-left: 8px;
+    }
+
+    .divider {
+      &::before {
+        content: '|';
+        margin-left: 8px;
+      }
+    }
+
+    .score {
+      margin-left: 8px;
+    }
+
+    .help {
+      margin-left: 8px;
+      @include thinCircle(20px, 40px);
+
+      .icon {
+        @include icon($helpRed);
+        @include size(14px);
+        margin: 1px;
+
+        @include mobile() {
+          @include size(30px);
+        }
+      }
+    }
+  }
+
+  .desktopOnly {
+    @include desktopOnly();
+  }
+
+  .mobileOnly {
+    @include mobileOnly();
+  }
+}

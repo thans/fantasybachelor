@@ -1,0 +1,11 @@
+<div class="glass hidden" ng-click="roundModal.close()" ng-class="{ hidden: !roundModal.visible }"></div>
+<div class="modalContent hidden" ng-class="{ hidden: !roundModal.visible }">
+    <div class="close" ng-click="roundModal.close()"></div>
+    <div class="title">rounds</div>
+    <div ng-repeat="round in roundModal.rounds">
+        <div class="divider"></div>
+        <div ng-click="roundModal.changeRound(round)">
+            <span ng-if="roundModal.activeRound === round" class="dotIcon"></span>{{round.name}}
+        </div>
+    </div>
+</div>

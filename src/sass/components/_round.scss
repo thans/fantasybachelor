@@ -1,0 +1,197 @@
+@import '../constants/fonts';
+@import '../constants/colors';
+@import '../mixins/icons';
+@import '../mixins/size';
+@import '../mixins/border';
+@import '../mixins/shadow';
+@import '../mixins/mobile';
+
+$selectionAreaMargin: 12px;
+$selectionAreaMarginMobile: 2 * $selectionAreaMargin;
+$roundSlotsFilledMargin: 20px;
+$roundSlotsFilledMarginMobile: 2 * $roundSlotsFilledMargin;
+$roundLargeArrowSize: 20px;
+$roundLargeArrowSizeMobile: 2 * $roundLargeArrowSize;
+$roundLargeArrowMargin: 8px;
+$roundLargeArrowMarginMobile: 2 * $roundLargeArrowMargin;
+$roundSmallArrowSize: 16px;
+$roundSmallArrowSizeMobile: 2 * $roundSmallArrowSize;
+$roundSmallArrowMargin: $roundLargeArrowMargin;
+$roundSmallArrowMarginMobile: 2 * $roundSmallArrowMargin;
+
+#round {
+  text-align: center;
+
+  .arrow {
+    display: inline-block;
+    @include icon($arrow);
+
+    &.arrowSmall {
+      margin-left: $roundSmallArrowMargin;
+      @include size($roundSmallArrowSize, null, true);
+
+      @include mobile() {
+        margin-left: $roundSmallArrowMarginMobile;
+        @include size($roundSmallArrowSizeMobile, null, true);
+      }
+    }
+
+    &.arrowLarge {
+      margin-left: $roundLargeArrowMargin;
+      @include size($roundLargeArrowSize, null, true);
+
+      @include mobile() {
+        margin-left: $roundLargeArrowMarginMobile;
+        @include size($roundLargeArrowSizeMobile, null, true);
+      }
+    }
+  }
+
+  h1 {
+    @include lightFontWeight();
+    text-align: center;
+    text-transform: lowercase;
+  }
+
+  .selectionArea {
+    //display: flex;
+    //justify-content: center;
+    background-color: $darkRed;
+    padding: $selectionAreaMargin;
+
+    @include insetBoxShadow();
+
+    @include mobile() {
+      padding: $selectionAreaMarginMobile
+    }
+
+    h3 {
+      margin: $selectionAreaMargin 0 0 0;
+
+      @include mobile() {
+        margin: $selectionAreaMarginMobile 0 0 0;
+      }
+    }
+
+    .slotsFilled {
+      font-style: italic;
+      margin-bottom: $roundSlotsFilledMargin;
+
+      @include mobile() {
+        margin-bottom: $roundSlotsFilledMarginMobile;
+      }
+    }
+
+    .selectedContestants {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      //border-left: $defaultThinBorder;
+
+      > * {
+        margin: $selectionAreaMargin;
+        //margin: $selectionAreaMargin 0 $selectionAreaMargin $selectionAreaMargin;
+
+        @include mobile() {
+          margin: $selectionAreaMarginMobile;
+          //margin: $selectionAreaMarginMobile 0 $selectionAreaMarginMobile $selectionAreaMarginMobile;
+        }
+      }
+    }
+
+    .primaryContestant {
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      margin-right: $selectionAreaMargin;
+      padding: 1px;
+
+      @include mobile() {
+        margin-right: $selectionAreaMarginMobile;
+      }
+    }
+
+    .footer {
+      @include largeFont();
+      margin: $selectionAreaMargin;
+
+      @include mobile() {
+        margin: $selectionAreaMarginMobile;
+      }
+
+      .textGroup {
+        display: inline-flex;
+        align-items: flex-start;
+        flex-direction: column;
+        @include extraLargeFont();
+
+        .subText {
+          margin-top: -6px;
+          @include tinyFont();
+
+          @include mobile() {
+            margin-top: -12px;
+          }
+        }
+      }
+    }
+  }
+
+  .eligibleContestantsHeader {
+    display: flex;
+
+    .divider {
+      flex: 1;
+      padding: 30px 20px;
+
+      @include mobile() {
+        padding: 60px 40px;
+      }
+
+      .line {
+        border-bottom: $defaultThinBorder;
+        opacity: 0;
+        transition: opacity .25s linear;
+      }
+    }
+
+    &.collapsed {
+      .arrow {
+        transform: rotate(180deg);
+      }
+
+      .line {
+        opacity: 1;
+      }
+    }
+  }
+
+  .collapsible {
+    max-height: 2300px;
+    transition: max-height 1s ease;
+    overflow: hidden;
+
+    &.collapsed {
+      max-height: 0;
+    }
+
+    .eligibleContestants {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: $selectionAreaMargin;
+
+      @include mobile() {
+        margin-bottom: $selectionAreaMarginMobile;
+      }
+
+      > * {
+        margin: $selectionAreaMargin / 2;
+
+        @include mobile() {
+          margin: $selectionAreaMarginMobile / 2;
+        }
+      }
+    }
+  }
+}

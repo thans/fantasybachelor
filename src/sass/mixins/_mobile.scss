@@ -1,0 +1,25 @@
+$mobileWidth: 540px;
+
+@mixin mobile {
+  @media only screen and (max-device-width: #{$mobileWidth}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media only screen and (min-device-width: #{$mobileWidth + 1}) {
+    @content;
+  }
+}
+
+@mixin desktopOnly {
+  @include mobile() {
+    display: none !important;
+  }
+}
+
+@mixin mobileOnly {
+  @include desktop() {
+    display: none !important;
+  }
+}

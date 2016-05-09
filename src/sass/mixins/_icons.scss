@@ -1,0 +1,5 @@
+@import '../build/icons';
+
+@mixin icon($icon) {
+  @include inline-svg($icon);
+}
