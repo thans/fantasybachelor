@@ -1,0 +1,9 @@
+.blurContainer {
+  transition: filter .5s ease;
+}
+
+.blurActive {
+  .blurContainer {
+    filter: blur(4px);
+  }
+}

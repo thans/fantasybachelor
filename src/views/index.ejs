@@ -24,7 +24,7 @@
             </div>
         </div>
 
-        <div id="primaryContent">
+        <div id="primaryContent" ng-controller="BlurController as blurController" ng-class="{ blurActive : blurController.blurActive }">
             <heading></heading>
             <div ui-view></div>
         </div>
