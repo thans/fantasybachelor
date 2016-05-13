@@ -1,0 +1,18 @@
+@import '../mixins/position';
+@import '../mixins/mobile';
+@import '../mixins/size';
+
+.scrollableContainer {
+  @include size(100%);
+  overflow: hidden;
+}
+
+.scrollable {
+  @include size(100%);
+  overflow-y: scroll;
+
+  @include desktop() {
+    @include relative();
+    width: calc(100% + 15px);
+  }
+}
