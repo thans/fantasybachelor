@@ -8,7 +8,10 @@ export default function contestantButton() {
         scope : {
             role : '=',
             contestant : '=',
-            isEliminated : '='
+            isEliminated : '=',
+            multiplier : '=',
+            score : '=',
+            showScore : '='
         }
     };
 }
@@ -18,21 +21,23 @@ class ContestantButtonController {
     constructor($scope, $element) {
         'ngInject';
 
-        if (!this.contestant) {
-            return;
-        }
+        $scope.$watch(() => this.contestant, (contestant) => {
+            if (!contestant) {
+                $element.find('img')[0].onload = null;
+                return;
+            }
 
-        const img = new Image();
-        img.src = this.contestant.images.head;
-        this.loading = !img.complete;
+            const img = new Image();
+            img.src = this.contestant.images.head;
+            this.loading = !img.complete;
 
-        if (!this.loading) {
-            return;
-        }
-        $element.find('img')[0].onload = () => {
-            this.loading = false;
-            $scope.$apply();
-        };
-
+            if (!this.loading) {
+                return;
+            }
+            $element.find('img')[0].onload = () => {
+                this.loading = false;
+                $scope.$apply();
+            };
+        });
     }
 }

@@ -2,14 +2,18 @@
 @import 'mobile';
 
 $borderColor: $white;
-$borderWidth: 2px;
+$borderWidth: 3px;
 $borderWidthMobile: 6px;
 $borderThinWidth: 2px;
 $borderThinWidthMobile: 4px;
+$borderSuperThinWidth: 1px;
+$borderSuperThinWidthMobile: 2px;
 $defaultBorder: $borderWidth solid $borderColor;
 $defaultBorderMobile: $borderWidthMobile solid $borderColor;
 $defaultThinBorder: $borderThinWidth solid $borderColor;
 $defaultThinBorderMobile: $borderThinWidthMobile solid $borderColor;
+$defaultSuperThinBorder: $borderSuperThinWidth solid $borderColor;
+$defaultSuperThinBorderMobile: $borderSuperThinWidthMobile solid $borderColor;
 $borderRadius: 4px;
 $borderRadiusMobile: 14px;
 
@@ -26,5 +30,13 @@ $borderRadiusMobile: 14px;
 
   @include mobile {
     border: $defaultThinBorderMobile;
+  }
+}
+
+@mixin defaultSuperThinBorder() {
+  border: $defaultSuperThinBorder;
+
+  @include mobile {
+    border: $defaultSuperThinBorderMobile;
   }
 }

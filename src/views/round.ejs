@@ -14,9 +14,14 @@
             <div class="selectedContestants">
                 <contestant-button
                     ng-repeat="role in round.roles"
+                    ng-init="contestant = round.selectedContestants[role.id]"
                     role="role"
-                    contestant="round.selectedContestants[role.id]"
-                    is-eliminated="round.isEliminated(round.selectedContestants[role.id])"
+                    contestant="contestant"
+                    is-eliminated="round.isEliminated(contestant)"
+                    multiplier="round.getMultiplier(contestant)"
+                    score="round.getScore(contestant, role)"
+                    show-score="round.isSelectionClosed"
+                    ng-click="round.showContestantSelectionModal(role, contestant)"
                     ng-class="{ disabled : !round.selectedContestants[role.id] && (round.isSelectionFull) }">
                 </contestant-button>
             </div>
@@ -55,7 +60,8 @@
                 <contestant-button
                         ng-repeat="eligibleContestant in round.eligibleContestants"
                         contestant="eligibleContestant"
-                        is-eliminated="round.isEliminated(eligibleContestant)">
+                        is-eliminated="round.isEliminated(eligibleContestant)"
+                        multiplier="round.getMultiplier(eligibleContestant)">
                 </contestant-button>
             </div>
         </div>
@@ -64,5 +70,7 @@
         </h3>
     </div>
 </div>
+
+<contestant-selection-modal></contestant-selection-modal>
 
 <round-modal></round-modal>

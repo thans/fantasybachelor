@@ -1,0 +1,56 @@
+<!--<div class="glass dark hidden" ng-click="contestantSelectionModal.close()" ng-class="{ hidden: !contestantSelectionModal.visible }"></div>-->
+<div class="glass dark hidden scrollableContainer" ng-class="{ hidden: !contestantSelectionModal.visible }">
+    <div class="close" ng-click="contestantSelectionModal.close()"></div>
+    <div class="scrollable" ng-click="contestantSelectionModal.close($event)" root>
+        <div class="content">
+            <h1>contestant selection</h1>
+            <contestant-button
+                    class="primaryContentButton"
+                    role="contestantSelectionModal.data.role"
+                    contestant="contestantSelectionModal.data.contestant"
+                    is-eliminated="contestantSelectionModal.data.isEliminated"
+                    multiplier="contestantSelectionModal.data.multiplier"
+                    show-score="false">
+            </contestant-button>
+            <div class="tabBar">
+                <div class="tab" ng-click="contestantSelectionModal.a = !contestantSelectionModal.a" ng-class="{ active : contestantSelectionModal.a }">view bio</div>
+                <div class="tab" ng-click="contestantSelectionModal.b = !contestantSelectionModal.b" ng-class="{ active : contestantSelectionModal.b }">remove</div>
+            </div>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+            <h1>test</h1>
+        </div>
+    </div>
+</div>

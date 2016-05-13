@@ -6,6 +6,8 @@
     <img ng-show="contestantButton.contestant" class="image" ng-src="{{contestantButton.contestant.images.head}}" ng-class="{ loading : contestantButton.loading }"/>
     <div ng-show="contestantButton.isEliminated" class="icon close"></div>
 </div>
+<div class="badge multiplier" ng-class="{ visible : contestantButton.multiplier > 1 }">x{{ contestantButton.multiplier }}</div>
+<div class="badge score" ng-class="{ visible : contestantButton.showScore && contestantButton.contestant }">+{{ contestantButton.score | number : 2 }}</div>
 <div class="label name">
     {{contestantButton.contestant.name}}
 </div>

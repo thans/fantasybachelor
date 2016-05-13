@@ -1,5 +1,6 @@
 import { setRoundModalVisibility } from '../directives/roundModal';
-import { getCurrentRound, getCurrentRoundScore, isCurrentRoundPreSelectionOpen, isCurrentRoundSelectionClosed } from '../selectors/rounds';
+import { setContestantSelectionModalVisibility, setContestantSelectionModalParameters } from '../directives/contestantSelectionModal';
+import { getCurrentUserCurrentRoundMultipliers, getCurrentRound, getCurrentRoundScore, isCurrentRoundPreSelectionOpen, isCurrentRoundSelectionClosed } from '../selectors/rounds';
 import { getCurrentRoundEligibleContestants, getPrimaryContestant, getCurrentRoundSelectedContestants, getNumCurrentRoundSelectedContestants, isCurrentRoundSelectionFull } from '../selectors/contestants';
 import _includes from 'lodash/includes';
 
@@ -20,6 +21,11 @@ export default class RoundController {
         this.dispatch(setRoundModalVisibility(true));
     }
 
+    showContestantSelectionModal(role, contestant) {
+        this.dispatch(setContestantSelectionModalParameters(role, contestant,  this.getMultiplier(contestant), this.isEliminated(contestant)));
+        this.dispatch(setContestantSelectionModalVisibility(true));
+    }
+
     toggleCollapsed() {
         if (!this.userCollapsed && !this.userUncollapsed) {
             this.userCollapsed = !this.isSelectionFull;
@@ -34,6 +40,17 @@ export default class RoundController {
         if (!contestant) { return false; }
         return _includes(this.currentRound.eliminatedContestantIds, contestant.id);
     }
+    
+    getMultiplier(contestant) {
+        if (!contestant) { return 1; }
+        return this.multipliers[contestant.id];
+    }
+
+    getScore(contestant, role) {
+        if (!contestant || !role) { return 0; }
+        return (contestant.roundResults[this.currentRound.id][role.id].occurrences || 0) * role.pointsPerOccurrence
+            + contestant.roses[this.currentRound.id] * this.getMultiplier(contestant);
+    }
 
     mapStateToThis(state) {
         return {
@@ -47,7 +64,8 @@ export default class RoundController {
             primaryContestant : getPrimaryContestant(state),
             eligibleContestants : getCurrentRoundEligibleContestants(state),
             roundScore : getCurrentRoundScore(state),
-            totalScore : state.currentUser.data.scores.score
+            totalScore : state.currentUser.data.scores.score,
+            multipliers : getCurrentUserCurrentRoundMultipliers(state)
         };
     }
 }

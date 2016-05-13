@@ -1,0 +1,90 @@
+@import '../mixins/shadow';
+@import '../mixins/mobile';
+@import '../mixins/position';
+@import '../mixins/border';
+@import '../mixins/icons';
+@import '../mixins/size';
+@import '../constants/colors';
+@import '../constants/fonts';
+
+$contestantSelectionModalCloseSize: 16px;
+$contestantSelectionModalCloseSizeMobile: 2 * $contestantSelectionModalCloseSize;
+$contestantSelectionModalCloseOffset: 20px;
+$contestantSelectionModalCloseOffsetMobile: 2 * $contestantSelectionModalCloseOffset;
+$contestantSelectionModalPrimaryContestantButtonMargin: 100px;
+$contestantSelectionModalPrimaryContestantButtonMarginMobile: 2 * $contestantSelectionModalPrimaryContestantButtonMargin;
+contestant-selection-modal {
+  text-align: center;
+
+  .scrollableContainer {
+    @include fixed(0, 0);
+    transition: opacity .5s ease;
+    opacity: 1;
+    z-index: 60;
+
+    .content {
+      pointer-events: none;
+
+      [ng-click] {
+        pointer-events: auto;
+      }
+
+      .primaryContentButton {
+        margin: $contestantSelectionModalPrimaryContestantButtonMargin 0;
+
+        @include mobile() {
+          margin: $contestantSelectionModalPrimaryContestantButtonMarginMobile 0;
+        }
+      }
+
+      .tabBar {
+        display: flex;
+        border-bottom: $defaultSuperThinBorder;
+        justify-content: center;
+        margin: 0 40px;
+
+        .tab {
+          padding: 6px 12px;
+          position: relative;
+
+          &:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            border-bottom: $defaultBorder;
+            width: 100%;
+            transition: opacity .25s ease;
+            opacity: 0;
+          }
+
+          &.active {
+            &:after {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+
+    &.hidden {
+      opacity: 0;
+      display: none;
+    }
+
+    &.hidden-add, &.hidden-remove {
+      display: initial;
+    }
+
+    .close {
+      @include icon($close);
+      @include size($contestantSelectionModalCloseSize, null, true);
+      @include absolute($contestantSelectionModalCloseOffset, null, null, $contestantSelectionModalCloseOffset);
+
+      @include mobile() {
+        @include size($contestantSelectionModalCloseSizeMobile, null, true);
+        @include absolute($contestantSelectionModalCloseOffsetMobile, null, null, $contestantSelectionModalCloseOffsetMobile);
+      }
+    }
+  }
+}

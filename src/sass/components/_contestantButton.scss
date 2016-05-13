@@ -17,6 +17,8 @@ $contestantButtonLabelHeightMobile: $contestantButtonLabelHeight * 2;
 contestant-button {
   display: inline-block;
 
+  @include relative();
+
   &.disabled {
     opacity: .5;
   }
@@ -111,6 +113,46 @@ contestant-button {
         @include icon($closeRed);
         opacity: .5;
       }
+    }
+  }
+
+  $contestantButtonBadgeSize: 48px;
+  $contestantButtonBadgeSizeMobile: 2 * $contestantButtonBadgeSize;
+  $contestantButtonBadgeTop: 85px;
+  $contestantButtonBadgeTopMobile: 160px;
+  $contestantButtonBadgeLeft: 64px;
+  $contestantButtonBadgeLeftMobile: 130px;
+  .badge {
+    @include absolute($contestantButtonBadgeTop, $contestantButtonBadgeLeft);
+    @include size($contestantButtonBadgeSize);
+    border-radius: $contestantButtonBadgeSize / 2;
+    line-height: $contestantButtonBadgeSize - 2 * $borderThinWidth;
+    overflow: hidden;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity .25s linear;
+    @include defaultThinBorder();
+    @include smallFont();
+    @include normalFontWeight();
+
+    @include mobile() {
+      @include absolute($contestantButtonBadgeTopMobile, $contestantButtonBadgeLeftMobile);
+      @include size($contestantButtonBadgeSizeMobile);
+      border-radius: $contestantButtonBadgeSizeMobile / 2;
+      line-height: $contestantButtonBadgeSizeMobile - 2 * $borderThinWidthMobile;
+    }
+
+    &.visible {
+      opacity: 1;
+    }
+
+    &.multiplier {
+      background-color: $yellow;
+      @include mediumFont();
+    }
+
+    &.score {
+      background-color: $green;
     }
   }
 

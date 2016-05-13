@@ -194,4 +194,24 @@ $roundSmallArrowMarginMobile: 2 * $roundSmallArrowMargin;
       }
     }
   }
+
+  .test {
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, .8);
+    width: 100%;
+    height: 100%;
+  }
+
+  .inner {
+    overflow-y: scroll;
+    height: 100%;
+
+    @include desktop() {
+      @include relative();
+      width: calc(100% + 15px);
+    }
+  }
 }
