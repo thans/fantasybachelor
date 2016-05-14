@@ -1,0 +1,15 @@
+<img class="bodyImage" ng-src="{{viewBioSection.contestant.images.body}}" />
+<h1>
+    {{viewBioSection.contestant.name}}
+</h1>
+<div class="bioStats">
+    <div class="bioStat" ng-repeat="bioStat in viewBioSection.contestant.bioStats">
+        <span class="name">{{  bioStat.name }}</span>{{  bioStat.value }}
+    </div>
+</div>
+<div class="bioQuestions">
+    <div class="bioQuestion" ng-repeat="bioQuestion in viewBioSection.contestant.bioQuestions">
+        <div class="question">{{  bioQuestion.question }}</div>
+        <div class="answer">{{  bioQuestion.answer }}</div>
+    </div>
+</div>

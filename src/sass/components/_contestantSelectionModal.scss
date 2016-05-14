@@ -22,45 +22,85 @@ contestant-selection-modal {
     opacity: 1;
     z-index: 60;
 
-    .content {
-      pointer-events: none;
+    .scrollable {
+      cursor: initial;
+      @include textShadow();
 
-      [ng-click] {
-        pointer-events: auto;
-      }
+      .content {
+        pointer-events: none;
+        padding: 40px;
 
-      .primaryContentButton {
-        margin: $contestantSelectionModalPrimaryContestantButtonMargin 0;
-
-        @include mobile() {
-          margin: $contestantSelectionModalPrimaryContestantButtonMarginMobile 0;
+        [ng-click] {
+          pointer-events: auto;
         }
-      }
 
-      .tabBar {
-        display: flex;
-        border-bottom: $defaultSuperThinBorder;
-        justify-content: center;
-        margin: 0 40px;
+        h1 {
+          margin: 0;
+        }
 
-        .tab {
-          padding: 6px 12px;
-          position: relative;
+        .primaryContentButton {
+          transform: scale(1.25);
+          margin: $contestantSelectionModalPrimaryContestantButtonMargin 0;
 
-          &:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            border-bottom: $defaultBorder;
-            width: 100%;
-            transition: opacity .25s ease;
-            opacity: 0;
+          @include mobile() {
+            margin: $contestantSelectionModalPrimaryContestantButtonMarginMobile 0;
           }
+        }
 
-          &.active {
+        .tabBar {
+          display: flex;
+          border-bottom: $defaultSuperThinBorder;
+          justify-content: center;
+
+          .tab {
+            padding: 6px 12px;
+            position: relative;
+
             &:after {
+              content: '';
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              border-bottom: $defaultBorder;
+              width: 100%;
+              transition: opacity .25s ease;
+              opacity: 0;
+            }
+
+            &.active {
+              &:after {
+                opacity: 1;
+              }
+            }
+          }
+        }
+
+        .sectionContainer {
+          @include relative();
+
+          > * {
+            @include absolute();
+            display: block;
+            width: 100%;
+
+            &.ng-hide-add-active, &.ng-hide-remove-active {
+              transition: opacity .5s ease;
+            }
+
+            &.ng-hide-remove {
+              opacity: 0;
+            }
+
+            &.ng-hide-remove-active {
               opacity: 1;
+            }
+
+            &.ng-hide-add {
+              opacity: 1;
+            }
+
+            &.ng-hide-add-active {
+              opacity: 0;
             }
           }
         }

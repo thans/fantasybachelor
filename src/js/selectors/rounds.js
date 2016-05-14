@@ -4,6 +4,7 @@ import _reduce from 'lodash/reduce';
 import _values from 'lodash/values';
 import _intersection from 'lodash/intersection';
 import _each from 'lodash/each';
+import _last from 'lodash/last';
 import moment from 'moment';
 
 const getRounds = (state) => state.rounds.data;
@@ -34,7 +35,7 @@ const getCurrentRoundMultipliers = (user, rounds, currentRound) => {
 
 export const getActiveRound = createSelector(
     [ getRounds ],
-    (rounds) => _find(rounds, (round) => (moment().isAfter(round.startVoteLocalDateTime) && moment().isBefore(round.roundEndLocalDateTime)) || round.id === 'round:Vk6kVRWIl')
+    (rounds) => _find(rounds, (round) => (moment().isAfter(round.startVoteLocalDateTime) && moment().isBefore(round.roundEndLocalDateTime))) || _last(rounds)
 );
 
 export const getCurrentRound = createSelector(
@@ -56,6 +57,21 @@ export const isCurrentRoundSelectionClosed = createSelector(
     [ getCurrentRound ],
     (currentRound) => moment().isAfter(currentRound.endVoteLocalDateTime)
 );
+
+// export const isCurrentRoundLastRound = createSelector(
+//     [ getRounds, getCurrentRound ],
+//     (rounds, currentRound) => _last(rounds) === currentRound
+// );
+//
+// export const getNextRound = createSelector(
+//     [ getRounds, getCurrentRound, isCurrentRoundLastRound ],
+//     (rounds, currentRound, isCurrentRoundLastRound) => isCurrentRoundLastRound ? null : rounds[currentRound.index + 1]
+// );
+//
+// export const isNextRoundOpen = createSelector(
+//     [ getRounds, getCurrentRound, getNextRound, isCurrentRoundLastRound ],
+//     ( rounds, currentRound, nextRound, isCurrentRoundLastRound) => isCurrentRoundLastRound ? false : moment().isAfter(nextRound.startVoteLocalDateTime)
+// );
 
 export const getCurrentUserCurrentRoundMultipliers = createSelector(
     [ getCurrentUser, getRounds, getCurrentRound ],

@@ -21,7 +21,7 @@
                     multiplier="round.getMultiplier(contestant)"
                     score="round.getScore(contestant, role)"
                     show-score="round.isSelectionClosed"
-                    ng-click="round.showContestantSelectionModal(role, contestant)"
+                    ng-click="round.showContestantSelectionModal(contestant, role)"
                     ng-class="{ disabled : !round.selectedContestants[role.id] && (round.isSelectionFull) }">
                 </contestant-button>
             </div>
@@ -42,6 +42,9 @@
                         <div class="subText">total score</div>
                     </div>
                 </div>
+                <action-button ng-show="round.currentRound !== round.activeRound" ng-click="round.goToActiveRound()">
+                    go to current round
+                </action-button>
             </div>
         </div>
         <div class="eligibleContestantsHeader" ng-click="round.toggleCollapsed()" ng-class="{ collapsed : (round.isSelectionFull && !round.userUncollapsed) || round.userCollapsed }">
@@ -61,7 +64,8 @@
                         ng-repeat="eligibleContestant in round.eligibleContestants"
                         contestant="eligibleContestant"
                         is-eliminated="round.isEliminated(eligibleContestant)"
-                        multiplier="round.getMultiplier(eligibleContestant)">
+                        multiplier="round.getMultiplier(eligibleContestant)"
+                        ng-click="round.showContestantSelectionModal(eligibleContestant)">
                 </contestant-button>
             </div>
         </div>

@@ -1,0 +1,56 @@
+@import '../../mixins/border';
+@import '../../mixins/size';
+@import '../../constants/fonts';
+
+view-bio-section {
+  text-align: left;
+  padding: 40px;
+
+  h1 {
+    margin-bottom: 20px;
+  }
+
+  .bodyImage {
+    border-bottom: $defaultSuperThinBorder;
+
+    @include desktop() {
+      @include size(300px);
+      float: right;
+      margin-bottom: 20px;
+      margin-left: 20px;
+    }
+
+    @include mobile() {
+      display: block;
+      margin: 40px auto;
+      @include size(600px);
+    }
+  }
+
+  .bioStats {
+
+    .bioStat {
+      margin-top: 12px;
+
+      .name {
+        display: inline;
+        margin-right: 4px;
+        @include boldFontWeight();
+      }
+    }
+  }
+
+  .bioQuestions {
+
+    .bioQuestion {
+      margin-top: 20px;
+
+      .question {
+        @include boldFontWeight();
+      }
+
+      .answer {
+      }
+    }
+  }
+}

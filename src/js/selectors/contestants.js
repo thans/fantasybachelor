@@ -35,15 +35,25 @@ export const getPrimaryContestant = createSelector(
     (contestants) => _find(contestants, { isPrimaryContestant : true })
 );
 
-export const getCurrentRoundEligibleContestants = createSelector(
+export const getCurrentRoundUnselectedEligibleContestants = createSelector(
     [ getContestants, getCurrentRound, getCurrentRoundSelectedContestants ],
     (contestants, currentRound, currentRoundSelectedContestants) => {
         const selectedContestants = _values(currentRoundSelectedContestants);
-        return _sortBy(_reduce(currentRound.eligibleContestantIds, (result, eligibleontestantId) => {
-            const eligibleContestant = _find(contestants, { id : eligibleontestantId });
+        return _sortBy(_reduce(currentRound.eligibleContestantIds, (result, eligibleContestantId) => {
+            const eligibleContestant = _find(contestants, { id : eligibleContestantId });
             if (!_includes(selectedContestants, eligibleContestant)) {
                 result.push(eligibleContestant);
             }
+            return result;
+        }, []), 'name')
+    }
+);
+
+export const getCurrentRoundEligibleContestants = createSelector(
+    [ getContestants, getCurrentRound ],
+    (contestants, currentRound) => {
+        return _sortBy(_reduce(currentRound.eligibleContestantIds, (result, eligibleContestantId) => {
+            result.push(_find(contestants, { id : eligibleContestantId }));
             return result;
         }, []), 'name')
     }

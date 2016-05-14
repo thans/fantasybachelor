@@ -40,9 +40,11 @@ class RoundModalController {
 
     changeRound(round) {
         this.close();
-        this.$state.transitionTo('round', Object.assign({}, this.router.params, {
-            roundId : round.id
-        }));
+        setTimeout(() => {
+            this.$state.transitionTo('round', Object.assign({}, this.router.params, {
+                roundId : round.id
+            }));
+        }, 100)
     }
 
     mapStateToThis(state) {

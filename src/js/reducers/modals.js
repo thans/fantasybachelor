@@ -11,12 +11,35 @@ export const MODAL = {
     CONTESTANT_SELECTION : 'CONTESTANT_SELECTION'
 };
 
+
+export const CONTESTANT_SELECTION_MODAL = {
+    SECTIONS : {
+        PRE_SELECTION_OPEN : 'pre selection open',
+        SELECTION_CLOSED : 'selection closed',
+        SELECT_CONTESTANT : 'select contestant',
+        SELECT_ROLE : 'select role',
+        SWITCH_CONTESTANT : 'switch contestant',
+        SWITCH_ROLE : 'switch role',
+        REMOVE_CONTESTANT : 'remove',
+        VIEW_BIO : 'view bio',
+        ROLE_INFO : 'role info'
+    }
+};
+CONTESTANT_SELECTION_MODAL.ACTIVE_ONLY_SECTIONS = [
+    CONTESTANT_SELECTION_MODAL.SECTIONS.SELECT_CONTESTANT,
+    CONTESTANT_SELECTION_MODAL.SECTIONS.SELECT_ROLE,
+    CONTESTANT_SELECTION_MODAL.SECTIONS.SWITCH_CONTESTANT,
+    CONTESTANT_SELECTION_MODAL.SECTIONS.SWITCH_ROLE,
+    CONTESTANT_SELECTION_MODAL.SECTIONS.REMOVE_CONTESTANT
+];
+
 export default function modals(state = {
     currentUser : false,
     round : false,
     contestantSelection : {
         visible : false,
-        data : {}
+        data : {},
+        activeSection : null
     }
 }, action) {
     switch (action.type) {
@@ -31,16 +54,39 @@ export default function modals(state = {
                         round : { $set : action.state === MODAL_STATE.VISIBLE }
                     });
                 case MODAL.CONTESTANT_SELECTION:
-                    if (action.data) {
+                    if (action.activeSection) {
                         return update(state, {
                             contestantSelection : {
-                                data : { $set : action.data }
+                                activeSection : { $set : action.activeSection }
                             }
                         });
                     }
+
+                    if (action.state === MODAL_STATE.VISIBLE) {
+
+                        let activeSection = null;
+                        if (action.data.role && action.data.contestant) {
+                            activeSection = CONTESTANT_SELECTION_MODAL.SECTIONS.SWITCH_ROLE
+                        }
+                        if (!action.data.role && action.data.contestant) {
+                            activeSection = CONTESTANT_SELECTION_MODAL.SECTIONS.SELECT_ROLE
+                        }
+                        if (action.data.role && !action.data.contestant) {
+                            activeSection = CONTESTANT_SELECTION_MODAL.SECTIONS.SELECT_CONTESTANT
+                        }
+
+                        return update(state, {
+                            contestantSelection : {
+                                visible : { $set : true },
+                                data : { $set : action.data },
+                                activeSection : { $set : activeSection }
+                            }
+                        });
+                    }
+
                     return update(state, {
                         contestantSelection : {
-                            visible : { $set : action.state === MODAL_STATE.VISIBLE }
+                            visible : { $set : false }
                         }
                     });
                 default:

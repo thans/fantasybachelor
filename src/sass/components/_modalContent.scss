@@ -12,6 +12,8 @@ $modalContentPadding: 20px;
 $modalContentPaddingMobile: 2 * $modalContentPadding;
 $modalContentDividerMargin: 8px;
 $modalContentDividerMarginMobile: 2 * $modalContentDividerMargin;
+$modalContentTop: 180px;
+$modalContentTopMobile: 2 * $modalContentTop;
 $modalContentCloseSize: 16px;
 $modalContentCloseSizeMobile: 2 * $modalContentCloseSize;
 $modalContentCloseOffset: 12px;
@@ -27,13 +29,13 @@ $modalContentCloseOffsetMobile: 2 * $modalContentCloseOffset;
   color: $darkGray;
   padding: $modalContentPadding;
   width: $modalContentWidth;
-  top: $modalContentWidth;
+  top: $modalContentTop;
   @include centerHorizontal($modalContentWidth);
 
   @include mobile() {
     padding: $modalContentPaddingMobile;
     width: $modalContentWidthMobile;
-    top: $modalContentWidthMobile;
+    top: $modalContentTopMobile;
     @include centerHorizontal($modalContentWidthMobile);
   }
 

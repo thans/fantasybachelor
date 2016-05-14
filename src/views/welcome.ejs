@@ -1,126 +1,128 @@
-<div id="callToAction">
-    <div class="info">
-        <div class="message">
-            Fantasy Sports + The Bachelorette
+<div class="blurContainer">
+    <div id="callToAction">
+        <div class="info">
+            <div class="message">
+                Fantasy Sports + The Bachelorette
+            </div>
+            <div class="subMessage">
+                Compete against friends in predicting what the bachelors will do and who will get a rose.
+            </div>
+            <action-button ng-if="!AppInitialization.authenticated" ng-controller="LoginButtonController as loginButton" ng-click="loginButton.login()">
+                login with facebook
+            </action-button>
+            <action-button ng-if="AppInitialization.authenticated" ui-sref="round">
+                view your lineup
+            </action-button>
         </div>
-        <div class="subMessage">
-            Compete against friends in predicting what the bachelors will do and who will get a rose.
+        <div class="contestantWheel">
+            <div class="wheel1">
+                <contestant>
+                    <div class="stealerIcon"></div>
+                </contestant>
+                <contestant>
+                    <div class="cryerIcon"></div>
+                </contestant>
+                <contestant>
+                    <div class="loverIcon"></div>
+                </contestant>
+                <contestant>
+                    <div class="kisserIcon"></div>
+                </contestant>
+                <contestant>
+                    <div class="bleeperIcon"></div>
+                </contestant>
+                <contestant>
+                    <div class="intervieweeIcon"></div>
+                </contestant>
+                <contestant>
+                    <img src="https://resources.fantasybach.com/season:NJWJTpZ8x/headShots/Joelle.png" />
+                </contestant>
+            </div>
+            <div class="wheel2">
+                <contestant class="invisible">
+                    <img src="https://resources.fantasybach.com/season:NJWJTpZ8x/headShots/Ben.png" />
+                </contestant>
+                <contestant class="invisible">
+                    <img src="https://resources.fantasybach.com/season:NJWJTpZ8x/headShots/Ben.png" />
+                </contestant>
+                <contestant class="invisible">
+                    <img src="https://resources.fantasybach.com/season:NJWJTpZ8x/headShots/Ben.png" />
+                </contestant>
+                <contestant class="invisible">
+                    <img src="https://resources.fantasybach.com/season:NJWJTpZ8x/headShots/Ben.png" />
+                </contestant>
+                <contestant class="invisible">
+                    <img src="https://resources.fantasybach.com/season:NJWJTpZ8x/headShots/Ben.png" />
+                </contestant>
+                <contestant class="invisible">
+                    <img src="https://resources.fantasybach.com/season:NJWJTpZ8x/headShots/Ben.png" />
+                </contestant>
+            </div>
         </div>
-        <action-button ng-if="!AppInitialization.authenticated" ng-controller="LoginButtonController as loginButton" ng-click="loginButton.login()">
-            login with facebook
-        </action-button>
-        <action-button ng-if="AppInitialization.authenticated" ui-sref="round">
-            view your lineup
-        </action-button>
     </div>
-    <div class="contestantWheel">
-        <div class="wheel1">
-            <contestant>
+    <div id="instructions">
+        <div class="instruction">
+            <div class="iconContainer">
+                <div class="roseIcon"></div>
+            </div>
+            <div class="descriptionContainer">
+                <h3>Roses + Multipliers</h3>
+                <p>Whenever any of your selected contestants accepts a rose, you will earn 1 point multiplied by the multiplier you have on the contestant. Each consecutive week you have a contestant anywhere in your lineup, the multiplier will increase by 1 up to a maximum multiplier of 3. For example, the first week a rose will be worth 1 point, 2 points the next week, but will never exceed 3 points. If you drop a contestant one week and pick them up again later, the multiplier will start back at 1 again.</p>
+            </div>
+        </div>
+        <div class="instruction">
+            <div class="iconContainer">
                 <div class="stealerIcon"></div>
-            </contestant>
-            <contestant>
-                <div class="cryerIcon"></div>
-            </contestant>
-            <contestant>
-                <div class="loverIcon"></div>
-            </contestant>
-            <contestant>
+            </div>
+            <div class="descriptionContainer">
+                <h3>Stealer</h3>
+                <p>Each time your "Stealer" interrupts the bachelorette and pulls her away from the current activity, you will earn +2 points. The contestant will often say, "Can I steal you for a moment?" to the bachelorette when they are about to steal her away.</p>
+            </div>
+        </div>
+        <div class="instruction">
+            <div class="iconContainer">
                 <div class="kisserIcon"></div>
-            </contestant>
-            <contestant>
+            </div>
+            <div class="descriptionContainer">
+                <h3>Kisser</h3>
+                <p>You will earn +.25 points each time the bachelorette and your "Kisser" kiss. A kiss is counted when it is a kiss to the face (lips-to-lips, lips-to-cheek, lips-to-forehead). It does not matter who initiates the kiss, but subsequent kisses are only counted after both parties say at least one word each.</p>
+            </div>
+        </div>
+        <div class="instruction">
+            <div class="iconContainer">
                 <div class="bleeperIcon"></div>
-            </contestant>
-            <contestant>
+            </div>
+            <div class="descriptionContainer">
+                <h3>Bleeper</h3>
+                <p>If any swear words that your "Bleeper" says are bleeped out, you will earn +1 point. Each continuous bleep will be counted as one bleep no matter how many swear words your "Bleeper" strings together.</p>
+            </div>
+        </div>
+        <div class="instruction">
+            <div class="iconContainer">
+                <div class="loverIcon"></div>
+            </div>
+            <div class="descriptionContainer">
+                <h3>Lover</h3>
+                <p>"Love" is the keyword! Any time your "Lover" says the word "Love" (or its derivatives) you will score +.25 points. This includes "Lover," "Loves," "Loving," "Loved," etc.</p>
+            </div>
+        </div>
+        <div class="instruction">
+            <div class="iconContainer">
+                <div class="cryerIcon"></div>
+            </div>
+            <div class="descriptionContainer">
+                <h3>Cryer</h3>
+                <p>You will receive +1 point each time your "Cryer" cries. The contestant is considered to be crying when are clearly emotional and they get choked up, cover their face with their hands, a tear dips down their cheek, or they wipe their eyes. The contestant must regain composure before another cry is counted.</p>
+            </div>
+        </div>
+        <div class="instruction">
+            <div class="iconContainer">
                 <div class="intervieweeIcon"></div>
-            </contestant>
-            <contestant>
-                <img src="https://resources.fantasybach.com/season:NJWJTpZ8x/headShots/Joelle.png" />
-            </contestant>
-        </div>
-        <div class="wheel2">
-            <contestant class="invisible">
-                <img src="https://resources.fantasybach.com/season:NJWJTpZ8x/headShots/Ben.png" />
-            </contestant>
-            <contestant class="invisible">
-                <img src="https://resources.fantasybach.com/season:NJWJTpZ8x/headShots/Ben.png" />
-            </contestant>
-            <contestant class="invisible">
-                <img src="https://resources.fantasybach.com/season:NJWJTpZ8x/headShots/Ben.png" />
-            </contestant>
-            <contestant class="invisible">
-                <img src="https://resources.fantasybach.com/season:NJWJTpZ8x/headShots/Ben.png" />
-            </contestant>
-            <contestant class="invisible">
-                <img src="https://resources.fantasybach.com/season:NJWJTpZ8x/headShots/Ben.png" />
-            </contestant>
-            <contestant class="invisible">
-                <img src="https://resources.fantasybach.com/season:NJWJTpZ8x/headShots/Ben.png" />
-            </contestant>
-        </div>
-    </div>
-</div>
-<div id="instructions">
-    <div class="instruction">
-        <div class="iconContainer">
-            <div class="roseIcon"></div>
-        </div>
-        <div class="descriptionContainer">
-            <h3>Roses + Multipliers</h3>
-            <p>Whenever any of your selected contestants accepts a rose, you will earn 1 point multiplied by the multiplier you have on the contestant. Each consecutive week you have a contestant anywhere in your lineup, the multiplier will increase by 1 up to a maximum multiplier of 3. For example, the first week a rose will be worth 1 point, 2 points the next week, but will never exceed 3 points. If you drop a contestant one week and pick them up again later, the multiplier will start back at 1 again.</p>
-        </div>
-    </div>
-    <div class="instruction">
-        <div class="iconContainer">
-            <div class="stealerIcon"></div>
-        </div>
-        <div class="descriptionContainer">
-            <h3>Stealer</h3>
-            <p>Each time your "Stealer" interrupts the bachelorette and pulls her away from the current activity, you will earn +2 points. The contestant will often say, "Can I steal you for a moment?" to the bachelorette when they are about to steal her away.</p>
-        </div>
-    </div>
-    <div class="instruction">
-        <div class="iconContainer">
-            <div class="kisserIcon"></div>
-        </div>
-        <div class="descriptionContainer">
-            <h3>Kisser</h3>
-            <p>You will earn +.25 points each time the bachelorette and your "Kisser" kiss. A kiss is counted when it is a kiss to the face (lips-to-lips, lips-to-cheek, lips-to-forehead). It does not matter who initiates the kiss, but subsequent kisses are only counted after both parties say at least one word each.</p>
-        </div>
-    </div>
-    <div class="instruction">
-        <div class="iconContainer">
-            <div class="bleeperIcon"></div>
-        </div>
-        <div class="descriptionContainer">
-            <h3>Bleeper</h3>
-            <p>If any swear words that your "Bleeper" says are bleeped out, you will earn +1 point. Each continuous bleep will be counted as one bleep no matter how many swear words your "Bleeper" strings together.</p>
-        </div>
-    </div>
-    <div class="instruction">
-        <div class="iconContainer">
-            <div class="loverIcon"></div>
-        </div>
-        <div class="descriptionContainer">
-            <h3>Lover</h3>
-            <p>"Love" is the keyword! Any time your "Lover" says the word "Love" (or its derivatives) you will score +.25 points. This includes "Lover," "Loves," "Loving," "Loved," etc.</p>
-        </div>
-    </div>
-    <div class="instruction">
-        <div class="iconContainer">
-            <div class="cryerIcon"></div>
-        </div>
-        <div class="descriptionContainer">
-            <h3>Cryer</h3>
-            <p>You will receive +1 point each time your "Cryer" cries. The contestant is considered to be crying when are clearly emotional and they get choked up, cover their face with their hands, a tear dips down their cheek, or they wipe their eyes. The contestant must regain composure before another cry is counted.</p>
-        </div>
-    </div>
-    <div class="instruction">
-        <div class="iconContainer">
-            <div class="intervieweeIcon"></div>
-        </div>
-        <div class="descriptionContainer">
-            <h3>Interviewee</h3>
-            <p>Whenever your "Interviewee" has a staged shot where they are narrating the events of the show, you will score +.1 points. Only one interview will be counted per scene, even if your "Interviewee" has multiple shots.</p>
+            </div>
+            <div class="descriptionContainer">
+                <h3>Interviewee</h3>
+                <p>Whenever your "Interviewee" has a staged shot where they are narrating the events of the show, you will score +.1 points. Only one interview will be counted per scene, even if your "Interviewee" has multiple shots.</p>
+            </div>
         </div>
     </div>
 </div>

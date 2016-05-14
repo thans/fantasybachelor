@@ -21,11 +21,12 @@ class ContestantButtonController {
     constructor($scope, $element) {
         'ngInject';
 
-        $scope.$watch(() => this.contestant, (contestant) => {
+        const unsubscribe = $scope.$watch(() => this.contestant, (contestant) => {
             if (!contestant) {
-                $element.find('img')[0].onload = null;
                 return;
             }
+
+            unsubscribe();
 
             const img = new Image();
             img.src = this.contestant.images.head;

@@ -1,9 +1,18 @@
+@import '../mixins/mobile';
+
+$blurSize: 4px;
+$blurSizeMobile: 2 * $blurSize;
+
 .blurContainer {
   transition: filter .5s ease;
 }
 
 .blurActive {
   .blurContainer {
-    filter: blur(4px);
+    filter: blur($blurSize);
+
+    @include mobile() {
+      filter: blur($blurSizeMobile);
+    }
   }
 }

@@ -1,0 +1,20 @@
+<h3 ng-show="!selectContestantSection.isPreSelectionOpen && !selectContestantSection.isSelectionClosed">
+    select a contestant
+</h3>
+<div ng-show="!selectContestantSection.isPreSelectionOpen && !selectContestantSection.isSelectionClosed" class="eligibleContestants">
+    <contestant-button
+            ng-repeat="eligibleContestant in selectContestantSection.eligibleContestants"
+            contestant="eligibleContestant"
+            is-eliminated="selectContestantSection.isEliminated(eligibleContestant)"
+            multiplier="selectContestantSection.getMultiplier(eligibleContestant)"
+            ng-click="selectContestantSection.selectContestant(eligibleContestant)">
+    </contestant-button>
+</div>
+
+<h3 ng-show="selectContestantSection.isSelectionClosed">
+    selection closed
+</h3>
+<action-button ng-show="selectContestantSection.currentRound !== selectContestantSection.activeRound" ng-click="selectContestantSection.goToActiveRound()">
+    go to current round
+</action-button>
+

@@ -1,0 +1,15 @@
+<h3 ng-show="!selectRoleSection.isPreSelectionOpen && !selectRoleSection.isSelectionClosed">
+    select a role
+</h3>
+<div ng-show="!selectRoleSection.isPreSelectionOpen && !selectRoleSection.isSelectionClosed" class="eligibleRoles">
+    <contestant-button
+            ng-repeat="role in selectRoleSection.roles"
+            role="role"
+            ng-click="selectRoleSection.selectRole(role)">
+    </contestant-button>
+</div>
+<h3 ng-show="selectRoleSection.isPreSelectionOpen">
+    selection opens on {{selectRoleSection.currentRound.startVoteLocalDateTime | eventTime}}
+</h3>
+
+
