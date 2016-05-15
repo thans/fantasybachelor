@@ -24,6 +24,6 @@ module.exports = function(options) {
                     Items : files
                 }
             }
-        }, callback());
+        }, callback);
     });
 };
