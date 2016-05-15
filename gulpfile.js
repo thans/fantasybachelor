@@ -23,6 +23,8 @@ var browserify = require('browserify');
 var envify = require('envify');
 var watchify = require('watchify');
 var _ = require('lodash');
+var s3Upload = require('./customGulpPlugins/s3Upload');
+var cloudFrontInvalidation = require('./customGulpPlugins/cloudFrontInvalidation');
 
 var env;
 var ENV = {
@@ -197,11 +199,40 @@ gulp.task('env.dev', function() {
 gulp.task('env.prod', function() {
     env = ENV.PROD;
     process.env.NODE_ENV = 'production';
-    baseUrl = 'http://localhost:' + serverPort;
-    resourcesUrl = baseUrl;
-    // baseUrl = 'https://resources.fantasybach.com';
-    // resourcesUrl = baseUrl + '/' + version;
+    process.env.AWS_PROFILE = 'fantasy-bach';
+    baseUrl = 'https://resources.fantasybach.com';
+    resourcesUrl = baseUrl + '/' + version;
+});
+
+gulp.task('s3Upload.index', [ 'indexView' ], function() {
+    verifyEnvSet();
+    return gulp.src('build/index.html')
+        .pipe(s3Upload({
+            region : 'us-west-2',
+            bucket : 'fantasybach.com'
+        }));
+});
+
+gulp.task('s3Upload.resources', [ 'favicon', 'views', 'sass', 'bundle' ], function() {
+    verifyEnvSet();
+    return gulp.src([ 'build/**', '!build/index.html'])
+        .pipe(s3Upload({
+            region : 'us-west-2',
+            baseUrl : '/' + version,
+            bucket : 'resources.fantasybach.com'
+        }));
+});
+
+gulp.task('s3Upload', [ 's3Upload.index', 's3Upload.resources']);
+
+gulp.task('cloudFrontInvalidation', [ 's3Upload.index' ], function() {
+    verifyEnvSet();
+    return gulp.src('build/index.html')
+        .pipe(cloudFrontInvalidation({
+            region : 'us-west-2',
+            distributionId : 'E2UF7SN1N7PFM3'
+        }));
 });
 
 gulp.task('develop', ['env.dev', 'watch', 'favicon', 'indexView', 'views', 'sass', 'bundle', 'server']);
-gulp.task('deploy', ['env.prod', 'favicon', 'views', 'sass', 'bundle']);
+gulp.task('deploy', ['env.prod', 'favicon', 'indexView', 'views', 'sass', 'bundle', 's3Upload', 'cloudFrontInvalidation']);
