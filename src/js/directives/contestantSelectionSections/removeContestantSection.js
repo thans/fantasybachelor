@@ -16,33 +16,22 @@ export default function removeContestantSection($templateCache) {
 
 class RemoveContestantSectionController {
 
-    constructor($ngRedux, $scope, $state, contestantSelectionService) {
+    constructor($ngRedux, $scope, contestantSelectionService) {
         'ngInject';
         const unsubscribe = $ngRedux.connect(this.mapStateToThis, null)(this);
         $scope.$on('$destroy', unsubscribe);
 
-        this.$state = $state;
         this.contestantSelectionService = contestantSelectionService;
     }
 
-    close() {
-        this.dispatch(hideContestantSelectionModal());
-    }
-
     remove() {
-        this.contestantSelectionService.removeContestant(this.contestant);
-        this.close();
-    }
-
-    goToActiveRound() {
-        this.close();
-        this.$state.transitionTo('round', Object.assign({}, this.router.params, {
-            roundId : this.activeRound.id
-        }));
+        this.contestantSelectionService.removeContestant(this.contestant, this.role);
+        this.dispatch(hideContestantSelectionModal());
     }
 
     mapStateToThis(state) {
         return {
+            role : state.modals.contestantSelection.data.role,
             contestant : state.modals.contestantSelection.data.contestant,
             currentRound : getCurrentRound(state),
             activeRound : getActiveRound(state),

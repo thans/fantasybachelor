@@ -1,4 +1,5 @@
 import { MODAL_STATE, MODAL_STATE_CHANGE, MODAL, CONTESTANT_SELECTION_MODAL } from '../reducers/modals';
+import { isCurrentRoundPreSelectionOpen, isCurrentRoundSelectionClosed } from '../selectors/rounds';
 import _includes from 'lodash/includes';
 
 export default function contestantSelectionModal($templateCache) {

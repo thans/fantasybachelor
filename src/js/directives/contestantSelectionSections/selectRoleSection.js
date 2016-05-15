@@ -17,29 +17,17 @@ export default function selectRoleSection($templateCache) {
 
 class SelectRoleSectionController {
 
-    constructor($ngRedux, $scope, $state, contestantSelectionService) {
+    constructor($ngRedux, $scope, contestantSelectionService) {
         'ngInject';
         const unsubscribe = $ngRedux.connect(this.mapStateToThis, null)(this);
         $scope.$on('$destroy', unsubscribe);
-        
-        this.$state = $state;
-        this.contestantSelectionService = contestantSelectionService;
-    }
 
-    close() {
-        this.dispatch(hideContestantSelectionModal());
+        this.contestantSelectionService = contestantSelectionService;
     }
 
     selectRole(role) {
         this.contestantSelectionService.selectContestant(this.contestant, role);
-        this.close();
-    }
-
-    goToActiveRound() {
-        this.close();
-        this.$state.transitionTo('round', Object.assign({}, this.router.params, {
-            roundId : this.activeRound.id
-        }));
+        this.dispatch(hideContestantSelectionModal());
     }
 
     mapStateToThis(state) {

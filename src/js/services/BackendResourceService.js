@@ -22,8 +22,10 @@ export const BACKEND_RESOURCE_TYPE = {
 
 export default class BackendResourceService {
 
-    constructor() {
+    constructor($ngRedux) {
+        'ngInject';
         this.backendSdk = new FantasyBachSdk();
+        this.$ngRedux = $ngRedux;
     }
 
     mapToSdk(sdkFunction, resourceType, params, body, resultMapper) {
@@ -91,6 +93,24 @@ export default class BackendResourceService {
 
     postNickname(nickname) {
         return this.mapToSdk(this.backendSdk.postNickname, BACKEND_RESOURCE_TYPE.NICKNAME, {}, { nickname : nickname }, () => { return nickname; });
+    }
+
+    postPick(round, contestant, role) {
+        return this.mapToSdk(this.backendSdk.postPick, BACKEND_RESOURCE_TYPE.CURRENT_USER, { seasonId : CURRENT_SEASON_ID, roundId : round.id }, { contestantId : contestant.id, roleId : role.id }, () => {
+            const state = $ngRedux.getState();
+            const currentUser = Object.assign({}, state.currentUser);
+            currentUser.picks[round.id][role.id] = contestant.id;
+            return currentUser;
+        });
+    }
+
+    deletePick(round, contestant, role) {
+        return this.mapToSdk(this.backendSdk.deletePick, BACKEND_RESOURCE_TYPE.CURRENT_USER, { seasonId : CURRENT_SEASON_ID, roundId : round.id }, { contestantId : contestant.id, roleId : role.id }, () => {
+            const state = $ngRedux.getState();
+            const currentUser = Object.assign({}, state.currentUser);
+            currentUser.picks[round.id][role.id] = null;
+            return currentUser;
+        });
     }
 }
 
