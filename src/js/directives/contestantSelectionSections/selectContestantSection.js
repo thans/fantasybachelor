@@ -4,13 +4,14 @@ import { hideContestantSelectionModal } from '../../directives/contestantSelecti
 import _includes from 'lodash/includes';
 import _without from 'lodash/without';
 
-export default function selectContestantSection() {
+export default function selectContestantSection($templateCache) {
+    'ngInject';
     return {
         restrict : 'E',
         controller : SelectContestantSectionController,
         controllerAs : 'selectContestantSection',
         bindToController: true,
-        templateUrl : VIEWS_DIR + '/contestantSelectionSections/selectContestantSection.html',
+        template : $templateCache.get('contestantSelectionSections/selectContestantSection.html'),
         scope : {}
     };
 }

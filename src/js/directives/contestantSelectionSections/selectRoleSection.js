@@ -3,13 +3,14 @@ import { isCurrentRoundSelectionFull } from '../../selectors/contestants';
 import { hideContestantSelectionModal } from '../../directives/contestantSelectionModal';
 import _without from 'lodash/without';
 
-export default function selectRoleSection() {
+export default function selectRoleSection($templateCache) {
+    'ngInject';
     return {
         restrict : 'E',
         controller : SelectRoleSectionController,
         controllerAs : 'selectRoleSection',
         bindToController: true,
-        templateUrl : VIEWS_DIR + '/contestantSelectionSections/selectRoleSection.html',
+        template : $templateCache.get('contestantSelectionSections/selectRoleSection.html'),
         scope : {}
     };
 }

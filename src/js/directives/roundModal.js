@@ -1,13 +1,15 @@
 import { MODAL_STATE, MODAL_STATE_CHANGE, MODAL } from '../reducers/modals';
 import { getActiveRound } from '../selectors/rounds'
 
-export default function roundModal() {
+export default function roundModal($templateCache) {
+    'ngInject';
+
     return {
         restrict : 'E',
         controller : RoundModalController,
         controllerAs : 'roundModal',
         bindToController: true,
-        templateUrl : VIEWS_DIR + '/roundModal.html',
+        template : $templateCache.get('roundModal.html'),
         scope : {}
     };
 }

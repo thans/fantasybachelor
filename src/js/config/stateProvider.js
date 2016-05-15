@@ -52,21 +52,21 @@ export default ($stateProvider, $urlRouterProvider) => {
     $stateProvider
         .state('welcome', {
             url : '/welcome',
-            templateUrl : VIEWS_DIR + '/welcome.html',
+            template : 'welcome.html',
             resolve : {
                 unauthorized : unauthorizedPromise
             }
         })
         .state('help', {
             url : '/help',
-            templateUrl : VIEWS_DIR + '/contestant.html',
+            templateUrl : 'contestant.html',
             resolve : {
                 unauthorized : unauthorizedPromise
             }
         })
         .state('round', {
             url : '/round/:roundId/league/:leagueId',
-            templateUrl : VIEWS_DIR + '/round.html',
+            templateUrl : 'round.html',
             resolve : {
                 authorized : authorizedPromise,
                 defaultRoundParams : ($q, $state, $ngRedux, $timeout) => {

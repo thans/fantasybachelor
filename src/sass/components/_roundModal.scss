@@ -1,8 +1,16 @@
 @import '../mixins/icons';
+@import '../mixins/position';
 @import '../mixins/size';
 @import '../mixins/mobile';
+@import '../mixins/animation';
 
 round-modal {
+
+  @include fixed(0, 0);
+  @include size(100%, 100%);
+  @include fadeEnterLeave();
+  z-index: 10;
+
   .modalContent {
     .dotIcon {
       display: inline-block;

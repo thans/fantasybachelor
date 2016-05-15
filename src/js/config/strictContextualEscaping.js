@@ -5,7 +5,7 @@ export default ($sceDelegateProvider) => {
         // Allow same origin resource loads.
         'self',
         // Allow loading from our assets domain.
-        VIEWS_DIR + '/**'
+        // VIEWS_DIR + '/**'
     ]);
 
     // The blacklist overrides the whitelist so the open redirect here is blocked.

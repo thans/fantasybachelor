@@ -1,10 +1,11 @@
-export default function roleInfoSection() {
+export default function roleInfoSection($templateCache) {
+    'ngInject';
     return {
         restrict : 'E',
         controller : RoleInfoSectionController,
         controllerAs : 'roleInfoSection',
         bindToController: true,
-        templateUrl : VIEWS_DIR + '/contestantSelectionSections/roleInfoSection.html',
+        template : $templateCache.get('contestantSelectionSections/roleInfoSection.html'),
         scope : {}
     };
 }

@@ -14,6 +14,7 @@ var svgMin = require('gulp-svgmin');
 var inlineSvg = require('gulp-inline-svg');
 var gutil = require('gulp-util');
 var uglify = require('gulp-uglify');
+var templateCache = require('gulp-angular-templatecache');
 var del = require('del');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
@@ -34,7 +35,8 @@ var resourcesUrl;
 var serverPort = '8000';
 
 var files = {
-    views : 'src/views/**/*.ejs',
+    views : [ 'src/views/**/*.ejs', '!src/views/index.ejs' ],
+    indexView : 'src/views/index.ejs',
     sass : 'src/sass/**/*.scss',
     app : 'src/js/app.js',
     js : 'src/js/**/*.js',
@@ -43,8 +45,25 @@ var files = {
     textures : 'src/images/scaled/textures/**/*.jpg'
 };
 
+TEMPLATE_MODULE = 'FantasyBach.templateCache';
+TEMPLATE_HEADER = 'import angular from "angular"; export default angular.module("<%= module %>", []).run(["$templateCache", function($templateCache) {';
+TEMPLATE_FOOTER = '}]).name;';
+
 gulp.task('clean', function() {
     return del(['build']);
+});
+
+gulp.task('indexView', function() {
+    verifyEnvSet();
+    return gulp.src(files.indexView)
+        .pipe(ejs({
+            version : version,
+            resourcesUrl : resourcesUrl
+        }, {
+            ext : '.html'
+        }))
+        .pipe(gulp.dest('build'))
+        .pipe(livereload());
 });
 
 gulp.task('views', function() {
@@ -56,7 +75,12 @@ gulp.task('views', function() {
         }, {
             ext : '.html'
         }))
-        .pipe(gulp.dest('build/views'))
+        .pipe(templateCache({
+            module : TEMPLATE_MODULE,
+            templateHeader : TEMPLATE_HEADER,
+            templateFooter : TEMPLATE_FOOTER
+        }))
+        .pipe(gulp.dest('src/js/build'))
         .pipe(livereload());
 });
 
@@ -100,6 +124,7 @@ gulp.task('sass', ['icons'], function() {
 gulp.task('watch', function() {
     livereload.listen();
 
+    gulp.watch(files.indexView, ['indexView']);
     gulp.watch(files.views, ['views']);
     gulp.watch(files.sass, ['sass']);
     gulp.watch(files.icons, ['icons']);
@@ -108,7 +133,7 @@ gulp.task('watch', function() {
     // gulp.watch(files.js, ['bundle']);
 });
 
-gulp.task('bundle', function() {
+gulp.task('bundle', [ 'views' ], function() {
     verifyEnvSet();
 
     var isDev = env === ENV.DEV;
@@ -178,5 +203,5 @@ gulp.task('env.prod', function() {
     // resourcesUrl = baseUrl + '/' + version;
 });
 
-gulp.task('develop', ['env.dev', 'watch', 'favicon', 'views', 'sass', 'bundle', 'server']);
+gulp.task('develop', ['env.dev', 'watch', 'favicon', 'indexView', 'views', 'sass', 'bundle', 'server']);
 gulp.task('deploy', ['env.prod', 'favicon', 'views', 'sass', 'bundle']);

@@ -1,14 +1,14 @@
 import { MODAL_STATE, MODAL_STATE_CHANGE, MODAL, CONTESTANT_SELECTION_MODAL } from '../reducers/modals';
-import { isCurrentRoundPreSelectionOpen, isCurrentRoundSelectionClosed } from '../selectors/rounds';
 import _includes from 'lodash/includes';
 
-export default function contestantSelectionModal() {
+export default function contestantSelectionModal($templateCache) {
+    'ngInject';
     return {
         restrict : 'E',
         controller : ContestantSelectionModalController,
         controllerAs : 'contestantSelectionModal',
         bindToController: true,
-        templateUrl : VIEWS_DIR + '/contestantSelectionModal.html',
+        template : $templateCache.get('contestantSelectionModal.html'),
         scope : {}
     };
 }
@@ -53,7 +53,6 @@ class ContestantSelectionModalController {
         this.SECTIONS = CONTESTANT_SELECTION_MODAL.SECTIONS;
 
         this.dispatch = $ngRedux.dispatch;
-        this.visible = false;
     }
 
     close($event) {
@@ -95,21 +94,21 @@ class ContestantSelectionModalController {
     
     static getRenderedSection(state) {
         if (!state.modals.contestantSelection.visible) { return; }
-        
-        const activeSection = state.modals.contestantSelection.activeSection;
+
         const SECTIONS = CONTESTANT_SELECTION_MODAL.SECTIONS;
-        if (_includes(CONTESTANT_SELECTION_MODAL.ACTIVE_ONLY_SECTIONS, activeSection)) {
-            if (isCurrentRoundPreSelectionOpen(state)) {
-                return SECTIONS.PRE_SELECTION_OPEN;
-            }
-            if (isCurrentRoundSelectionClosed(state)) {
-                return SECTIONS.SELECTION_CLOSED;
-            }
-        }
-        if (activeSection === SECTIONS.SELECT_CONTESTANT || activeSection === SECTIONS.SWITCH_CONTESTANT) {
+        const activeSection = state.modals.contestantSelection.activeSection;
+        // if (_includes(CONTESTANT_SELECTION_MODAL.ACTIVE_ONLY_SECTIONS, activeSection)) {
+        //     if (isCurrentRoundPreSelectionOpen(state)) {
+        //         return SECTIONS.PRE_SELECTION_OPEN;
+        //     }
+        //     if (isCurrentRoundSelectionClosed(state)) {
+        //         return SECTIONS.SELECTION_CLOSED;
+        //     }
+        // }
+        if (_includes([ SECTIONS.SELECT_CONTESTANT, SECTIONS.SWITCH_CONTESTANT ], activeSection)) {
             return SECTIONS.SELECT_CONTESTANT;
         }
-        if (activeSection === SECTIONS.SELECT_ROLE || activeSection === SECTIONS.SWITCH_ROLE) {
+        if (_includes([ SECTIONS.SELECT_ROLE, SECTIONS.SWITCH_ROLE ], activeSection)) {
             return SECTIONS.SELECT_ROLE;
         }
         return activeSection;

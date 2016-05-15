@@ -1,0 +1,5 @@
+@import '../mixins/animation';
+
+[ui-view] {
+  @include fadeEnterLeave();
+}

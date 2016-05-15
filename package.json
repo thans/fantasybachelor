@@ -28,6 +28,7 @@
     "del": "^2.2.0",
     "envify": "^3.4.0",
     "gulp": "^3.9.1",
+    "gulp-angular-templatecache": "^1.8.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-clean-css": "^2.0.4",
     "gulp-compass": "^2.1.0",

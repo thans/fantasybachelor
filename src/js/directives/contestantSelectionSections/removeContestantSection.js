@@ -2,13 +2,14 @@ import { getActiveRound, getCurrentRound, isCurrentRoundPreSelectionOpen, isCurr
 import { isCurrentRoundSelectionFull } from '../../selectors/contestants';
 import { hideContestantSelectionModal } from '../../directives/contestantSelectionModal';
 
-export default function removeContestantSection() {
+export default function removeContestantSection($templateCache) {
+    'ngInject';
     return {
         restrict : 'E',
         controller : RemoveContestantSectionController,
         controllerAs : 'removeContestantSection',
         bindToController: true,
-        templateUrl : VIEWS_DIR + '/contestantSelectionSections/removeContestantSection.html',
+        template : $templateCache.get('contestantSelectionSections/removeContestantSection.html'),
         scope : {}
     };
 }

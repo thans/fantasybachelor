@@ -24,8 +24,6 @@ $modalContentCloseOffsetMobile: 2 * $modalContentCloseOffset;
   z-index: 60;
   max-width: 100%;
   background-color: $white;
-  transition: opacity .5s ease;
-  opacity: 1;
   color: $darkGray;
   padding: $modalContentPadding;
   width: $modalContentWidth;
@@ -61,10 +59,5 @@ $modalContentCloseOffsetMobile: 2 * $modalContentCloseOffset;
     @include mobile() {
       margin: $modalContentDividerMarginMobile 0;
     }
-  }
-
-  &.hidden {
-    pointer-events: none;
-    opacity: 0;
   }
 }

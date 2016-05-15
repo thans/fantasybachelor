@@ -1,5 +1,5 @@
-<div class="glass dark hidden"ng-class="{ hidden: !contestantSelectionModal.visible }"></div>
-<div class="hidden scrollableContainer" ng-class="{ hidden: !contestantSelectionModal.visible }">
+<div class="glass dark"></div>
+<div class="scrollableContainer">
     <div class="close" ng-click="contestantSelectionModal.close()"></div>
     <div class="scrollable" ng-click="contestantSelectionModal.close($event)" root>
         <div class="content">
@@ -21,13 +21,13 @@
                 </div>
             </div>
             <div class="sectionContainer">
-                <pre-selection-open-section ng-show="contestantSelectionModal.renderedSection === contestantSelectionModal.SECTIONS.PRE_SELECTION_OPEN"></pre-selection-open-section>
-                <selection-closed-section ng-show="contestantSelectionModal.renderedSection === contestantSelectionModal.SECTIONS.SELECTION_CLOSED"></selection-closed-section>
-                <select-contestant-section ng-show="contestantSelectionModal.renderedSection === contestantSelectionModal.SECTIONS.SELECT_CONTESTANT"></select-contestant-section>
-                <select-role-section ng-show="contestantSelectionModal.renderedSection === contestantSelectionModal.SECTIONS.SELECT_ROLE"></select-role-section>
-                <remove-contestant-section ng-show="contestantSelectionModal.renderedSection === contestantSelectionModal.SECTIONS.REMOVE_CONTESTANT"></remove-contestant-section>
-                <view-bio-section ng-show="contestantSelectionModal.renderedSection === contestantSelectionModal.SECTIONS.VIEW_BIO"></view-bio-section>
-                <role-info-section ng-show="contestantSelectionModal.renderedSection === contestantSelectionModal.SECTIONS.ROLE_INFO"></role-info-section>
+                <pre-selection-open-section ng-if="contestantSelectionModal.renderedSection === contestantSelectionModal.SECTIONS.PRE_SELECTION_OPEN"></pre-selection-open-section>
+                <selection-closed-section ng-if="contestantSelectionModal.renderedSection === contestantSelectionModal.SECTIONS.SELECTION_CLOSED"></selection-closed-section>
+                <select-contestant-section ng-if="contestantSelectionModal.renderedSection === contestantSelectionModal.SECTIONS.SELECT_CONTESTANT"></select-contestant-section>
+                <select-role-section ng-if="contestantSelectionModal.renderedSection === contestantSelectionModal.SECTIONS.SELECT_ROLE"></select-role-section>
+                <remove-contestant-section ng-if="contestantSelectionModal.renderedSection === contestantSelectionModal.SECTIONS.REMOVE_CONTESTANT"></remove-contestant-section>
+                <view-bio-section ng-if="contestantSelectionModal.renderedSection === contestantSelectionModal.SECTIONS.VIEW_BIO"></view-bio-section>
+                <role-info-section ng-if="contestantSelectionModal.renderedSection === contestantSelectionModal.SECTIONS.ROLE_INFO"></role-info-section>
             </div>
         </div>
     </div>

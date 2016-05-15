@@ -1,12 +1,13 @@
 import { setCurrentUserModalVisibility } from '../directives/currentUserModal'
 
-export default function heading() {
+export default function heading($templateCache) {
+    'ngInject';
     return {
         restrict : 'E',
         controller : HeadingController,
         controllerAs : 'heading',
         bindToController : true,
-        templateUrl : VIEWS_DIR + '/heading.html',
+        template : $templateCache.get('heading.html'),
         scope : {}
     };
 }
@@ -27,7 +28,8 @@ class HeadingController {
 
     mapStateToThis(state) {
         return {
-            user : state.currentUser && state.currentUser.data
+            user : state.currentUser && state.currentUser.data,
+            isCurrentUserModalVisible : state.modals.currentUser
         };
     }
 }

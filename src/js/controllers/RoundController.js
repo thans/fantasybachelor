@@ -73,6 +73,8 @@ export default class RoundController {
             roundScore : getCurrentRoundScore(state),
             totalScore : state.currentUser.data.scores.score,
             multipliers : getCurrentUserCurrentRoundMultipliers(state),
+            isContestantSelectionModalVisible : state.modals.contestantSelection.visible,
+            isRoundModalVisible : state.modals.round,
             router : state.router
         };
     }

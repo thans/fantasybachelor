@@ -3,6 +3,7 @@
 @import '../mixins/mobile';
 @import '../mixins/circles';
 @import '../mixins/size';
+@import '../mixins/animation';
 @import '../constants/fonts';
 @import '../constants/colors';
 
@@ -10,6 +11,10 @@ $currentUserModalProfilePicSize: 80px;
 $currentUserModalProfilePicSizeMobile: 140px;
 
 current-user-modal {
+  @include fixed(0, 0);
+  @include size(100%, 100%);
+  @include fadeEnterLeave();
+  z-index: 10;
 
   .modalContent {
 

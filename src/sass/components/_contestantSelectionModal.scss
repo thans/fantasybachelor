@@ -4,6 +4,7 @@
 @import '../mixins/border';
 @import '../mixins/icons';
 @import '../mixins/size';
+@import '../mixins/animation';
 @import '../constants/colors';
 @import '../constants/fonts';
 
@@ -15,6 +16,11 @@ $contestantSelectionModalPrimaryContestantButtonMargin: 100px;
 $contestantSelectionModalPrimaryContestantButtonMarginMobile: 2 * $contestantSelectionModalPrimaryContestantButtonMargin;
 contestant-selection-modal {
   text-align: center;
+
+  @include fixed(0, 0);
+  @include size(100%, 100%);
+  @include fadeEnterLeave();
+  z-index: 10;
 
   .scrollableContainer {
     @include fixed(0, 0);
@@ -83,25 +89,7 @@ contestant-selection-modal {
             display: block;
             width: 100%;
 
-            &.ng-hide-add-active, &.ng-hide-remove-active {
-              transition: opacity .5s ease;
-            }
-
-            &.ng-hide-remove {
-              opacity: 0;
-            }
-
-            &.ng-hide-remove-active {
-              opacity: 1;
-            }
-
-            &.ng-hide-add {
-              opacity: 1;
-            }
-
-            &.ng-hide-add-active {
-              opacity: 0;
-            }
+            @include fadeEnterLeave();
           }
         }
       }

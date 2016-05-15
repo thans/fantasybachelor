@@ -1,12 +1,13 @@
 import { MODAL_STATE, MODAL_STATE_CHANGE, MODAL } from '../reducers/modals';
 
-export default function currentUserModal() {
+export default function currentUserModal($templateCache) {
+    'ngInject';
     return {
         restrict : 'E',
         controller : CurrentUserModalController,
         controllerAs : 'currentUserModal',
         bindToController: true,
-        templateUrl : VIEWS_DIR + '/currentUserModal.html',
+        template : $templateCache.get('currentUserModal.html'),
         scope : {}
     };
 }

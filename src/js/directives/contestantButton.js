@@ -1,10 +1,12 @@
-export default function contestantButton() {
+export default function contestantButton($templateCache) {
+    'ngInject';
+    
     return {
         restrict : 'E',
         controller : ContestantButtonController,
         controllerAs : 'contestantButton',
         bindToController: true,
-        templateUrl : VIEWS_DIR + '/contestantButton.html',
+        template : $templateCache.get('contestantButton.html'),
         scope : {
             role : '=',
             contestant : '=',

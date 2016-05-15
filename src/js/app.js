@@ -9,6 +9,7 @@ import directives from './directives';
 import run from './run';
 import services from './services';
 import filters from './filters';
+import templates from './build/templates';
 
 module.exports = angular.module('FantasyBach', [
     ngRedux,
@@ -20,5 +21,6 @@ module.exports = angular.module('FantasyBach', [
     directives,
     run,
     services,
-    filters
+    filters,
+    templates
 ]);

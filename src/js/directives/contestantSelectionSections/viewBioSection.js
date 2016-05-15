@@ -1,10 +1,11 @@
-export default function viewBioSection() {
+export default function viewBioSection($templateCache) {
+    'ngInject';
     return {
         restrict : 'E',
         controller : ViewBioSectionController,
         controllerAs : 'viewBioSection',
         bindToController: true,
-        templateUrl : VIEWS_DIR + '/contestantSelectionSections/viewBioSection.html',
+        template : $templateCache.get('contestantSelectionSections/viewBioSection.html'),
         scope : {}
     };
 }

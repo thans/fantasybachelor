@@ -3,6 +3,7 @@
 @import 'mixins/position';
 @import 'mixins/mobile';
 @import 'mixins/size';
+@import 'mixins/animation';
 @import 'components/spinner';
 
 $splashOffset: 40px;
@@ -40,6 +41,7 @@ a {
 
   @include fixed(0, 0);
   @include size(100%, 100%);
+  @include fadeShowHide();
 
   #splash-content {
     margin-top: -$splashOffset;

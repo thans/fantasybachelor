@@ -75,6 +75,6 @@
     </div>
 </div>
 
-<contestant-selection-modal></contestant-selection-modal>
+<contestant-selection-modal ng-if="round.isContestantSelectionModalVisible"></contestant-selection-modal>
 
-<round-modal></round-modal>
+<round-modal ng-if="round.isRoundModalVisible"></round-modal>

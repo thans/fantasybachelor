@@ -1,13 +1,14 @@
 import { getActiveRound, getCurrentRound } from '../../selectors/rounds';
 import { hideContestantSelectionModal } from '../../directives/contestantSelectionModal';
 
-export default function selectionClosedSection() {
+export default function selectionClosedSection($templateCache) {
+    'ngInject';
     return {
         restrict : 'E',
         controller : SelectionClosedSectionController,
         controllerAs : 'selectionClosedSection',
         bindToController: true,
-        templateUrl : VIEWS_DIR + '/contestantSelectionSections/selectionClosedSection.html',
+        template : $templateCache.get('contestantSelectionSections/selectionClosedSection.html'),
         scope : {}
     };
 }
