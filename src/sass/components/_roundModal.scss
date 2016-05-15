@@ -8,7 +8,7 @@ round-modal {
 
   @include fixed(0, 0);
   @include size(100%, 100%);
-  @include fadeEnterLeave();
+  @include fadeShowHide();
   z-index: 10;
 
   .modalContent {

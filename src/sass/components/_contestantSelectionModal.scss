@@ -19,7 +19,7 @@ contestant-selection-modal {
 
   @include fixed(0, 0);
   @include size(100%, 100%);
-  @include fadeEnterLeave();
+  @include fadeShowHide();
   z-index: 10;
 
   .scrollableContainer {
@@ -35,6 +35,10 @@ contestant-selection-modal {
       .content {
         pointer-events: none;
         padding: 40px;
+
+        @include mobile() {
+          min-height: 110%;
+        }
 
         [ng-click] {
           pointer-events: auto;

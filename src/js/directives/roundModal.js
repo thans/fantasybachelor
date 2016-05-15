@@ -33,7 +33,6 @@ class RoundModalController {
         this.$location = $location;
         this.$stateParams = $stateParams;
         this.dispatch = $ngRedux.dispatch;
-        this.visible = false;
     }
 
     close() {

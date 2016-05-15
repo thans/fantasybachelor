@@ -15,4 +15,15 @@
     @include relative();
     width: calc(100% + 15px);
   }
+
+  @include mobile() {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  &.hideOverflow {
+    @include mobile() {
+      overflow: hidden;
+      position: relative;
+    }
+  }
 }

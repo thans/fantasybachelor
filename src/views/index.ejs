@@ -10,26 +10,26 @@
         <link rel="shortcut icon" href="<%= resourcesUrl %>/images/favicon.ico" />
         <base href="/">
     </head>
-    <body class="scrollable" ng-app="FantasyBach" ng-controller="AppInitializationController as AppInitialization" ng-strict-di>
-        <div id="splash"  ng-hide="AppInitialization.initialized">
-            <div id="splash-content">
-                <div class="spinner">
-                    <div class="bounce1"></div>
-                    <div class="bounce2"></div>
+    <body class="scrollable" ng-class="{ hideOverflow : blurController.blurActive }" ng-app="FantasyBach" ng-controller="BlurController as blurController" ng-strict-di>
+        <div ng-controller="AppInitializationController as AppInitialization">
+            <div id="splash" ng-hide="AppInitialization.initialized">
+                <div id="splash-content">
+                    <div class="spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                    </div>
+                    <div class="label">loading</div>
                 </div>
-                <div class="label">loading</div>
             </div>
-        </div>
 
-        <div id="primaryContent" ng-controller="BlurController as blurController" ng-class="{ blurActive : blurController.blurActive }">
-            <heading></heading>
-            <div ui-view></div>
+            <div id="primaryContent" ng-class="{ blurActive : blurController.blurActive }">
+                <heading></heading>
+                <div ui-view></div>
+            </div>
         </div>
 
         <script defer src="<%= resourcesUrl %>/js/app.min.js"></script>
         <script defer id="facebook-jssdk" src="https://connect.facebook.net/en_US/sdk.js"></script>
         <async-link href="<%= resourcesUrl %>/css/app.min.css"></async-link>
-
-        <!--<link rel="stylesheet" href="<%= resourcesUrl %>/css/app.min.css">-->
     </body>
 </html>
