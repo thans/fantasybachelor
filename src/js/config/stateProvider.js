@@ -52,7 +52,7 @@ export default ($stateProvider, $urlRouterProvider) => {
     $stateProvider
         .state('welcome', {
             url : '/welcome',
-            template : 'welcome.html',
+            templateUrl : 'welcome.html',
             resolve : {
                 unauthorized : unauthorizedPromise
             }
@@ -83,7 +83,7 @@ export default ($stateProvider, $urlRouterProvider) => {
                         const activeRound = getActiveRound(state);
 
                         if (!roundId || !_find(state.rounds.data, { id : roundId })) {
-                            deferred.resolve();
+                            deferred.reject();
                             $timeout(() => {
                                 $state.go('round', Object.assign({}, routerParams, {
                                     roundId : activeRound.id
@@ -91,12 +91,8 @@ export default ($stateProvider, $urlRouterProvider) => {
                                     location : 'replace'
                                 });
                             });
-                            // $location.path($state.href('round', {
-                            //     roundId : activeRound.id,
-                            //     leagueId : $stateParams.leagueId
-                            // }).substring(1)).replace();
                         } else if (!leagueId) {
-                            deferred.resolve();
+                            deferred.reject();
                             $timeout(() => {
                                 $state.go('round', Object.assign({}, routerParams, {
                                     leagueId : 'test6'
@@ -104,13 +100,9 @@ export default ($stateProvider, $urlRouterProvider) => {
                                     location : 'replace'
                                 });
                             });
-                            // $location.path($state.href('round', {
-                            //     roundId : roundId,
-                            //     leagueId : 'test5'
-                            // }).substring(1)).replace();
+                        } else {
+                            deferred.resolve();
                         }
-
-                        deferred.resolve();
                         unsubscribe();
                     };
                     const unsubscribe = $ngRedux.subscribe(handleChange);

@@ -97,14 +97,14 @@ class ContestantSelectionModalController {
 
         const SECTIONS = CONTESTANT_SELECTION_MODAL.SECTIONS;
         const activeSection = state.modals.contestantSelection.activeSection;
-        // if (_includes(CONTESTANT_SELECTION_MODAL.ACTIVE_ONLY_SECTIONS, activeSection)) {
-        //     if (isCurrentRoundPreSelectionOpen(state)) {
-        //         return SECTIONS.PRE_SELECTION_OPEN;
-        //     }
-        //     if (isCurrentRoundSelectionClosed(state)) {
-        //         return SECTIONS.SELECTION_CLOSED;
-        //     }
-        // }
+        if (_includes(CONTESTANT_SELECTION_MODAL.ACTIVE_ONLY_SECTIONS, activeSection)) {
+            if (isCurrentRoundPreSelectionOpen(state)) {
+                return SECTIONS.PRE_SELECTION_OPEN;
+            }
+            if (isCurrentRoundSelectionClosed(state)) {
+                return SECTIONS.SELECTION_CLOSED;
+            }
+        }
         if (_includes([ SECTIONS.SELECT_CONTESTANT, SECTIONS.SWITCH_CONTESTANT ], activeSection)) {
             return SECTIONS.SELECT_CONTESTANT;
         }

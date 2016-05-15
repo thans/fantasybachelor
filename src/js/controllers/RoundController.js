@@ -1,5 +1,5 @@
 import { setRoundModalVisibility } from '../directives/roundModal';
-import { hideContestantSelectionModal, showContestantSelectionModal } from '../directives/contestantSelectionModal';
+import { showContestantSelectionModal } from '../directives/contestantSelectionModal';
 import { getActiveRound, getCurrentUserCurrentRoundMultipliers, getCurrentRound, getCurrentRoundScore, isCurrentRoundPreSelectionOpen, isCurrentRoundSelectionClosed } from '../selectors/rounds';
 import { getCurrentRoundUnselectedEligibleContestants, getPrimaryContestant, getCurrentRoundSelectedContestants, getNumCurrentRoundSelectedContestants, isCurrentRoundSelectionFull } from '../selectors/contestants';
 import _includes from 'lodash/includes';
@@ -59,6 +59,7 @@ export default class RoundController {
     }
 
     mapStateToThis(state) {
+        if (!getCurrentRound(state)) { return {} }
         return {
             currentRound : getCurrentRound(state),
             activeRound : getActiveRound(state),
