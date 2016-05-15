@@ -17,6 +17,7 @@ export default class FacebookService {
     constructor(backendResourceService) {
         'ngInject';
         this.backendResourceService = backendResourceService;
+        this.isInitialized = false;
     }
 
     static getAppId() {
