@@ -1,7 +1,9 @@
 import { getInitializationState } from '../selectors/initialization';
 import { getActiveRound } from '../selectors/rounds';
 import _find from 'lodash/find';
+import _includes from 'lodash/includes';
 import RoundController from '../controllers/RoundController';
+import LeagueJoinController from '../controllers/LeagueJoinController';
 
 export default ($stateProvider, $urlRouterProvider) => {
     'ngInject';
@@ -71,19 +73,18 @@ export default ($stateProvider, $urlRouterProvider) => {
                 authorized : authorizedPromise,
                 defaultRoundParams : ($q, $state, $ngRedux, $timeout) => {
                     const deferred = $q.defer();
-
+    
                     const handleChange = () => {
                         const state = $ngRedux.getState();
                         const initializationState = getInitializationState(state);
                         const routerParams = state.router.params;
                         const roundId = routerParams.roundId;
                         const leagueId = routerParams.leagueId;
-
-                        if (!initializationState.initialized) { return; }
+    
+                        if (!initializationState.initialized || !state.currentUser.data) { return; }
                         const activeRound = getActiveRound(state);
-
+    
                         if (!roundId || !_find(state.rounds.data, { id : roundId })) {
-                            deferred.reject();
                             $timeout(() => {
                                 $state.go('round', Object.assign({}, routerParams, {
                                     roundId : activeRound.id
@@ -91,11 +92,10 @@ export default ($stateProvider, $urlRouterProvider) => {
                                     location : 'replace'
                                 });
                             });
-                        } else if (!leagueId) {
-                            deferred.reject();
+                        } else if (!leagueId || !(_includes(state.currentUser.data.leagueIds, leagueId) || leagueId === 'global')) {
                             $timeout(() => {
                                 $state.go('round', Object.assign({}, routerParams, {
-                                    leagueId : 'test6'
+                                    leagueId : 'global'
                                 }), {
                                     location : 'replace'
                                 });
@@ -107,12 +107,70 @@ export default ($stateProvider, $urlRouterProvider) => {
                     };
                     const unsubscribe = $ngRedux.subscribe(handleChange);
                     handleChange();
-
+    
                     return deferred.promise;
                 }
             },
             controller : RoundController,
             controllerAs : 'round',
+            bindToController: true
+        })
+        .state('joinLeague', {
+            url : '/league/join/:leagueId',
+            templateUrl : 'leagueJoin.html',
+            resolve : {
+                test : ($q, $state, $ngRedux, $timeout, backendResourceService) => {
+                    const deferred = $q.defer();
+    
+                    const handleChange = () => {
+                        const state = $ngRedux.getState();
+                        const initializationState = getInitializationState(state);
+                        const routerParams = state.router.params;
+                        const leagueId = routerParams.leagueId;
+                        
+                        if (!leagueId) {
+                            deferred.reject();
+                            unsubscribe();
+                            return;
+                        }
+                        
+                        if (!initializationState.initialized) { return; }
+                        
+                        if (!initializationState.authenticated) { 
+                            deferred.resolve();
+                            unsubscribe();
+                            return;
+                        }
+                        
+                        if (!state.currentUser.data) { return; }
+                        
+                        if (_includes(state.currentUser.data.leagueIds, leagueId) || leagueId === 'global') {
+                            $timeout(() => {
+                                $state.go('round', Object.assign({}, routerParams, {
+                                    leagueId : leagueId
+                                }), {
+                                    location : 'replace'
+                                });
+                            });
+                        } else {
+                            backendResourceService.postJoinLeague(leagueId).then(function() {
+                                $state.go('round', Object.assign({}, routerParams, {
+                                    leagueId : leagueId
+                                }), {
+                                    location : 'replace'
+                                });
+                            });
+                        }
+                        unsubscribe();
+                    };
+                    const unsubscribe = $ngRedux.subscribe(handleChange);
+                    handleChange();
+    
+                    return deferred.promise;
+                }
+            },
+            controller : LeagueJoinController,
+            controllerAs : 'leagueJoin',
             bindToController: true
         });
 }

@@ -1,0 +1,12 @@
+@import '../mixins/mobile';
+
+$leagueJoinPadding: 60px;
+$leagueJoinPaddingMobile: 2 * $leagueJoinPadding;
+#leagueJoin {
+  text-align: center;
+  padding: $leagueJoinPadding;
+
+  @include mobile() {
+    padding: $leagueJoinPaddingMobile;
+  }
+}

@@ -8,6 +8,7 @@ export default function currentUser(state = {
         case BACKEND_RESOURCE_STATE_CHANGE:
             switch (action.resourceType) {
                 case BACKEND_RESOURCE_TYPE.CURRENT_USER:
+                    if (action.data) { action.data.leagueIds = [ '1234' ] };
                     return Object.assign({}, state, {
                         data: action.data || null,
                         state: action.state

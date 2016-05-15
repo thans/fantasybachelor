@@ -22,10 +22,12 @@ export const BACKEND_RESOURCE_TYPE = {
 
 export default class BackendResourceService {
 
-    constructor($ngRedux) {
+    constructor($ngRedux, $q, $timeout) {
         'ngInject';
         this.backendSdk = new FantasyBachSdk();
         this.$ngRedux = $ngRedux;
+        this.$q = $q;
+        this.$timeout = $timeout;
     }
 
     mapToSdk(sdkFunction, resourceType, params, body, resultMapper) {
@@ -111,6 +113,18 @@ export default class BackendResourceService {
             currentUser.picks[round.id][role.id] = null;
             return currentUser;
         });
+    }
+
+    postJoinLeague(leagueId) {
+        const deferred = this.$q.defer();
+
+        this.$timeout(() => {
+            console.log('joined: ' + leagueId);
+            this.$ngRedux.getState().currentUser.data.leagueIds.push(leagueId);
+            deferred.resolve();
+        }, 1000);
+
+        return deferred.promise;
     }
 }
 
