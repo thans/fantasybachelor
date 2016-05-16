@@ -22,21 +22,24 @@ export const BACKEND_RESOURCE_TYPE = {
 
 export default class BackendResourceService {
 
-    constructor($ngRedux, $q, $timeout) {
+    constructor($ngRedux, $state) {
         'ngInject';
         this.backendSdk = new FantasyBachSdk();
         this.$ngRedux = $ngRedux;
-        this.$q = $q;
-        this.$timeout = $timeout;
+        this.$state = $state;
     }
 
     mapToSdk(sdkFunction, resourceType, params, body, resultMapper) {
         return (dispatch) => {
-            dispatch({
-                type : BACKEND_RESOURCE_STATE_CHANGE,
-                state : BACKEND_RESOURCE_STATE.LOADING,
-                resourceType : resourceType
-            });
+            try {
+                dispatch({
+                    type : BACKEND_RESOURCE_STATE_CHANGE,
+                    state : BACKEND_RESOURCE_STATE.LOADING,
+                    resourceType : resourceType
+                });
+            } catch (err) {
+                console.log(err);
+            }
             sdkFunction.call(this.backendSdk, params || {}, body || {}).then((result) => {
                 let mappedResult = result;
                 if (resultMapper) {
@@ -99,8 +102,8 @@ export default class BackendResourceService {
 
     postPick(round, contestant, role) {
         return this.mapToSdk(this.backendSdk.postPick, BACKEND_RESOURCE_TYPE.CURRENT_USER, { seasonId : CURRENT_SEASON_ID, roundId : round.id }, { contestantId : contestant.id, roleId : role.id }, () => {
-            const state = $ngRedux.getState();
-            const currentUser = Object.assign({}, state.currentUser);
+            const state = this.$ngRedux.getState();
+            const currentUser = Object.assign({}, state.currentUser.data);
             currentUser.picks[round.id][role.id] = contestant.id;
             return currentUser;
         });
@@ -108,22 +111,41 @@ export default class BackendResourceService {
 
     deletePick(round, contestant, role) {
         return this.mapToSdk(this.backendSdk.deletePick, BACKEND_RESOURCE_TYPE.CURRENT_USER, { seasonId : CURRENT_SEASON_ID, roundId : round.id }, { contestantId : contestant.id, roleId : role.id }, () => {
-            const state = $ngRedux.getState();
-            const currentUser = Object.assign({}, state.currentUser);
+            const state = this.$ngRedux.getState();
+            const currentUser = Object.assign({}, state.currentUser.data);
             currentUser.picks[round.id][role.id] = null;
             return currentUser;
         });
     }
 
+    postLeague(leagueName) {
+        return this.mapToSdk(this.backendSdk.postLeague, BACKEND_RESOURCE_TYPE.CURRENT_USER, { seasonId : CURRENT_SEASON_ID }, { leagueName : leagueName }, (leagueId) => {
+            const state = this.$ngRedux.getState();
+            const currentUser = Object.assign({}, state.currentUser.data);
+            currentUser.leagues.push({
+                id : leagueId,
+                name : leagueName,
+                adminId : currentUser.id,
+                memberIds : [ currentUser.id ]
+            });
+            this.$state.go('round', Object.assign({}, this.$state.params, {
+                leagueId : leagueId
+            }));
+            return currentUser;
+        });
+    }
+
     postJoinLeague(leagueId) {
-        const deferred = this.$q.defer();
-
-        this.$timeout(() => {
-            console.log('joined: ' + leagueId);
-            this.$ngRedux.getState().currentUser.data.leagueIds.push(leagueId);
-            deferred.resolve();
-        }, 1000);
-
-        return deferred.promise;
+        return this.mapToSdk(this.backendSdk.postLeagueJoin, BACKEND_RESOURCE_TYPE.CURRENT_USER, { seasonId : CURRENT_SEASON_ID, leagueId : leagueId }, {}, (league) => {
+            const state = this.$ngRedux.getState();
+            const currentUser = Object.assign({}, state.currentUser.data);
+            currentUser.leagues.push(league);
+            this.$state.go('round', Object.assign({}, this.$state.params, {
+                leagueId : leagueId
+            }), {
+                location : 'replace'
+            });
+            return currentUser;
+        });
     }
 }

@@ -1,3 +1,5 @@
+import update from 'react/lib/update';
+
 import { BACKEND_RESOURCE_STATE_CHANGE, BACKEND_RESOURCE_STATE, BACKEND_RESOURCE_TYPE } from '../services/BackendResourceService';
 
 export default function currentUser(state = {
@@ -8,17 +10,21 @@ export default function currentUser(state = {
         case BACKEND_RESOURCE_STATE_CHANGE:
             switch (action.resourceType) {
                 case BACKEND_RESOURCE_TYPE.CURRENT_USER:
-                    if (action.data) { action.data.leagueIds = [ '1234' ] };
-                    return Object.assign({}, state, {
-                        data: action.data || null,
-                        state: action.state
+                    if (action.state !== BACKEND_RESOURCE_STATE.LOADED) {
+                        return update(state, {
+                            state: { $set : action.state }
+                        });
+                    }
+                    return update(state, {
+                        data: { $set : action.data },
+                        state: { $set : action.state }
                     });
                 case BACKEND_RESOURCE_TYPE.NICKNAME:
                     if (!action.data || !state.data) { return state; }
-                    return Object.assign({}, state, {
-                        data: Object.assign({}, state.data, {
-                            nickname: action.data
-                        })
+                    return update(state, {
+                        data : {
+                            nickname : { $set : action.data }
+                        }
                     });
                 default:
                     return state;

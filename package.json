@@ -1,13 +1,13 @@
 {
   "name": "FantasyBach",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "repository": "https://github.com/thans/fantasybachelor.git",
   "dependencies": {
     "angular": "^1.5.5",
     "angular-animate": "^1.5.5",
     "angular-touch": "^1.5.5",
     "angular-ui-router": "^0.2.18",
-    "fantasybach-sdk": "0.0.9",
+    "fantasybach-sdk": "0.0.10",
     "fastclick": "^1.0.6",
     "gulp-browserify": "^0.5.1",
     "gulp-livereload": "^3.8.1",

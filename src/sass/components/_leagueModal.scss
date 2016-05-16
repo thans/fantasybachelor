@@ -1,0 +1,65 @@
+@import '../mixins/icons';
+@import '../mixins/position';
+@import '../mixins/size';
+@import '../mixins/mobile';
+@import '../mixins/animation';
+@import '../constants/colors';
+@import '../constants/fonts';
+
+league-modal {
+
+  @include fixed(0, 0);
+  @include size(100%, 100%);
+  @include fadeShowHide();
+  z-index: 10;
+
+  .modalContent {
+    .dotIcon {
+      display: inline-block;
+      margin: 0 6px 4px 0;
+      @include icon($circleGray);
+      @include size(6px, null, true);
+    }
+
+    .button {
+      background-color: $red;
+      color: $white;
+      padding: 6px 0;
+      margin-top: 12px;
+      text-align: center;
+
+      @include mobile() {
+        padding: 12px 0;
+        margin-top: 24px;
+      }
+    }
+
+    .createLeague {
+      display: flex;
+      margin-top: 12px;
+
+      input {
+        flex: 1;
+        width: 0;
+        padding: 4px;
+        border: 1px solid $darkGrayOpaque;
+
+        @include smallFont();
+
+        @include mobile() {
+          padding: 8px;
+        }
+      }
+
+      .button {
+        margin: 0 0 0 8px;
+        padding: 4px 12px;
+
+        @include mobile() {
+          margin: 0 0 0 16px;
+          padding: 8px 24px;
+        }
+      }
+    }
+  }
+}

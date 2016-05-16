@@ -1,6 +1,10 @@
 export default function facebookSdk($ngRedux, facebookService) {
     'ngInject';
-    window.fbAsyncInit = () => {
+
+    var fbAsyncInit = () => {
         $ngRedux.dispatch(facebookService.init());
     };
+    
+    if (FB) { return fbAsyncInit(); }
+    window.fbAsyncInit = fbAsyncInit;
 }

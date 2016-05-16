@@ -24,14 +24,12 @@ export const setRoundModalVisibility = (visible) => {
 
 class RoundModalController {
 
-    constructor($ngRedux, $scope, $location, $state, $stateParams) {
+    constructor($ngRedux, $scope, $state) {
         'ngInject';
         const unsubscribe = $ngRedux.connect(this.mapStateToThis, null)(this);
         $scope.$on('$destroy', unsubscribe);
 
         this.$state = $state;
-        this.$location = $location;
-        this.$stateParams = $stateParams;
         this.dispatch = $ngRedux.dispatch;
     }
 
@@ -41,11 +39,9 @@ class RoundModalController {
 
     changeRound(round) {
         this.close();
-        setTimeout(() => {
-            this.$state.transitionTo('round', Object.assign({}, this.router.params, {
-                roundId : round.id
-            }));
-        }, 100)
+        this.$state.transitionTo('round', Object.assign({}, this.router.params, {
+            roundId : round.id
+        }));
     }
 
     mapStateToThis(state) {

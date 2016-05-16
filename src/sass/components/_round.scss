@@ -195,14 +195,8 @@ $roundSmallArrowMarginMobile: 2 * $roundSmallArrowMargin;
     }
   }
 
-  .test {
-    position: fixed;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-    background-color: rgba(0, 0, 0, .8);
-    width: 100%;
-    height: 100%;
+  .shareLink {
+    user-select: initial;
   }
 
   .inner {

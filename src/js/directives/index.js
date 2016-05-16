@@ -3,6 +3,7 @@ import heading from './heading';
 import contestantButton from './contestantButton';
 import currentUserModal from './currentUserModal';
 import roundModal from './roundModal';
+import leagueModal from './leagueModal';
 import contestantSelectionModal from './contestantSelectionModal';
 import asyncLink from './asyncLink';
 import contestantSelectionSections from './contestantSelectionSections';
@@ -12,6 +13,7 @@ export default angular.module('FantasyBach.directives', [ contestantSelectionSec
     .directive('contestantButton', contestantButton)
     .directive('currentUserModal', currentUserModal)
     .directive('roundModal', roundModal)
+    .directive('leagueModal', leagueModal)
     .directive('contestantSelectionModal', contestantSelectionModal)
     .directive('asyncLink', asyncLink)
     .name;

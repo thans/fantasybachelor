@@ -92,7 +92,7 @@ export default ($stateProvider, $urlRouterProvider) => {
                                     location : 'replace'
                                 });
                             });
-                        } else if (!leagueId || !(_includes(state.currentUser.data.leagueIds, leagueId) || leagueId === 'global')) {
+                        } else if (!leagueId || !_find(state.currentUser.data.leagues, { id : leagueId })) {
                             $timeout(() => {
                                 $state.go('round', Object.assign({}, routerParams, {
                                     leagueId : 'global'
@@ -116,7 +116,7 @@ export default ($stateProvider, $urlRouterProvider) => {
             bindToController: true
         })
         .state('joinLeague', {
-            url : '/league/join/:leagueId',
+            url : '/league/:leagueId/join',
             templateUrl : 'leagueJoin.html',
             resolve : {
                 test : ($q, $state, $ngRedux, $timeout, backendResourceService) => {
@@ -144,7 +144,7 @@ export default ($stateProvider, $urlRouterProvider) => {
                         
                         if (!state.currentUser.data) { return; }
                         
-                        if (_includes(state.currentUser.data.leagueIds, leagueId) || leagueId === 'global') {
+                        if (_find(state.currentUser.data.leagues, { id : leagueId })) {
                             $timeout(() => {
                                 $state.go('round', Object.assign({}, routerParams, {
                                     leagueId : leagueId
@@ -153,12 +153,8 @@ export default ($stateProvider, $urlRouterProvider) => {
                                 });
                             });
                         } else {
-                            backendResourceService.postJoinLeague(leagueId).then(function() {
-                                $state.go('round', Object.assign({}, routerParams, {
-                                    leagueId : leagueId
-                                }), {
-                                    location : 'replace'
-                                });
+                            $timeout(() => {
+                                $ngRedux.dispatch(backendResourceService.postJoinLeague(leagueId));
                             });
                         }
                         unsubscribe();

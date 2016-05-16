@@ -1,5 +1,7 @@
 import { setRoundModalVisibility } from '../directives/roundModal';
+import { setLeagueModalVisibility } from '../directives/leagueModal';
 import { showContestantSelectionModal } from '../directives/contestantSelectionModal';
+import { getCurrentLeague, isCurrentUserCurrentLeagueAdmin } from '../selectors/leagues';
 import { getActiveRound, getCurrentUserCurrentRoundMultipliers, getCurrentRound, getCurrentRoundScore, isCurrentRoundPreSelectionOpen, isCurrentRoundSelectionClosed } from '../selectors/rounds';
 import { getCurrentRoundUnselectedEligibleContestants, getPrimaryContestant, getCurrentRoundSelectedContestants, getNumCurrentRoundSelectedContestants, isCurrentRoundSelectionFull } from '../selectors/contestants';
 import _includes from 'lodash/includes';
@@ -20,6 +22,10 @@ export default class RoundController {
 
     showRoundModal() {
         this.dispatch(setRoundModalVisibility(true));
+    }
+
+    showLeagueModal() {
+        this.dispatch(setLeagueModalVisibility(true));
     }
 
     showContestantSelectionModal(contestant, role) {
@@ -63,6 +69,7 @@ export default class RoundController {
         return {
             currentRound : getCurrentRound(state),
             activeRound : getActiveRound(state),
+            currentLeague : getCurrentLeague(state),
             selectedContestants : getCurrentRoundSelectedContestants(state),
             numSelectedContestants : getNumCurrentRoundSelectedContestants(state),
             roles : state.roles.data,
@@ -76,6 +83,8 @@ export default class RoundController {
             multipliers : getCurrentUserCurrentRoundMultipliers(state),
             isContestantSelectionModalVisible : state.modals.contestantSelection.visible,
             isRoundModalVisible : state.modals.round,
+            isLeagueModalVisible : state.modals.league,
+            isCurrentUserCurrentLeagueAdmin : isCurrentUserCurrentLeagueAdmin(state),
             router : state.router
         };
     }

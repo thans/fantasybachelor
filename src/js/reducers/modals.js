@@ -8,6 +8,7 @@ export const MODAL_STATE = {
 export const MODAL = {
     CURRENT_USER : 'CURRENT_USER',
     ROUND : 'ROUND',
+    LEAGUE : 'LEAGUE',
     CONTESTANT_SELECTION : 'CONTESTANT_SELECTION'
 };
 
@@ -36,6 +37,7 @@ CONTESTANT_SELECTION_MODAL.ACTIVE_ONLY_SECTIONS = [
 export default function modals(state = {
     currentUser : false,
     round : false,
+    league : false,
     contestantSelection : {
         visible : false,
         data : {},
@@ -52,6 +54,10 @@ export default function modals(state = {
                 case MODAL.ROUND:
                     return update(state, {
                         round : { $set : action.state === MODAL_STATE.VISIBLE }
+                    });
+                case MODAL.LEAGUE:
+                    return update(state, {
+                        league : { $set : action.state === MODAL_STATE.VISIBLE }
                     });
                 case MODAL.CONTESTANT_SELECTION:
                     if (action.activeSection) {

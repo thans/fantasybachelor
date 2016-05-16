@@ -2,7 +2,7 @@
     <div class="content">
         <h1>
             <span ng-click="round.showRoundModal()">
-                {{round.currentRound.name}}<span class="arrow arrowLarge"></span>
+                round - {{round.currentRound.name}}<span class="arrow arrowLarge"></span>
             </span>
         </h1>
         <div class="selectionArea">
@@ -70,11 +70,17 @@
             </div>
         </div>
         <h3>
-            leagues<span class="arrow arrowSmall"></span>
+            <span ng-click="round.showLeagueModal()">
+                league - {{round.currentLeague.name}}<span class="arrow arrowSmall"></span>
+            </span>
         </h3>
+        <div class="shareLink" ng-if="round.isCurrentUserCurrentLeagueAdmin">
+            shareable join link: https://fantasybach.com/#/league/{{round.currentLeague.id}}/join
+        </div>
     </div>
 </div>
 
 <contestant-selection-modal ng-show="round.isContestantSelectionModalVisible"></contestant-selection-modal>
 
 <round-modal ng-show="round.isRoundModalVisible"></round-modal>
+<league-modal ng-show="round.isLeagueModalVisible"></league-modal>

@@ -1,0 +1,21 @@
+<div class="glass" ng-click="leagueModal.close()"></div>
+<div class="modalContent">
+    <div class="close" ng-click="leagueModal.close()"></div>
+    <div class="title">leagues</div>
+    <div ng-repeat="league in leagueModal.leagues">
+        <div class="divider"></div>
+        <div ng-click="leagueModal.changeLeague(league)">
+            <span ng-if="leagueModal.currentLeague === league" class="dotIcon"></span>{{league.name}}
+        </div>
+    </div>
+    <div class="divider"></div>
+    <div class="button" ng-hide="leagueModal.creatingLeague" ng-click="leagueModal.createLeague()">
+        create league
+    </div>
+    <div class="createLeague" ng-show="leagueModal.creatingLeague">
+        <input type="text" ng-model="leagueModal.newLeague" ng-max-length="20" value="league name"/>
+        <div class="button" ng-click="leagueModal.saveLeague()">
+            save
+        </div>
+    </div>
+</div>
