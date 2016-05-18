@@ -7,7 +7,6 @@ export default class LeagueJoinController {
 
         let currentUserStateUnsubscribe = $scope.$watch(() => { return this.currentUser.data; }, (currentUser) => {
             if (!currentUser) { return; }
-            console.log('YAY!!!');
             const routerParams = this.router.params;
             const leagueId = routerParams.leagueId;
 

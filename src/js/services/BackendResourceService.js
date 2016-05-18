@@ -31,15 +31,11 @@ export default class BackendResourceService {
 
     mapToSdk(sdkFunction, resourceType, params, body, resultMapper) {
         return (dispatch) => {
-            try {
-                dispatch({
-                    type : BACKEND_RESOURCE_STATE_CHANGE,
-                    state : BACKEND_RESOURCE_STATE.LOADING,
-                    resourceType : resourceType
-                });
-            } catch (err) {
-                console.log(err);
-            }
+            dispatch({
+                type : BACKEND_RESOURCE_STATE_CHANGE,
+                state : BACKEND_RESOURCE_STATE.LOADING,
+                resourceType : resourceType
+            });
             sdkFunction.call(this.backendSdk, params || {}, body || {}).then((result) => {
                 let mappedResult = result;
                 if (resultMapper) {
