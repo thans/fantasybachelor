@@ -2,6 +2,10 @@ var request = require('request');
 var cheerio = require('cheerio');
 var fs = require('fs');
 var _ = require('lodash');
+var shortid = require('shortid');
+
+var roundIds = ['round:BkrNPKWAjz', 'round:H1UNPFZAsM', 'round:ryo4DtZRjM', 'round:rk3NwFb0sM', 'round:B1aEPFZAoM', 'round:r1C4wtb0of', 'round:rJ1Swtb0of', 'round:ByerDtZAiz', 'round:rkZrvY-0sM', 'round:HJGSvt-RsG' ];
+var roleIds = ['role:rkDQXLTAif', 'role:SkpN7U6CiG', 'role:H1kBXUp0sz', 'role:HkxSXUTCjG', 'role:SyWBQLTCof', 'role:H1fH7LaCof'];
 
 _.each(['alex', 'ali', 'brandon', 'chad', 'chase', 'christian', 'coley', 'derek', 'daniel', 'evan', 'grant', 'jake', 'james-f', 'james-s', 'james-taylor', 'jonathan', 'jordan', 'luke', 'nick-b', 'nick-s', 'peter', 'robby', 'sal', 'vinny', 'wells', 'will'], function(contestantUrlName) {
     var url = 'http://abc.go.com/shows/the-bachelorette/cast/' + contestantUrlName;
@@ -128,7 +132,24 @@ _.each(['alex', 'ali', 'brandon', 'chad', 'chase', 'christian', 'coley', 'derek'
         fs.writeFileSync(filePath, JSON.stringify({
             name : contestantName,
             bioStats : bioStats,
-            bioQuestions : bioQuestions
+            bioQuestions : bioQuestions,
+            id : 'contestant:' + shortid.generate(),
+            seasonId : 'season:HyfVRTasf',
+            roses : _.reduce(roundIds, function(result, roundId) {
+                result[roundId] = 0;
+                return result;
+            }, {}),
+            roundResults : _.reduce(roundIds, function(result, roundId) {
+                result[roundId] = _.reduce(roleIds, function(result, roleId) {
+                    result[roleId] = {};
+                    return result;
+                }, {});
+                return result;
+            }, {}),
+            images : {
+                body : 'https://resources.fantasybach.com/season:HyfVRTasf/bodyShots/' + contestantName + '.png',
+                head : 'https://resources.fantasybach.com/season:HyfVRTasf/headShots/' + contestantName + '.png'
+            }
         }, null, 2));
 
         console.log();

@@ -8,11 +8,11 @@
 }
 
 .scrollable {
+  @include relative();
   @include size(100%);
   overflow-y: scroll;
 
   @include desktop() {
-    @include relative();
     width: calc(100% + 15px);
   }
 

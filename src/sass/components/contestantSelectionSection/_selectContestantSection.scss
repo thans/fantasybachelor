@@ -3,6 +3,7 @@ select-contestant-section {
   .eligibleContestants {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 
     > * {
       margin: 12px;
