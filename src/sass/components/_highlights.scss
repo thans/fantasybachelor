@@ -1,0 +1,62 @@
+@import '../mixins/mobile';
+@import '../mixins/border';
+@import '../build/icons';
+
+$highlightsIconSize: 100px !important;
+$highlightsIconSizeMobile: 200px !important;
+
+#highlights {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 1000px;
+  margin: 20px auto;
+
+  @include mobile() {
+    flex-direction: column;
+    margin: 40px auto;
+  }
+
+  .highlight {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+    //border-left: $defaultSuperThinBorder;
+
+    @include mobile() {
+      padding: 80px;
+    }
+
+    &:first-child {
+      border-left: none;
+    }
+
+    .iconContainer {
+      margin: 40px;
+
+      .icon {
+        margin: auto;
+        @include size($highlightsIconSize);
+
+        @include mobile() {
+          @include size($highlightsIconSizeMobile);
+        }
+      }
+
+      .leagueIcon {
+        @extend .icon;
+        @include inline-svg($league);
+      }
+
+      .pickIcon {
+        @extend .icon;
+        @include inline-svg($pick);
+      }
+
+      .watchIcon {
+        @extend .icon;
+        @include inline-svg($watch);
+      }
+    }
+  }
+}
