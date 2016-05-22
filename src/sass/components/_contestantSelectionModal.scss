@@ -22,6 +22,10 @@ contestant-selection-modal {
   @include fadeShowHide();
   z-index: 10;
 
+  .glass {
+    @include relative();
+  }
+
   .scrollableContainer {
     @include fixed(0, 0);
     transition: opacity .5s ease;

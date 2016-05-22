@@ -25,7 +25,7 @@ class RemoveContestantSectionController {
     }
 
     remove() {
-        this.contestantSelectionService.removeContestant(this.contestant, this.role);
+        this.dispatch(this.contestantSelectionService.removeContestant(this.contestant, this.role));
         this.dispatch(hideContestantSelectionModal());
     }
 

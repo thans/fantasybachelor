@@ -14,14 +14,13 @@
             <div class="selectedContestants">
                 <contestant-button
                     ng-repeat="role in round.roles"
-                    ng-init="contestant = round.selectedContestants[role.id]"
                     role="role"
-                    contestant="contestant"
-                    is-eliminated="round.isEliminated(contestant)"
-                    multiplier="round.getMultiplier(contestant)"
-                    score="round.getScore(contestant, role)"
+                    contestant="round.selectedContestants[role.id]"
+                    is-eliminated="round.isEliminated(round.selectedContestants[role.id])"
+                    multiplier="round.getMultiplier(round.selectedContestants[role.id])"
+                    score="round.getScore(round.selectedContestants[role.id], role)"
                     show-score="round.isSelectionClosed"
-                    ng-click="round.showContestantSelectionModal(contestant, role)"
+                    ng-click="round.showContestantSelectionModal(round.selectedContestants[role.id], role)"
                     ng-class="{ disabled : !round.selectedContestants[role.id] && (round.isSelectionFull) }">
                 </contestant-button>
             </div>

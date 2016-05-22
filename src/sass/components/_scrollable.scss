@@ -21,9 +21,10 @@
   }
 
   &.hideOverflow {
-    @include mobile() {
-      overflow: hidden;
-      position: relative;
+    overflow: hidden;
+
+    @include desktop() {
+      width: 100%;
     }
   }
 }

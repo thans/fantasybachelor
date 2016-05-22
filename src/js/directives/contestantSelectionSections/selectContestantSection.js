@@ -37,7 +37,7 @@ class SelectContestantSectionController {
     }
 
     selectContestant(contestant) {
-        this.contestantSelectionService.selectContestant(contestant, this.role);
+        this.dispatch(this.contestantSelectionService.selectContestant(contestant, this.role));
         this.dispatch(hideContestantSelectionModal());
     }
 

@@ -26,7 +26,7 @@ class SelectRoleSectionController {
     }
 
     selectRole(role) {
-        this.contestantSelectionService.selectContestant(this.contestant, role);
+        this.dispatch(this.contestantSelectionService.selectContestant(this.contestant, role));
         this.dispatch(hideContestantSelectionModal());
     }
 

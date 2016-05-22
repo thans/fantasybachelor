@@ -2,7 +2,7 @@
     {{contestantButton.role.name}}
 </div>
 <div class="circle">
-    <div ng-show="contestantButton.role" class="icon {{contestantButton.role.className}}"></div>
+    <div ng-show="contestantButton.role" class="icon {{contestantButton.role.className}}" ng-class="{ imageLoaded : contestantButton.contestant && !contestantButton.loading }"></div>
     <img ng-show="contestantButton.contestant" class="image" ng-src="{{contestantButton.contestant.images.head}}" ng-class="{ loading : contestantButton.loading }"/>
     <div ng-show="contestantButton.isEliminated" class="icon close"></div>
 </div>

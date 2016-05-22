@@ -78,40 +78,35 @@ contestant-button {
         margin: ($contestantButtonSizeMobile - $contestantButtonIconSizeMobile) / 2 - $borderWidthMobile;
       }
 
+      opacity: 1;
+      transition: opacity .1s linear;
+
+      &.imageLoaded {
+        opacity: 0;
+      }
+
       &.stealer {
-        @extend .icon;
         @include icon($stealerRed);
       }
 
       &.kisser {
-        @extend .icon;
         @include icon($kisserRed);
       }
 
       &.lover {
-        @extend .icon;
         @include icon($loverRed);
       }
 
       &.bleeper {
-        @extend .icon;
         @include icon($bleeperRed);
       }
 
       &.interviewee {
-        @extend .icon;
         @include icon($intervieweeRed);
       }
 
       &.cryer {
-        @extend .icon;
         @include icon($cryerRed);
-      }
-
-      &.close {
-        @extend .icon;
-        @include icon($closeRed);
-        opacity: .5;
       }
     }
   }
