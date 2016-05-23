@@ -1,3 +1,4 @@
+import { getCurrentLeagueUsers } from './leagues';
 import { createSelector } from 'reselect';
 import _find from 'lodash/find';
 import _reduce from 'lodash/reduce';
@@ -5,6 +6,8 @@ import _values from 'lodash/values';
 import _intersection from 'lodash/intersection';
 import _each from 'lodash/each';
 import _last from 'lodash/last';
+import _transform from 'lodash/transform';
+import _map from 'lodash/map';
 import moment from 'moment';
 
 const getRounds = (state) => state.rounds.data;
@@ -76,4 +79,13 @@ export const isCurrentRoundSelectionClosed = createSelector(
 export const getCurrentUserCurrentRoundMultipliers = createSelector(
     [ getCurrentUser, getRounds, getCurrentRound ],
     getCurrentRoundMultipliers
+);
+
+export const getCurrentLeagueUsersCurrentRoundMultipliers = createSelector(
+    [ getCurrentLeagueUsers, getRounds, getCurrentRound ],
+    (currentLeagueUsers, rounds, currentRound) => {
+        return _transform(currentLeagueUsers, (result, user) => {
+            result[user.id] = getCurrentRoundMultipliers(user, rounds, currentRound)
+        }, {});
+    }
 );

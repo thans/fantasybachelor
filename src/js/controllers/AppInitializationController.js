@@ -2,7 +2,7 @@ import { getInitializationState } from '../selectors/initialization';
 
 export default class AppInitializationController {
 
-    constructor($ngRedux, $scope, backendResourceService) {
+    constructor($ngRedux, $scope, $interval, backendResourceService, facebookService) {
         'ngInject';
         const unsubscribe = $ngRedux.connect((state) => this.mapStateToThis(state), {})(this);
         $scope.$on('$destroy', unsubscribe);
@@ -15,6 +15,12 @@ export default class AppInitializationController {
             $ngRedux.dispatch(backendResourceService.getRounds());
             apiKeyStateUnsubscribe();
         });
+
+        const apiKeyUpdateInterval = $interval(() => {
+            if (!this.apiKeyLoaded) { return; }
+            $ngRedux.dispatch(facebookService.checkAuthentication(true));
+        }, 5 * 60 * 1000);
+        $scope.$on('$destroy', () => $interval.cancel(apiKeyUpdateInterval));
     }
 
     mapStateToThis(state) {

@@ -1,6 +1,6 @@
 {
   "name": "FantasyBach",
-  "version": "2.1.2",
+  "version": "2.1.4",
   "repository": "https://github.com/thans/fantasybachelor.git",
   "dependencies": {
     "angular": "^1.5.5",

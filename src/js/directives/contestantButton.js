@@ -13,7 +13,8 @@ export default function contestantButton($templateCache) {
             isEliminated : '=',
             multiplier : '=',
             score : '=',
-            showScore : '='
+            showScore : '=',
+            isUnknown : '='
         }
     };
 }

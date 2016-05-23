@@ -92,7 +92,7 @@
             </div>
             <div class="row" ng-repeat="user in round.currentLeagueUsers">
                 <div class="profilePicContainer">
-                    <img ng-src="{{user.profilePicture}}" class="profilePic" />
+                    <img ng-src="{{user.profilePicture}}" class="profilePic" onerror="this.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'"/>
                 </div>
                 <div class="nameContainer">
                     <div class="name">{{ user.nickname || user.name }}</div>
@@ -103,10 +103,11 @@
                             class="small"
                             role="role"
                             contestant="round.contestantsById[user.picks[round.currentRound.id][role.id]]"
-                            is-eliminated="round.isEliminated(user.picks[round.currentRound.id][role.id])"
-                            multiplier="round.getMultiplier(user.picks[round.currentRound.id][role.id])"
-                            score="round.getScore(round.selectedContestants[role.id], role)"
-                            show-score="round.isSelectionClosed">
+                            is-eliminated="round.isEliminated(round.contestantsById[user.picks[round.currentRound.id][role.id]])"
+                            multiplier="round.getMultiplier(round.contestantsById[user.picks[round.currentRound.id][role.id]], user)"
+                            score="round.getScore(round.contestantsById[user.picks[round.currentRound.id][role.id]], role, user)"
+                            show-score="round.isSelectionClosed"
+                            is-unknown="!round.isSelectionClosed && !(round.currentUser.id === user.id)">
                     </contestant-button>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 import { FantasyBachSdk } from 'fantasybach-sdk';
 
+// const CURRENT_SEASON_ID = 'season:NJWJTpZ8x';
 const CURRENT_SEASON_ID = 'season:HyfVRTasf';
 
 export const BACKEND_RESOURCE_STATE_CHANGE = 'BACKEND_RESOURCE_STATE_CHANGE';

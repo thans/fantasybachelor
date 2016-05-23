@@ -114,6 +114,16 @@ contestant-button {
       &.cryer {
         @include icon($cryerRed);
       }
+
+      &.unknown {
+        @include icon($helpRed);
+      }
+
+      &.close {
+        @extend .icon;
+        @include icon($closeRed);
+        opacity: .5;
+      }
     }
   }
 
@@ -155,6 +165,10 @@ contestant-button {
     &.score {
       background-color: $green;
     }
+
+    .condensed {
+      display: none !important;
+    }
   }
 
   &.small {
@@ -179,6 +193,48 @@ contestant-button {
 
     .label {
       display: none;
+    }
+
+    $smallContestantButtonBadgeSize: 36px;
+    $smallContestantButtonBadgeSizeMobile: 1.5 * $smallContestantButtonBadgeSize;
+    $smallContestantButtonBadgeTop: 18px;
+    $smallContestantButtonBadgeTopMobile: 23px;
+    $smallContestantButtonBadgeLeft: 34px;
+    $smallContestantButtonBadgeLeftMobile: 45px;
+    .badge {
+      @include absolute($smallContestantButtonBadgeTop, $smallContestantButtonBadgeLeft);
+      @include size($smallContestantButtonBadgeSize);
+      border-radius: $smallContestantButtonBadgeSize / 2;
+      line-height: $smallContestantButtonBadgeSize - 2 * $borderThinWidth;
+
+      @include mobile() {
+        @include absolute($smallContestantButtonBadgeTopMobile, $smallContestantButtonBadgeLeftMobile);
+        @include size($smallContestantButtonBadgeSizeMobile);
+        border-radius: $smallContestantButtonBadgeSizeMobile / 2;
+        line-height: $smallContestantButtonBadgeSizeMobile - 2 * $borderThinWidthMobile;
+      }
+
+      &.score {
+        @include tinyFont();
+      }
+
+      .condensed {
+        @include mobile() {
+          display: initial !important;
+        }
+        @include desktop() {
+          display: none !important;
+        }
+      }
+
+      .expanded {
+        @include mobile() {
+          display: none !important;
+        }
+        @include desktop() {
+          display: initial !important;
+        }
+      }
     }
   }
 

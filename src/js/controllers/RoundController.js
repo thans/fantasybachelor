@@ -2,17 +2,29 @@ import { setRoundModalVisibility } from '../directives/roundModal';
 import { setLeagueModalVisibility } from '../directives/leagueModal';
 import { showContestantSelectionModal } from '../directives/contestantSelectionModal';
 import { getCurrentLeague, isCurrentUserCurrentLeagueAdmin, getCurrentLeagueUsers } from '../selectors/leagues';
-import { getActiveRound, getCurrentUserCurrentRoundMultipliers, getCurrentRound, getCurrentRoundScore, isCurrentRoundPreSelectionOpen, isCurrentRoundSelectionClosed } from '../selectors/rounds';
+import { getActiveRound, getCurrentUserCurrentRoundMultipliers, getCurrentLeagueUsersCurrentRoundMultipliers, getCurrentRound, getCurrentRoundScore, isCurrentRoundPreSelectionOpen, isCurrentRoundSelectionClosed } from '../selectors/rounds';
 import { getCurrentRoundUnselectedEligibleContestants, getPrimaryContestant, getCurrentRoundSelectedContestants, getNumCurrentRoundSelectedContestants, isCurrentRoundSelectionFull, getContestantsById } from '../selectors/contestants';
 import _includes from 'lodash/includes';
 
 
 export default class RoundController {
 
-    constructor($ngRedux, $scope, $state, backendResourceService) {
+    constructor($ngRedux, $scope, $state, $interval, backendResourceService) {
         'ngInject';
         const unsubscribe = $ngRedux.connect((state) => this.mapStateToThis(state), {})(this);
         $scope.$on('$destroy', unsubscribe);
+
+        const dataUpdateInterval = $interval(() => {
+            if (this.currentLeague) {
+                this.dispatch(this.backendResourceService.getUsers(this.currentLeague.memberIds));
+            }
+            this.dispatch(this.backendResourceService.getCurrentUser());
+            this.dispatch(this.backendResourceService.getContestants());
+            this.dispatch(this.backendResourceService.getRounds());
+        }, 60 * 1000);
+        $scope.$on('$destroy', () => $interval.cancel(dataUpdateInterval));
+
+
 
         const leagueUnsubscribe = $scope.$watch(() => this.currentLeague, (currentLeague) => {
             if (!currentLeague) {
@@ -58,15 +70,17 @@ export default class RoundController {
         return _includes(this.currentRound.eliminatedContestantIds, contestant.id);
     }
     
-    getMultiplier(contestant) {
-        if (!contestant) { return 1; }
-        return this.multipliers[contestant.id];
+    getMultiplier(contestant, user) {
+        if (!contestant || !this.currentUser || !this.activeRound) { return 1; }
+        if (this.currentRound.index > this.activeRound.index) { return 1; }
+        if (!user) { return this.currentUserMultipliers[contestant.id] }
+        return this.multipliers[user.id][contestant.id];
     }
 
-    getScore(contestant, role) {
+    getScore(contestant, role, user) {
         if (!contestant || !role) { return 0; }
         return (contestant.roundResults[this.currentRound.id][role.id].occurrences || 0) * role.pointsPerOccurrence
-            + contestant.roses[this.currentRound.id] * this.getMultiplier(contestant);
+            + contestant.roses[this.currentRound.id] * this.getMultiplier(contestant, user);
     }
 
     goToActiveRound() {
@@ -79,6 +93,7 @@ export default class RoundController {
         if (!getCurrentRound(state)) { return {} }
         return {
             currentRound : getCurrentRound(state),
+            currentUser : state.currentUser.data,
             activeRound : getActiveRound(state),
             currentLeague : getCurrentLeague(state),
             currentLeagueUsers : getCurrentLeagueUsers(state),
@@ -92,7 +107,8 @@ export default class RoundController {
             eligibleContestants : getCurrentRoundUnselectedEligibleContestants(state),
             roundScore : getCurrentRoundScore(state),
             totalScore : state.currentUser.data.scores.score,
-            multipliers : getCurrentUserCurrentRoundMultipliers(state),
+            multipliers : getCurrentLeagueUsersCurrentRoundMultipliers(state),
+            currentUserMultipliers : getCurrentUserCurrentRoundMultipliers(state),
             isContestantSelectionModalVisible : state.modals.contestantSelection.visible,
             isRoundModalVisible : state.modals.round,
             isLeagueModalVisible : state.modals.league,
