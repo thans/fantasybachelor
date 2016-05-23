@@ -173,6 +173,11 @@ $roundSmallArrowMarginMobile: 2 * $roundSmallArrowMargin;
 
     &.collapsed {
       max-height: 0;
+
+      .eligibleContestants {
+        transform: scale(0);
+        transition-delay: 0s;
+      }
     }
 
     .eligibleContestants {
@@ -180,6 +185,8 @@ $roundSmallArrowMarginMobile: 2 * $roundSmallArrowMargin;
       flex-wrap: wrap;
       justify-content: center;
       margin-bottom: $selectionAreaMargin;
+      transform: scale(1);
+      transition: all .5s ease .5s;
 
       @include mobile() {
         margin-bottom: $selectionAreaMarginMobile;
@@ -197,6 +204,7 @@ $roundSmallArrowMarginMobile: 2 * $roundSmallArrowMargin;
 
   .shareLink {
     user-select: initial;
+    margin: 20px auto;
   }
 
   .inner {

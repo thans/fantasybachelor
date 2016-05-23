@@ -1,0 +1,90 @@
+@import '../mixins/circles';
+@import '../mixins/shadow';
+@import '../constants/colors';
+@import '../constants/fonts';
+
+.leagueUsersTable {
+
+  .heading {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    @include boldFontWeight();
+
+    @include mobile() {
+      @include smallFont();
+    }
+
+    > * {
+      flex : 1;
+    }
+
+    .profilePicContainer {
+      flex: 0;
+      min-width: 40px;
+
+      @include mobile() {
+        min-width: 60px;
+      }
+    }
+
+    .name {
+      margin: 0 12px;
+      width: 150px;
+    }
+
+    .score {
+      flex: .5;
+      margin-right: 12px;
+    }
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: $darkRed;
+    padding: 8px;
+    margin-bottom: 12px;
+
+    @include insetBoxShadow();
+
+    > * {
+      flex : 1;
+      vertical-align: middle;
+    }
+
+    .profilePicContainer {
+      flex: 0;
+      flex-basis: 40px;
+
+      .profilePic {
+        vertical-align: middle;
+        flex-basis: 60px;
+        @include thinCircle(40px, 60px);
+      }
+    }
+
+    .nameContainer {
+      margin: 0 12px;
+
+      .name {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 150px;
+        overflow: hidden;
+      }
+    }
+
+    .score {
+      flex: .5;
+      margin-right: 12px;
+    }
+
+    contestant-button {
+      .circle {
+        vertical-align: middle;
+      }
+    }
+  }
+}

@@ -14,6 +14,7 @@ export const BACKEND_RESOURCE_STATE = {
 export const BACKEND_RESOURCE_TYPE = {
     API_KEY : 'API_KEY',
     CURRENT_USER : 'CURRENT_USER',
+    USERS : 'USERS',
     NICKNAME : 'NICKNAME',
     CONTESTANTS : 'CONTESTANTS',
     ROLES : 'ROLES',
@@ -78,6 +79,10 @@ export default class BackendResourceService {
 
     getCurrentUser() {
         return this.mapToSdk(this.backendSdk.getCurrentUser, BACKEND_RESOURCE_TYPE.CURRENT_USER, { seasonId : CURRENT_SEASON_ID });
+    }
+
+    getUsers(userIds) {
+        return this.mapToSdk(this.backendSdk.getUsersById, BACKEND_RESOURCE_TYPE.USERS, { seasonId : CURRENT_SEASON_ID, ids : userIds.join(',') });
     }
 
     getContestants() {

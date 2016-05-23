@@ -14,6 +14,12 @@ $contestantButtonIconSizeMobile: $contestantButtonIconSize * 2;
 $contestantButtonLabelHeight: 22px;
 $contestantButtonLabelHeightMobile: $contestantButtonLabelHeight * 2;
 
+
+$smallContestantButtonSize: 50px;
+$smallContestantButtonSizeMobile: 1.5 * $smallContestantButtonSize;
+$smallContestantButtonIconSize: 30px;
+$smallContestantButtonIconSizeMobile: 1.5 * $smallContestantButtonIconSize;
+
 contestant-button {
   display: inline-block;
 
@@ -148,6 +154,31 @@ contestant-button {
 
     &.score {
       background-color: $green;
+    }
+  }
+
+  &.small {
+    .circle {
+      @include size($smallContestantButtonSize);
+
+      @include mobile() {
+        @include size($smallContestantButtonSizeMobile);
+      }
+
+      .icon {
+        @include absolute(0, 0);
+        @include size($smallContestantButtonIconSize, null, true);
+        margin: ($smallContestantButtonSize - $smallContestantButtonIconSize) / 2 - $borderWidth;
+
+        @include mobile() {
+          @include size($smallContestantButtonIconSizeMobile, null, true);
+          margin: ($smallContestantButtonSizeMobile - $smallContestantButtonIconSizeMobile) / 2 - $borderWidthMobile;
+        }
+      }
+    }
+
+    .label {
+      display: none;
     }
   }
 

@@ -6,12 +6,18 @@ import _size from 'lodash/size';
 import _includes from 'lodash/includes';
 import _sortBy from 'lodash/sortBy';
 import _values from 'lodash/values';
+import _keyBy from 'lodash/keyBy';
 import { getCurrentRound } from './rounds';
 
 const getContestantById = (contestants, contestantId) => _find(contestants, { id : contestantId });
 
 const getContestants = (state) => state.contestants.data;
 const getCurrentUser = (state) => state.currentUser.data;
+
+export const getContestantsById = createSelector(
+    [ getContestants ],
+    (contestants) => _keyBy(contestants, 'id')
+);
 
 export const getCurrentRoundSelectedContestants = createSelector(
     [ getContestants, getCurrentRound, getCurrentUser ],

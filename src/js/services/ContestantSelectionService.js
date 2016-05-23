@@ -1,6 +1,10 @@
 import { getCurrentRound } from '../selectors/rounds';
 import { getCurrentRoundSelectedContestants } from '../selectors/contestants';
 import { BACKEND_RESOURCE_STATE } from './BackendResourceService';
+import _invertBy from 'lodash/invertBy';
+import _find from 'lodash/find';
+
+
 export default class ContestantSelectionService {
 
     constructor($ngRedux, backendResourceService) {
@@ -15,8 +19,8 @@ export default class ContestantSelectionService {
             const currentRound = getCurrentRound(state);
             const selectedContestants = getCurrentRoundSelectedContestants(state);
             const selectedContestant = selectedContestants[role.id];
-            const currentRoles = _.invertBy(selectedContestants, 'id')[contestant.id];
-            const currentRole = _.find(state.roles.data, { id : currentRoles ? currentRoles[0] : null });
+            const currentRoles = _invertBy(selectedContestants, 'id')[contestant.id];
+            const currentRole = _find(state.roles.data, { id : currentRoles ? currentRoles[0] : null });
 
             if (selectedContestant) {
                 this.removeContestant(selectedContestant, role)((action) => {

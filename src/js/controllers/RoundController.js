@@ -1,20 +1,31 @@
 import { setRoundModalVisibility } from '../directives/roundModal';
 import { setLeagueModalVisibility } from '../directives/leagueModal';
 import { showContestantSelectionModal } from '../directives/contestantSelectionModal';
-import { getCurrentLeague, isCurrentUserCurrentLeagueAdmin } from '../selectors/leagues';
+import { getCurrentLeague, isCurrentUserCurrentLeagueAdmin, getCurrentLeagueUsers } from '../selectors/leagues';
 import { getActiveRound, getCurrentUserCurrentRoundMultipliers, getCurrentRound, getCurrentRoundScore, isCurrentRoundPreSelectionOpen, isCurrentRoundSelectionClosed } from '../selectors/rounds';
-import { getCurrentRoundUnselectedEligibleContestants, getPrimaryContestant, getCurrentRoundSelectedContestants, getNumCurrentRoundSelectedContestants, isCurrentRoundSelectionFull } from '../selectors/contestants';
+import { getCurrentRoundUnselectedEligibleContestants, getPrimaryContestant, getCurrentRoundSelectedContestants, getNumCurrentRoundSelectedContestants, isCurrentRoundSelectionFull, getContestantsById } from '../selectors/contestants';
 import _includes from 'lodash/includes';
 
 
 export default class RoundController {
 
-    constructor($ngRedux, $scope, $state) {
+    constructor($ngRedux, $scope, $state, backendResourceService) {
         'ngInject';
         const unsubscribe = $ngRedux.connect((state) => this.mapStateToThis(state), {})(this);
         $scope.$on('$destroy', unsubscribe);
+
+        const leagueUnsubscribe = $scope.$watch(() => this.currentLeague, (currentLeague) => {
+            if (!currentLeague) {
+                return;
+            }
+
+            this.dispatch(this.backendResourceService.getUsers(currentLeague.memberIds));
+
+            leagueUnsubscribe();
+        });
         
         this.dispatch = $ngRedux.dispatch;
+        this.backendResourceService = backendResourceService;
         this.$state = $state;
         this.userCollapsed = false;
         this.userUncollapsed = false;
@@ -70,6 +81,7 @@ export default class RoundController {
             currentRound : getCurrentRound(state),
             activeRound : getActiveRound(state),
             currentLeague : getCurrentLeague(state),
+            currentLeagueUsers : getCurrentLeagueUsers(state),
             selectedContestants : getCurrentRoundSelectedContestants(state),
             numSelectedContestants : getNumCurrentRoundSelectedContestants(state),
             roles : state.roles.data,
@@ -85,7 +97,9 @@ export default class RoundController {
             isRoundModalVisible : state.modals.round,
             isLeagueModalVisible : state.modals.league,
             isCurrentUserCurrentLeagueAdmin : isCurrentUserCurrentLeagueAdmin(state),
-            router : state.router
+            router : state.router,
+            contestantsById : getContestantsById(state),
+            isGlobalLeaderboard : getCurrentLeague(state) && getCurrentLeague(state).id === 'global'
         };
     }
 }

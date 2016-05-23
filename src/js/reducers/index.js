@@ -8,6 +8,7 @@ import modals from './modals';
 import roles from './roles';
 import rounds from './rounds';
 import router from './router';
+import users from './users';
 
 const reducers = combineReducers({
     router,
@@ -18,7 +19,8 @@ const reducers = combineReducers({
     contestants,
     modals,
     roles,
-    rounds
+    rounds,
+    users
 });
 
 export default reducers;
