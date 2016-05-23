@@ -61,7 +61,7 @@ export default ($stateProvider, $urlRouterProvider) => {
         })
         .state('help', {
             url : '/help',
-            templateUrl : 'contestant.html',
+            templateUrl : 'help.html',
             resolve : {
                 unauthorized : unauthorizedPromise
             }
