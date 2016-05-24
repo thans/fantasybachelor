@@ -5,6 +5,7 @@ import { getCurrentLeague, isCurrentUserCurrentLeagueAdmin, getCurrentLeagueUser
 import { getActiveRound, getCurrentUserCurrentRoundMultipliers, getCurrentLeagueUsersCurrentRoundMultipliers, getCurrentRound, getCurrentRoundScore, isCurrentRoundPreSelectionOpen, isCurrentRoundSelectionClosed } from '../selectors/rounds';
 import { getCurrentRoundUnselectedEligibleContestants, getPrimaryContestant, getCurrentRoundSelectedContestants, getNumCurrentRoundSelectedContestants, isCurrentRoundSelectionFull, getContestantsById } from '../selectors/contestants';
 import _includes from 'lodash/includes';
+import _assign from 'lodash/assign';
 
 
 export default class RoundController {
@@ -84,7 +85,7 @@ export default class RoundController {
     }
 
     goToActiveRound() {
-        this.$state.transitionTo('round', Object.assign({}, this.router.params, {
+        this.$state.transitionTo('round', _assign({}, this.router.params, {
             roundId : this.activeRound.id
         }));
     }

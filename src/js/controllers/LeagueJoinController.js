@@ -1,3 +1,5 @@
+import _assign from 'lodash/assign';
+
 export default class LeagueJoinController {
 
     constructor($ngRedux, $scope, $state, backendResourceService) {
@@ -11,7 +13,7 @@ export default class LeagueJoinController {
             const leagueId = routerParams.leagueId;
 
             backendResourceService.postJoinLeague(leagueId).then(function() {
-                $state.go('round', Object.assign({}, routerParams, {
+                $state.go('round', _assign({}, routerParams, {
                     leagueId : leagueId
                 }), {
                     location : 'replace'

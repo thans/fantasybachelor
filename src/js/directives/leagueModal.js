@@ -1,5 +1,6 @@
 import { MODAL_STATE, MODAL_STATE_CHANGE, MODAL } from '../reducers/modals';
 import { getCurrentLeague } from '../selectors/leagues'
+import _assign from 'lodash/assign';
 
 export default function leagueModal($templateCache) {
     'ngInject';
@@ -47,7 +48,7 @@ class LeagueModalController {
 
     changeLeague(league) {
         this.close();
-        this.$state.transitionTo('round', Object.assign({}, this.router.params, {
+        this.$state.transitionTo('round', _assign({}, this.router.params, {
             leagueId : league.id
         }));
     }

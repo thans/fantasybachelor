@@ -2,6 +2,7 @@ import { getInitializationState } from '../selectors/initialization';
 import { getActiveRound } from '../selectors/rounds';
 import _find from 'lodash/find';
 import _includes from 'lodash/includes';
+import _assign from 'lodash/assign';
 import RoundController from '../controllers/RoundController';
 import LeagueJoinController from '../controllers/LeagueJoinController';
 
@@ -86,7 +87,7 @@ export default ($stateProvider, $urlRouterProvider) => {
     
                         if (!roundId || !_find(state.rounds.data, { id : roundId })) {
                             $timeout(() => {
-                                $state.go('round', Object.assign({}, routerParams, {
+                                $state.go('round', _assign({}, routerParams, {
                                     roundId : activeRound.id
                                 }), {
                                     location : 'replace'
@@ -94,7 +95,7 @@ export default ($stateProvider, $urlRouterProvider) => {
                             });
                         } else if (!leagueId || !_find(state.currentUser.data.leagues, { id : leagueId })) {
                             $timeout(() => {
-                                $state.go('round', Object.assign({}, routerParams, {
+                                $state.go('round', _assign({}, routerParams, {
                                     leagueId : 'global'
                                 }), {
                                     location : 'replace'
@@ -146,7 +147,7 @@ export default ($stateProvider, $urlRouterProvider) => {
                         
                         if (_find(state.currentUser.data.leagues, { id : leagueId })) {
                             $timeout(() => {
-                                $state.go('round', Object.assign({}, routerParams, {
+                                $state.go('round', _assign({}, routerParams, {
                                     leagueId : leagueId
                                 }), {
                                     location : 'replace'

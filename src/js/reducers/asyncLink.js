@@ -1,5 +1,6 @@
 import { ASYNC_LINK_STATE, ASYNC_LINK_STATE_CHANGE } from '../directives/asyncLink';
-import find from 'lodash/find';
+import _find from 'lodash/find';
+import _assign from 'lodash/assign';
 
 export default function asyncLink(state = {
     linkStates : {},
@@ -7,12 +8,12 @@ export default function asyncLink(state = {
 }, action) {
     switch (action.type) {
         case ASYNC_LINK_STATE_CHANGE:
-            let newState = Object.assign({}, state, {
-                linkStates : Object.assign({}, state.linkStates, {
+            let newState = _assign({}, state, {
+                linkStates : _assign({}, state.linkStates, {
                     [action.url] : action.state
                 })
             });
-            newState.allLoaded = !find(newState.linkStates, (value) => { return value === ASYNC_LINK_STATE.LOADING });
+            newState.allLoaded = !_find(newState.linkStates, (value) => { return value === ASYNC_LINK_STATE.LOADING });
             return newState;
         default:
             return state;

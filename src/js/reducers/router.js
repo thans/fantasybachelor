@@ -1,5 +1,6 @@
 import { ROUTE_CHANGE } from '../run/router';
 import _mapValues from 'lodash/mapValues';
+import _assign from 'lodash/assign';
 
 export default function router(state = {
     state : '',
@@ -7,7 +8,7 @@ export default function router(state = {
 }, action) {
     switch (action.type) {
         case ROUTE_CHANGE:
-            return Object.assign({}, state, {
+            return _assign({}, state, {
                 state : action.state,
                 params : _mapValues(action.params, (param) => { return decodeURIComponent(param) })
             });

@@ -1,5 +1,6 @@
 import { getActiveRound, getCurrentRound } from '../../selectors/rounds';
 import { hideContestantSelectionModal } from '../../directives/contestantSelectionModal';
+import _assign from 'lodash/assign';
 
 export default function preSelectionOpenSection($templateCache) {
     'ngInject';
@@ -29,7 +30,7 @@ class PreSelectionOpenSectionController {
 
     goToActiveRound() {
         this.close();
-        this.$state.transitionTo('round', Object.assign({}, this.router.params, {
+        this.$state.transitionTo('round', _assign({}, this.router.params, {
             roundId : this.activeRound.id
         }));
     }

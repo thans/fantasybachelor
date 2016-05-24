@@ -1,5 +1,6 @@
 import { MODAL_STATE, MODAL_STATE_CHANGE, MODAL } from '../reducers/modals';
-import { getActiveRound } from '../selectors/rounds'
+import { getActiveRound } from '../selectors/rounds';
+import _assign from 'lodash/assign';
 
 export default function roundModal($templateCache) {
     'ngInject';
@@ -39,7 +40,7 @@ class RoundModalController {
 
     changeRound(round) {
         this.close();
-        this.$state.transitionTo('round', Object.assign({}, this.router.params, {
+        this.$state.transitionTo('round', _assign({}, this.router.params, {
             roundId : round.id
         }));
     }

@@ -1,6 +1,7 @@
 import { MODAL_STATE, MODAL_STATE_CHANGE, MODAL, CONTESTANT_SELECTION_MODAL } from '../reducers/modals';
 import { isCurrentRoundPreSelectionOpen, isCurrentRoundSelectionClosed } from '../selectors/rounds';
 import _includes from 'lodash/includes';
+import _assign from 'lodash/assign';
 
 export default function contestantSelectionModal($templateCache) {
     'ngInject';
@@ -116,7 +117,7 @@ class ContestantSelectionModalController {
     }
 
     mapStateToThis(state) {
-        return Object.assign({}, state.modals.contestantSelection, {
+        return _assign({}, state.modals.contestantSelection, {
             activatableSections : ContestantSelectionModalController.getActivatableSections(state),
             renderedSection : ContestantSelectionModalController.getRenderedSection(state)
         });

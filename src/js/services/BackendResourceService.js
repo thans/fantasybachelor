@@ -1,4 +1,5 @@
 import { FantasyBachSdk } from 'fantasybach-sdk';
+import _assign from 'lodash/assign';
 
 // const CURRENT_SEASON_ID = 'season:NJWJTpZ8x';
 const CURRENT_SEASON_ID = 'season:HyfVRTasf';
@@ -105,7 +106,7 @@ export default class BackendResourceService {
     postPick(round, contestant, role) {
         return this.mapToSdk(this.backendSdk.postPick, BACKEND_RESOURCE_TYPE.CURRENT_USER, { seasonId : CURRENT_SEASON_ID, roundId : round.id }, { contestantId : contestant.id, roleId : role.id }, () => {
             const state = this.$ngRedux.getState();
-            const currentUser = Object.assign({}, state.currentUser.data);
+            const currentUser = _assign({}, state.currentUser.data);
             currentUser.picks[round.id][role.id] = contestant.id;
             return currentUser;
         });
@@ -114,7 +115,7 @@ export default class BackendResourceService {
     deletePick(round, contestant, role) {
         return this.mapToSdk(this.backendSdk.deletePick, BACKEND_RESOURCE_TYPE.CURRENT_USER, { seasonId : CURRENT_SEASON_ID, roundId : round.id }, { contestantId : contestant.id, roleId : role.id }, () => {
             const state = this.$ngRedux.getState();
-            const currentUser = Object.assign({}, state.currentUser.data);
+            const currentUser = _assign({}, state.currentUser.data);
             currentUser.picks[round.id][role.id] = null;
             return currentUser;
         });
@@ -123,14 +124,14 @@ export default class BackendResourceService {
     postLeague(leagueName) {
         return this.mapToSdk(this.backendSdk.postLeague, BACKEND_RESOURCE_TYPE.CURRENT_USER, { seasonId : CURRENT_SEASON_ID }, { leagueName : leagueName }, (leagueId) => {
             const state = this.$ngRedux.getState();
-            const currentUser = Object.assign({}, state.currentUser.data);
+            const currentUser = _assign({}, state.currentUser.data);
             currentUser.leagues.push({
                 id : leagueId,
                 name : leagueName,
                 adminId : currentUser.id,
                 memberIds : [ currentUser.id ]
             });
-            this.$state.go('round', Object.assign({}, this.$state.params, {
+            this.$state.go('round', _assign({}, this.$state.params, {
                 leagueId : leagueId
             }));
             return currentUser;
@@ -140,9 +141,9 @@ export default class BackendResourceService {
     postJoinLeague(leagueId) {
         return this.mapToSdk(this.backendSdk.postLeagueJoin, BACKEND_RESOURCE_TYPE.CURRENT_USER, { seasonId : CURRENT_SEASON_ID, leagueId : leagueId }, {}, (league) => {
             const state = this.$ngRedux.getState();
-            const currentUser = Object.assign({}, state.currentUser.data);
+            const currentUser = _assign({}, state.currentUser.data);
             currentUser.leagues.push(league);
-            this.$state.go('round', Object.assign({}, this.$state.params, {
+            this.$state.go('round', _assign({}, this.$state.params, {
                 leagueId : leagueId
             }), {
                 location : 'replace'
