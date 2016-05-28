@@ -145,6 +145,7 @@ contestant-button {
     @include defaultThinBorder();
     @include smallFont();
     @include normalFontWeight();
+    @include boxShadow();
 
     @include mobile() {
       @include absolute($contestantButtonBadgeTopMobile, $contestantButtonBadgeLeftMobile);
@@ -164,6 +165,14 @@ contestant-button {
 
     &.score {
       background-color: $green;
+    }
+
+    &.contestant {
+      background-color: $white;
+
+      .image {
+        @include size(100%);
+      }
     }
 
     .condensed {

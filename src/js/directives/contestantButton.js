@@ -14,7 +14,8 @@ export default function contestantButton($templateCache) {
             multiplier : '=',
             score : '=',
             showScore : '=',
-            isUnknown : '='
+            isUnknown : '=',
+            showContestantBadge : '='
         }
     };
 }

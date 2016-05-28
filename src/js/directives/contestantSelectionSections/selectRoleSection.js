@@ -1,5 +1,5 @@
 import { getActiveRound, getCurrentRound, isCurrentRoundPreSelectionOpen, isCurrentRoundSelectionClosed } from '../../selectors/rounds';
-import { isCurrentRoundSelectionFull } from '../../selectors/contestants';
+import { isCurrentRoundSelectionFull, getCurrentRoundSelectedContestants } from '../../selectors/contestants';
 import { hideContestantSelectionModal } from '../../directives/contestantSelectionModal';
 import _without from 'lodash/without';
 
@@ -34,6 +34,7 @@ class SelectRoleSectionController {
         return {
             role : state.modals.contestantSelection.data.role,
             contestant : state.modals.contestantSelection.data.contestant,
+            selectedContestants : getCurrentRoundSelectedContestants(state),
             currentRound : getCurrentRound(state),
             activeRound : getActiveRound(state),
             isSelectionFull : isCurrentRoundSelectionFull(state),

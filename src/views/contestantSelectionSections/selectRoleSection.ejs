@@ -5,6 +5,8 @@
     <contestant-button
             ng-repeat="role in selectRoleSection.roles"
             role="role"
+            contestant="selectRoleSection.selectedContestants[role.id]"
+            show-contestant-badge="true"
             ng-click="selectRoleSection.selectRole(role)">
     </contestant-button>
 </div>

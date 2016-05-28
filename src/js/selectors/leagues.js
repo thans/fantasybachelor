@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import _find from 'lodash/find';
 import _map from 'lodash/map';
-import _sortBy from 'lodash/sortBy';
+import _orderBy from 'lodash/orderBy';
 import _compact from 'lodash/compact';
 
 const getLeagues = (state) => state.currentUser.data.leagues;
@@ -22,6 +22,6 @@ export const isCurrentUserCurrentLeagueAdmin = createSelector(
 export const getCurrentLeagueUsers = createSelector(
     [ getCurrentLeague, getUsers ],
     (currentLeague, users) => {
-        return _sortBy(_compact(_map(currentLeague.memberIds, (memberId) => users[memberId])), 'scores.score');
+        return _orderBy(_compact(_map(currentLeague.memberIds, (memberId) => users[memberId])), 'scores.score', 'desc');
     }
 );
